@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itwillbs.clish.myPage.dto.PaymentCancelDTO;
+import com.itwillbs.clish.myPage.dto.PaymentInfoDTO;
 import com.itwillbs.clish.myPage.service.MyPageService;
-import com.itwillbs.clish.payment.dto.PaymentCancelDTO;
-import com.itwillbs.clish.payment.dto.PaymentInfoDTO;
-import com.itwillbs.clish.payment.service.PaymentService;
+import com.itwillbs.clish.myPage.service.PaymentService;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.IamportResponse;

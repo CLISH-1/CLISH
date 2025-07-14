@@ -2,8 +2,9 @@ package com.itwillbs.clish.myPage.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.itwill.clish.payment.dto.PaymentCancelDTO;
-import com.itwill.clish.payment.dto.PaymentInfoDTO;
+import com.itwillbs.clish.myPage.dto.PaymentCancelDTO;
+import com.itwillbs.clish.myPage.dto.PaymentInfoDTO;
+
 
 @Mapper
 public interface PaymentMapper {

@@ -6,8 +6,9 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.itwillbs.clish.reservation.dto.ReservationDTO;
-import com.itwillbs.clish.user.dto.UserDTO;
+import com.itwillbs.clish.myPage.dto.ReservationDTO;
+import com.itwillbs.clish.myPage.dto.UserDTO;
+
 
 @Mapper
 public interface MyPageMapper {

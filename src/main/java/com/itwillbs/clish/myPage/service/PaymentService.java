@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import com.itwill.clish.payment.dto.PaymentCancelDTO;
-import com.itwill.clish.payment.dto.PaymentInfoDTO;
-import com.itwill.clish.payment.mapper.PaymentMapper;
+import com.itwillbs.clish.myPage.dto.PaymentCancelDTO;
+import com.itwillbs.clish.myPage.dto.PaymentInfoDTO;
+import com.itwillbs.clish.myPage.mapper.PaymentMapper;
 import com.siot.IamportRestClient.IamportClient;
 
 import lombok.RequiredArgsConstructor;
