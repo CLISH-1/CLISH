@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.itwillbs.clish.dto.NotificationDTO;
-import com.itwillbs.clish.dto.UserDTO;
-import com.itwillbs.clish.service.AdminUserService;
+import com.itwillbs.clish.admin.dto.UserDTO;
+import com.itwillbs.clish.admin.service.AdminUserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
