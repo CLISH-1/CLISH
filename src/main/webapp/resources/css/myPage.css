@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+#container {
+	border: solid 1px;
+    display: flex;
+    flex-direction: row; /* 기본값이 row이지만 명시적으로 적어줌 */
+    width: 100%;
+    min-height: 50em; /* 원하는 높이로 조정 */
+}
+#side {	
+	border:solid 3px;
+    width: 20%;
+    min-height: 80%;
+    display: flex;           /* flexbox 적용 */
+    flex-direction: column;  /* 세로 배치 */
+    align-items: center;     /* 가로 가운데 */
+    text-align: center;
+    background-color: rgb(192, 192, 192);
+}
+
+#main{
+	display: flex;
+	flex-direction: column;
+	align-items: center;  
+	border:solid 3px;
+	width: 80%;
+	min-height: 50em;	
+}
+
+.slide_btn{
+	width: 100%;        /* 부모 div 가로길이에 맞춤 */
+    box-sizing: border-box; /* 패딩·보더 포함하여 100% */
+    padding: 20px 0;    /* 좌우 패딩은 0, 위아래만 적용 */
+    margin: 1px 0;       /* 위아래만 여백, 좌우는 없음 */
+    background-color: olive;
+}
+.slide_btn:hover{
+	background-color:orange;
+}
+
+.title-fixed {
+    position: sticky;
+    top: 0;
+    background: #ffffff; /* 배경색 지정(필수, 투명하면 내용 겹침) */
+    z-index: 10;
+    padding: 30px 0 20px 0;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    
+}
