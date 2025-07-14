@@ -46,37 +46,40 @@ public class MyPageController {
 	
 	// 비밀번호 확인 일치시 수정페이지로 불일치시 비밀번호가 틀렸습니다 메시지
 	@PostMapping("/change_user_info_form")
-	public String mypage_change_user_info_form(UserDTO user, Model model, HttpSession session, 
-			@RequestParam("user_password") String user_password) {
-		System.out.println("세션아이디 확인 : "+ session.getAttribute("sId"));
+	public String mypage_change_user_info_form() {
+		System.out.println("아무것도없음");
+//		System.out.println("세션 ID : " + session.getId());
+//		System.out.println("세션 sId : " + session.getAttribute("sId"));
+		
 		// session의 sId 확인, 존재하지 않으면 예외처리
-		if(session.getAttribute("sId") == null) {
-			System.out.println("로그인필요 세션아이디없음");
-		} else { // sId 있으면 sId 정보 userDTO 불러오기
+//		if(session.getAttribute("sId") == null) {
+//			System.out.println("로그인필요 세션아이디없음");
+//		} else { // sId 있으면 sId 정보 userDTO 불러오기
 			
 //			System.out.println("정보변경 비밀번호 확인 : " + user_password); // 입력한 비밀번호 받아오기 성공
 			
-			
-			user.setUserId((String)session.getAttribute("sId"));
-			
-			user = myPageService.getUserInfo(user);
+//			System.out.println("세션아이디있음");
+//			user.setUserId((String)session.getAttribute("sId"));
+//			
+//			user = myPageService.getUserInfo(user);
 			
 //			System.out.println(user); //입력된 id 의 유저정보 불러오기
 			
-		}
+//		}
 		// session의 sId와 일치하는 id정보 db에서 받아오기
 		// id정보와 pw 일치여부 판별
-		System.out.println("입력된 비밀번호 : " + user_password);
-		System.out.println("DB비밀번호 : " + user.getUserPassword());
+//		System.out.println("입력된 비밀번호 : " + userPassword);
+//		System.out.println("DB비밀번호 : " + user.getUserPassword());
 		
-		if(user.getUserPassword().equals(user_password)) {
-			System.out.println("정보변경으로이동");
-			model.addAttribute("user", user);
-			return "clish/myPage/myPage_change_user_info_form"; //비밀번호 일치시 이동페이지
-		}
+//		if(user.getUserPassword().equals(user_password)) {
+//			System.out.println("정보변경으로이동");
+//			model.addAttribute("user", user);
+//			return "clish/myPage/myPage_change_user_info_form"; //비밀번호 일치시 이동페이지
+//		}
 		
-		System.out.println("비밀번호가 일치하지 않습니다");
-		return "/clish/myPage/myPage_change_user_info";
+//		System.out.println("비밀번호가 일치하지 않습니다");
+//		return "/clish/myPage/myPage_change_user_info";
+		return "";
 	}
 	
 	// 수정정보 UPDATE문 으로 반영후 정보변경 메인페이지로 이동
