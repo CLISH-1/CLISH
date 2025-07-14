@@ -1,0 +1,72 @@
+package com.itwillbs.clish.admin.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.itwillbs.clish.admin.dto.ClassDTO;
+import com.itwillbs.clish.admin.mapper.AdminClassMapper;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
+@Service
+@Log4j2
+@RequiredArgsConstructor
+public class AdminClassService {
+	
+	private final AdminClassMapper adminClassMapper;
+	private final NotificationService notificationService;
+	
+	// 강좌 리스트
+	public List<Map<String, Object>> getClassList() {
+		return adminClassMapper.selectClassList();
+	}
+
+	// 강좌 상세 정보
+	public ClassDTO getClassInfo(String idx) {
+		ClassDTO dbClass = adminClassMapper.selectClassInfo(idx);
+		dbClass.setClassDayNames(decodeClassDays(dbClass.getClassDays()));
+		
+		return dbClass;
+	}
+
+	@Transactional
+	public int modifyStatus(String idx, int status) {
+		int update = adminClassMapper.updateClassStatus(idx, status);
+		
+		if (update > 0) {
+			notificationService.send("comp2025010120250711", 3, "등록 요청하신 강좌가 승인되었습니다.");
+		} 
+		
+		return update;
+	}
+	
+	// 강좌 정보 수정
+	@Transactional
+	public int modifyClassInfo(String idx, ClassDTO classInfo) {
+		int update = adminClassMapper.updateClassInfo(idx, classInfo);
+		
+		if (update > 0) {
+			notificationService.send("comp2025010120250711", 3, "강좌 정보가 수정되었습니다.");
+		}
+		return update;
+	}
+	
+	// 강좌 수업 요일 구하는 공식
+	private List<String> decodeClassDays(int classDays) {
+		String[] dayNames = {"월", "화", "수", "목", "금", "토", "일"};
+		List<String> result = new ArrayList<>();
+		
+		for (int i = 0; i < 7; i++) {
+			if ((classDays & (1 << i)) > 0) {
+				result.add(dayNames[i]);
+			}
+		}
+		return result;
+	}
+
+}
