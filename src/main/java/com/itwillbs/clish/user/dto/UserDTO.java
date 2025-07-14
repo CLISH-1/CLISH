@@ -1,0 +1,30 @@
+package com.itwillbs.clish.user.dto;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+
+import lombok.Data;
+
+@Data
+public class UserDTO {
+	private String userIdx;
+	private String userName;
+	private String userRepName;
+	private Timestamp userBirth;
+	private char userGender;
+	private String userId;
+	private String userPassword;
+	private String userEmail;
+	private String userEmailToken;
+	private char userEmailAuthYn;
+	private String userPhoneNumber;
+	private String userPhoneNumberSub;
+	private String userPostcode;
+	private String userAddress1;
+	private String userAddress2;
+	private int userStatus;
+	private Date userRegDate;
+	private Date userWithdrawDate;
+	private int userType;
+	private int userPenaltyCount;
+}

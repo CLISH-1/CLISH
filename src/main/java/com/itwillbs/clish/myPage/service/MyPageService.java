@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.clish.myPage.dto.ReservationDTO;
-import com.itwillbs.clish.myPage.dto.UserDTO;
 import com.itwillbs.clish.myPage.mapper.MyPageMapper;
+import com.itwillbs.clish.user.dto.UserDTO;
 
 import lombok.RequiredArgsConstructor;
 

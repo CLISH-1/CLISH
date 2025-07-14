@@ -30,7 +30,8 @@
 	-->
 	<typeAliases>
 <!-- 		<package name="com.itwillbs.clish.dto"/> -->
-<!-- 		<package name="com.itwillbs.clish.user.dto"/> -->
+		<package name="com.itwillbs.clish.user.dto"/>
+<!-- 		<package name="com.itwillbs.clish.myPage.dto"/> -->
 <!-- 		<package name="com.itwillbs.clish.company.dto"/> -->
 	</typeAliases>
 </configuration>

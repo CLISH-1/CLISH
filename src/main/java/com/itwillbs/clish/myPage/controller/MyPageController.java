@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.clish.myPage.dto.ReservationDTO;
-import com.itwillbs.clish.myPage.dto.UserDTO;
 import com.itwillbs.clish.myPage.service.MyPageService;
+import com.itwillbs.clish.user.dto.UserDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,8 +38,9 @@ public class MyPageController {
 	
 	// 마이페이지 정보변경
 	@GetMapping("/change_user_info")
-	public String mypage_change_user_info_main() {
-		
+	public String mypage_change_user_info_main(HttpSession session) {
+		System.out.println("세션아이디 확인 : "+session.getAttribute("sId"));
+
 		return "/clish/myPage/myPage_change_user_info";
 	}
 	
@@ -47,11 +48,14 @@ public class MyPageController {
 	@PostMapping("/change_user_info_form")
 	public String mypage_change_user_info_form(UserDTO user, Model model, HttpSession session, 
 			@RequestParam("user_password") String user_password) {
+		System.out.println("세션아이디 확인 : "+ session.getAttribute("sId"));
 		// session의 sId 확인, 존재하지 않으면 예외처리
 		if(session.getAttribute("sId") == null) {
 			System.out.println("로그인필요 세션아이디없음");
 		} else { // sId 있으면 sId 정보 userDTO 불러오기
-//			System.out.println(user_password); // 입력한 비밀번호 받아오기 성공
+			
+//			System.out.println("정보변경 비밀번호 확인 : " + user_password); // 입력한 비밀번호 받아오기 성공
+			
 			
 			user.setUserId((String)session.getAttribute("sId"));
 			
@@ -64,11 +68,13 @@ public class MyPageController {
 		// id정보와 pw 일치여부 판별
 		System.out.println("입력된 비밀번호 : " + user_password);
 		System.out.println("DB비밀번호 : " + user.getUserPassword());
+		
 		if(user.getUserPassword().equals(user_password)) {
 			System.out.println("정보변경으로이동");
 			model.addAttribute("user", user);
 			return "clish/myPage/myPage_change_user_info_form"; //비밀번호 일치시 이동페이지
 		}
+		
 		System.out.println("비밀번호가 일치하지 않습니다");
 		return "/clish/myPage/myPage_change_user_info";
 	}
