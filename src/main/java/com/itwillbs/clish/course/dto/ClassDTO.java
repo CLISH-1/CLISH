@@ -4,6 +4,7 @@ import lombok.ToString;
 
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
@@ -20,7 +21,7 @@ public class ClassDTO {
 	private String classTitle;
 	private String categoryIdx;
 	private int classStatus;
-	private int classPrice;
+	private BigDecimal classPrice;
 	private int classMember;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
