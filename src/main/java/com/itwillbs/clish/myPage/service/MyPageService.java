@@ -29,11 +29,14 @@ public class MyPageService {
 		return myPageMapper.updateUserInfo(user);
 	}
 	
-	public List<ReservationDTO> getReservationInfo(String id) {
-		// TODO Auto-generated method stub
-		return myPageMapper.selectReservationInfo(id);
+	public List<ReservationDTO> getReservationInfo(UserDTO user) {
+		return myPageMapper.selectAllReservationInfo(user);
 	}
 	
+	public ReservationDTO getReservationInfo(ReservationDTO reservation) {
+		return myPageMapper.selectOneReservationInfo(reservation);
+	}
+
 	public int cancelReservation(String id, int reservationIdx) {
 		// TODO Auto-generated method stub
 		return myPageMapper.deleteReservation(id, reservationIdx);
@@ -53,5 +56,6 @@ public class MyPageService {
 		// TODO Auto-generated method stub
 		myPageMapper.updateReservationInfo(reservation);
 	}
+
 
 }

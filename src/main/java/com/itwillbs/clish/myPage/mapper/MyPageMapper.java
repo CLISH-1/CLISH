@@ -17,14 +17,17 @@ public interface MyPageMapper {
 
 	int updateUserInfo(UserDTO user);
 
-	List<ReservationDTO> selectReservationInfo(String id);
+	List<ReservationDTO> selectAllReservationInfo(UserDTO user);
+
+	ReservationDTO selectOneReservationInfo(ReservationDTO reservation);
 
 	int deleteReservation(String id,int reservationIdx);
 
 	ReservationDTO selectReservationDetail(ReservationDTO reservation);
 
+	void updateReservationInfo(ReservationDTO reservation);
+
 	Map<String, Object> selectReservationClass(ReservationDTO reservation);
 
-	void updateReservationInfo(ReservationDTO reservation);
 
 }

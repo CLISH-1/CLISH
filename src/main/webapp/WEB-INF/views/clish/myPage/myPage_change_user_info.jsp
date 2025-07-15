@@ -25,7 +25,7 @@
 		
 		<hr>
 		
-		<form action="/clish/myPage/change_user_info_form" method="post" class="form">
+		<form action="/myPage/change_user_info_form" method="post" class="form">
 			<h3>비밀번호를 입력하세요</h3><br>
 			<input type="password" placeholder="pw" name="userPassword">
 			<input type="submit" value="확인">			

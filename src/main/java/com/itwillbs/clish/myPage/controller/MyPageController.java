@@ -46,40 +46,38 @@ public class MyPageController {
 	
 	// 비밀번호 확인 일치시 수정페이지로 불일치시 비밀번호가 틀렸습니다 메시지
 	@PostMapping("/change_user_info_form")
-	public String mypage_change_user_info_form() {
-		System.out.println("아무것도없음");
+	public String mypage_change_user_info_form(UserDTO user, HttpSession session, Model model) {
 //		System.out.println("세션 ID : " + session.getId());
 //		System.out.println("세션 sId : " + session.getAttribute("sId"));
-		
+		String inputPw = user.getUserPassword();
 		// session의 sId 확인, 존재하지 않으면 예외처리
-//		if(session.getAttribute("sId") == null) {
-//			System.out.println("로그인필요 세션아이디없음");
-//		} else { // sId 있으면 sId 정보 userDTO 불러오기
-			
-//			System.out.println("정보변경 비밀번호 확인 : " + user_password); // 입력한 비밀번호 받아오기 성공
-			
+		if(session.getAttribute("sId") == null) {
+			System.out.println("로그인필요 세션아이디없음");
+		} else { // sId 있으면 sId 정보 userDTO 불러오기
+//			System.out.println("정보변경 비밀번호 확인 : " + inputPw); // 입력한 비밀번호 받아오기 성공
 //			System.out.println("세션아이디있음");
-//			user.setUserId((String)session.getAttribute("sId"));
-//			
-//			user = myPageService.getUserInfo(user);
 			
-//			System.out.println(user); //입력된 id 의 유저정보 불러오기
+			user.setUserId((String)session.getAttribute("sId"));
 			
-//		}
+			user = myPageService.getUserInfo(user);
+			
+			System.out.println(user); //입력된 id 의 유저정보 불러오기
+			
+		}
 		// session의 sId와 일치하는 id정보 db에서 받아오기
 		// id정보와 pw 일치여부 판별
-//		System.out.println("입력된 비밀번호 : " + userPassword);
-//		System.out.println("DB비밀번호 : " + user.getUserPassword());
+		System.out.println("입력된 비밀번호 : " + inputPw);
+		System.out.println("DB비밀번호 : " + user.getUserPassword());
 		
-//		if(user.getUserPassword().equals(user_password)) {
-//			System.out.println("정보변경으로이동");
-//			model.addAttribute("user", user);
-//			return "clish/myPage/myPage_change_user_info_form"; //비밀번호 일치시 이동페이지
-//		}
+		if(user.getUserPassword().equals(inputPw)) {
+			System.out.println("정보변경으로이동");
+			model.addAttribute("user", user);
+			return "clish/myPage/myPage_change_user_info_form"; //비밀번호 일치시 이동페이지
+		}
 		
-//		System.out.println("비밀번호가 일치하지 않습니다");
-//		return "/clish/myPage/myPage_change_user_info";
-		return "";
+		System.out.println("비밀번호가 일치하지 않습니다");
+		return "/clish/myPage/myPage_change_user_info";
+//		return "";
 	}
 	
 	// 수정정보 UPDATE문 으로 반영후 정보변경 메인페이지로 이동
@@ -90,10 +88,15 @@ public class MyPageController {
 		user.setUserId((String)session.getAttribute("sId"));
 		
 		UserDTO user1 = myPageService.getUserInfo(user); // 기존 유저 정보 불러오기
+		//기존 email주소와 입력된 이메일 주소가 다르면 newEmail에 새 이메일 값 저장 
+		if(!user1.getUserEmail().equals(user.getUserEmail())){
+			user.setNewEmail(user.getUserEmail());
+		}
+		
 		System.out.println("new_password = " + new_password);
 		System.out.println(new_password.isEmpty());
 		
-		if(!new_password.isEmpty()) { // 새비밀번호가 비어있지 않다면 비밀번호 새로지정
+		if(!new_password.isEmpty()) { // 새비밀번호가 있다면 비밀번호 새로지정
 			user.setUserPassword(new_password);
 		}else { // 아니면 기존 비밀번호 유지
 			user.setUserPassword(user1.getUserPassword());
@@ -104,20 +107,28 @@ public class MyPageController {
 //		return "";
 		return "redirect:/myPage/change_user_info";
 	}
+	
 	//------------------------------------------------------------------------------------
 	//결제내역
 	// 예약목록 불러오기
 	@GetMapping("/payment_info")
-	public String payment_info(HttpSession session, Model model) {
-		String id = (String)session.getAttribute("sId");
-		if(id != null && !id.isEmpty()) {
-			//예약목록 List에 저장, model로 전송
-			List<ReservationDTO> reservationList = myPageService.getReservationInfo(id); 
-			model.addAttribute("reservationList",reservationList);
-			return "/clish/myPage/myPage_payment";
-		} 
+	public String payment_info(HttpSession session, Model model,UserDTO user) {
+		String sId = (String)session.getAttribute("sId");
+		user.setUserId(sId);
+		user = myPageService.getUserInfo(user);
+		System.out.println(sId);
 		
-		return "redirect:/";
+		if(sId != null && !sId.equals("")) {
+			//예약목록 List에 저장, model로 전송
+			List<ReservationDTO> reservationList = myPageService.getReservationInfo(user); 
+			model.addAttribute("reservationList",reservationList);
+			model.addAttribute("user",user);
+			return "/clish/myPage/myPage_payment";
+		} else {
+			model.addAttribute("msg","잘못된 접근입니다.");
+			model.addAttribute("targetUrl","/");
+			return "commons/result_process";
+		}
 	}
 	
 	//예약 취소
@@ -136,17 +147,14 @@ public class MyPageController {
 	
 	//예약상세보기
 	@GetMapping("/payment_info/detail")
-	public String reservationDetail(@RequestParam("reservationIdx") int reservationIdx, HttpSession session, Model model, 
-			ReservationDTO reservation) {
-		System.out.println(reservationIdx); // 파라미터 잘 넘어옴
-		reservation.setReservationIdx(reservationIdx);
+	public String reservationDetail(HttpSession session, Model model, ReservationDTO reservation) {
+//		System.out.println("예약상세 확인" + reservation.getReservationIdx());
+		reservation = myPageService.getReservationInfo(reservation);
+//		Map<String,Object> reservationClassInfo = myPageService.reservationClassInfo(reservation); 
+		model.addAttribute("reservation", reservation);
+//		model.addAttribute("reservationClassInfo", reservationClassInfo);
 		
-//		reservation = myPageService.reservationDetail(reservation);
-		Map<String,Object> reservationClassInfo = myPageService.reservationClassInfo(reservation); 
-//		model.addAttribute("reservation", reservation);
-		model.addAttribute("reservationClassInfo", reservationClassInfo);
-		
-		System.out.println("reservationDTO : " + reservation);
+//		System.out.println("reservationDTO : " + reservation);
 		return "/clish/myPage/myPage_reservation_detail";
 	}
 

@@ -31,7 +31,7 @@
 					<th>결제상태</th>
 					
 					<th>예약번호</th>
-					<th>유저아이디</th>
+					<th>예약자</th>
 					<th>클래스아이디</th>
 					<th>예약요청일</th>
 					<th>예약완료일</th>
@@ -45,7 +45,7 @@
 			        		<td><input type="checkbox" name="${reserve.reservationIdx}"> </td>
 			        		<td><c:if test="${reserve.reservationStatus eq 1 }">미결제</c:if></td>
 			        		<td>${reserve.reservationIdx}</td>
-							<td>${reserve.userId}</td>
+							<td>${user.userName}</td>
 							<td>${reserve.classIdx}</td>
 							<td>${reserve.reservationClassDate}</td>
 							<td>${reserve.reservationCom}</td>
@@ -138,7 +138,7 @@
 	    
 		//팝업창 열기
 	    window.open(
-	        '/clish/myPage/payment_info/detail?reservationIdx=' + encodeURIComponent(reservationIdx),
+	        '/myPage/payment_info/detail?reservationIdx=' + encodeURIComponent(reservationIdx),
 	        'reservationDetail',
 	        `width=600,height=1500,resizable=yes,scrollbars=yes`
 	    );
