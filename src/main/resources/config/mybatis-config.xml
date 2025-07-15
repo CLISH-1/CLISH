@@ -28,12 +28,11 @@
 	package 태그를 사용하여 패키지만 지정
 	기본 문법 : <package name="등록할 클래스가 위치한 패키지"/>
 	-->
-	<typeAliases>
-<!-- 		<package name="com.itwillbs.clish.dto"/> -->
+<!-- 	<typeAliases> -->
 <!-- 		<package name="com.itwillbs.clish.user.dto"/> -->
 <!-- 		<package name="com.itwillbs.clish.myPage.dto"/> -->
 <!-- 		<package name="com.itwillbs.clish.company.dto"/> -->
-	</typeAliases>
+<!-- 	</typeAliases> -->
 </configuration>
 
 
