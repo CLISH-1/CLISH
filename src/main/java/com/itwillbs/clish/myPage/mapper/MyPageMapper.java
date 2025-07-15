@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.itwillbs.clish.course.dto.ClassDTO;
 import com.itwillbs.clish.myPage.dto.ReservationDTO;
 import com.itwillbs.clish.user.dto.UserDTO;
 
@@ -21,13 +22,16 @@ public interface MyPageMapper {
 
 	ReservationDTO selectOneReservationInfo(ReservationDTO reservation);
 
-	int deleteReservation(String id,int reservationIdx);
+	ClassDTO selectOneClassInfo(ReservationDTO reservation);
+
+	int deleteReservation(ReservationDTO reservation);
 
 	ReservationDTO selectReservationDetail(ReservationDTO reservation);
 
 	void updateReservationInfo(ReservationDTO reservation);
 
-	Map<String, Object> selectReservationClass(ReservationDTO reservation);
+	Map<String, Object> ReservationDetailInfo(ReservationDTO reservation);
+
 
 
 }

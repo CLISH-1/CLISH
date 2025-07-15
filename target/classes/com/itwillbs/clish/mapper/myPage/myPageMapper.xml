@@ -4,13 +4,14 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.itwillbs.clish.myPage.mapper.MyPageMapper">
+	<!-- 유저 정보 불러오기 -->
 <!-- 	<select id="selectUserInfo" resultType="UserDTO"> -->
 	<select id="selectUserInfo" resultType="com.itwillbs.clish.user.dto.UserDTO">
 		SELECT *
 		FROM USER
 		WHERE user_id = #{userId}
 	</select>
-	
+	<!--  유저정보 수정 -->
 	<update id="updateUserInfo">
 		UPDATE USER
 		SET
@@ -26,7 +27,7 @@
 		WHERE
 			user_id = #{userId}
 	</update>
-	
+	<!-- 예약정보 불러오기 -->
 	<select id="selectAllReservationInfo" resultType="com.itwillbs.clish.myPage.dto.ReservationDTO">
 		SELECT *
 		FROM
@@ -36,7 +37,7 @@
 		ORDER BY
 			reservation_com
 	</select>
-	
+	<!-- 예약상세정보불러오기 -->
 	<select id="selectOneReservationInfo" resultType="com.itwillbs.clish.myPage.dto.ReservationDTO">
 		SELECT *
 		FROM
@@ -44,4 +45,74 @@
 		WHERE
 			reservation_idx = #{reservationIdx}
 	</select>
+	<!-- 예약 클래스 정보 불러오기 -->
+	<select id="selectOneClassInfo" resultType="com.itwillbs.clish.course.dto.ClassDTO">
+		SELECT *
+		FROM
+			CLASS
+		WHERE
+			class_idx = #{classIdx}
+	</select>
+	<!-- 예약상세정보 종합 불러오기 -->
+	<select id="ReservationDetailInfo" resultType="map">
+	SELECT
+		c.class_title
+		, c.class_price
+		, c.class_member
+		, c.start_date
+		, c.end_date
+		, r.reservation_idx
+		, r.user_idx
+		, r.reservation_class_date
+		, r.reservation_com
+		, r.price_fin
+		, r.reservation_members
+		, (SELECT 
+				COUNT(*)
+			FROM 
+				RESERVATION
+			WHERE
+				class_idx = #{classIdx}) as remainSeats
+	FROM
+		RESERVATION r
+	JOIN
+		CLASS c
+	ON
+		c.class_idx = r.class_idx
+	WHERE
+		r.reservation_idx = #{reservationIdx}	
+	</select>
+	
+	<delete id="deleteReservation">
+	DELETE FROM
+		RESERVATION
+	WHERE
+		reservation_idx = #{reservationIdx}
+	</delete>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
