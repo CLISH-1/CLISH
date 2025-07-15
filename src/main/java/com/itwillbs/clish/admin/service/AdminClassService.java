@@ -7,8 +7,8 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.itwillbs.clish.admin.dto.ClassDTO;
 import com.itwillbs.clish.admin.mapper.AdminClassMapper;
+import com.itwillbs.clish.course.dto.ClassDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

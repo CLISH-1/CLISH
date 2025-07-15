@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.clish.admin.dto.CategoryDTO;
-import com.itwillbs.clish.admin.dto.ClassDTO;
 import com.itwillbs.clish.admin.service.AdminClassService;
 import com.itwillbs.clish.admin.service.CategoryService;
 import com.itwillbs.clish.admin.service.NotificationService;
+import com.itwillbs.clish.course.dto.ClassDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

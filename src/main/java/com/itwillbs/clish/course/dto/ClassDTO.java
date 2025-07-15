@@ -1,4 +1,4 @@
-package com.itwillbs.clish.admin.dto;
+package com.itwillbs.clish.course.dto;
 
 import lombok.ToString;
 

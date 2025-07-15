@@ -6,7 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.itwillbs.clish.admin.dto.ClassDTO;
+import com.itwillbs.clish.course.dto.ClassDTO;
 
 @Mapper
 public interface AdminClassMapper {
