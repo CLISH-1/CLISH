@@ -6,8 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<%-- <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet" type="text/css"> --%>
-<%-- <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css"> --%>
+<link href="${pageContext.request.contextPath}/resources/css/the_best_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<header>
@@ -15,7 +14,7 @@
 	</header>
 	<main class="main">
 		<jsp:include page="/WEB-INF/views/admin/sidebar.jsp"></jsp:include>
-		<div>ddd</div>
+		<div>통계자료 보여주기</div>
 	</main>
 	<footer>
 		<jsp:include page="/WEB-INF/views/admin/bottom.jsp"></jsp:include>

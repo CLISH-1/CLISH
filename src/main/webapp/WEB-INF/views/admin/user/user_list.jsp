@@ -6,7 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자페이지</title>
-<%-- <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet" type="text/css"> --%>
 <link href="${pageContext.request.contextPath}/resources/css/the_best_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -46,7 +45,7 @@
                     </thead>
                     <tbody>
                         <c:forEach var="user" items="${users}">
-	                        <tr onclick="location.href='/clish/admin/user/${user.userIdx}'">
+	                        <tr onclick="location.href='/admin/user/${user.userIdx}'">
 	                            <td>${user.userIdx}</td>
 	                            <td>${user.userId}</td>
 	                            <td>${user.userName}</td>

@@ -6,13 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<%-- <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet" type="text/css"> --%>
+<link href="${pageContext.request.contextPath}/resources/css/admin/sidebar.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/the_best_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div class="sidebar">
 	   <ul>
-	   	   <li class="sub-nav"> <a href="/admin">main</a></li>
+	   	   <li class="sub-nav"> <a href="/admin/">main</a></li>
 	       <li class="list">
 	       		<span>강좌 관리</span>
 	       		<ul>
