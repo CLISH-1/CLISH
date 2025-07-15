@@ -17,7 +17,6 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequiredArgsConstructor
 public class AdminClassService {
-	
 	private final AdminClassMapper adminClassMapper;
 	private final NotificationService notificationService;
 	
@@ -25,7 +24,7 @@ public class AdminClassService {
 	public List<Map<String, Object>> getClassList() {
 		return adminClassMapper.selectClassList();
 	}
-
+	
 	// 강좌 상세 정보
 	public ClassDTO getClassInfo(String idx) {
 		ClassDTO dbClass = adminClassMapper.selectClassInfo(idx);
@@ -33,7 +32,7 @@ public class AdminClassService {
 		
 		return dbClass;
 	}
-
+	
 	@Transactional
 	public int modifyStatus(String idx, int status) {
 		int update = adminClassMapper.updateClassStatus(idx, status);
@@ -68,5 +67,4 @@ public class AdminClassService {
 		}
 		return result;
 	}
-
 }

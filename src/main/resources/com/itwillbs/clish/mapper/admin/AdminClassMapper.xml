@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.clish.admin.mapper.AdminClassMapper">
+	<!-- 강좌 정보 조회 -->
+	<select id="selectClassList" resultType="map">
+		SELECT
+			c.class_idx
+			, c.class_title
+			, c.class_status
+			, pc.category_name AS parent_category_name
+			, cc.category_name AS child_category_name
+		FROM
+			CLASS c
+		JOIN  
+			CATEGORY cc
+		ON
+			c.category_idx = cc.category_idx
+		LEFT JOIN
+			CATEGORY pc
+		ON
+			cc.parent_idx = pc.category_idx
+	</select>
+	
+	<!-- 강좌 상세 정보 -->
+	<select id="selectClassInfo" resultType="com.itwillbs.clish.admin.dto.ClassDTO">
+		SELECT
+			class_idx
+			, class_title
+			, category_idx
+			, class_status
+			, class_price
+			, class_member
+			, start_date
+			, end_date
+			, class_days
+			, location
+		FROM 
+			CLASS
+		WHERE
+			class_idx = #{idx}
+	</select>
+	
+	<!-- 강좌 승인 -->
+	<update id="updateClassStatus">
+		UPDATE
+			CLASS
+		SET
+			class_status = #{status}
+			, created_at = now()
+		WHERE
+			class_idx = #{idx}
+	</update>
+	
+	<!-- 강좌 정보 변경 -->
+	<update id="updateClassInfo">
+		UPDATE
+			CLASS
+		SET
+			class_title = #{classInfo.classTitle}
+			, category_idx = #{classInfo.categoryIdx}
+			, class_status = #{classInfo.classStatus}
+			, class_price = #{classInfo.classPrice}
+			, class_member = #{classInfo.classMember}
+			, start_date = #{classInfo.startDate}
+			, end_date = #{classInfo.endDate}
+			, class_days = #{classInfo.classDays}
+			, location = #{classInfo.location}
+			, updated_at = now()
+		WHERE
+			class_idx = #{idx}
+	</update>
+</mapper>  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

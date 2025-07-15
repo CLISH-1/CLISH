@@ -21,8 +21,8 @@ import com.itwillbs.clish.admin.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-@Controller
 @Log4j2
+@Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminClassController {
