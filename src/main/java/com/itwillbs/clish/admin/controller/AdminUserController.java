@@ -37,7 +37,7 @@ public class AdminUserController {
 	 * 
 	 */
 	
-	@GetMapping("")
+	@GetMapping("/")
 	public String adminIndex() {
 
 		return "/admin/admin_page";
@@ -53,7 +53,7 @@ public class AdminUserController {
 		
 		if (!id.equals("admin")) {
 			model.addAttribute("msg", "접근 권한이 없습니다!");
-			return "common/fail";
+			return "commons/fail";
 		}
 		// --------------------------------------
 		
@@ -61,7 +61,7 @@ public class AdminUserController {
 		
 		model.addAttribute("users", userList);
 		
-		return "/admin/user_list";
+		return "/admin/user/user_list";
 	}
 	
 	// 일반 회원 상세 정보

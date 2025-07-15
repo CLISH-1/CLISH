@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.clish.admin.mapper.AdminUserMapper">
+
+	<!-- 유저 리스트 -->
+	<select id="selectUserList" resultType="com.itwillbs.clish.user.dto.UserDTO">
+		SELECT
+			user_idx
+			, user_id
+			, user_email
+			, user_name
+			, user_phone_number
+			, user_gender
+			, user_reg_date
+			, user_status
+		FROM
+			USER
+		WHERE
+			user_type = 1
+	</select>
+	
+	<!-- 일반 유저 상세 정보 -->
+	<select id="selectUserInfo" resultType="com.itwillbs.clish.user.dto.UserDTO">
+		SELECT
+			user_idx
+			, user_name
+			, user_rep_name
+			, user_id
+			, user_birth
+			, user_phone_number
+			, user_email
+			, user_gender
+			, user_postcode
+			, user_address1
+			, user_address2
+		FROM
+			USER
+		WHERE
+			user_idx = #{idx}
+	</select>
+	
+	<!-- 일반 유저 정보 수정 -->
+	<update id="updateUserInfo">
+		UPDATE
+			USER
+		SET
+			user_name = #{user.userName}
+			, user_rep_name = #{user.userRepName}
+			, user_id = #{user.userId}
+			, user_birth = #{user.userBirth}
+			, user_phone_number = #{user.userPhoneNumber}
+			, user_email = #{user.userEmail}
+			, user_postcode = #{user.userPostcode}
+			, user_address1 = #{user.userAddress1}
+			, user_address2 = #{user.userAddress2}
+		WHERE
+			user_idx = #{idx}
+			
+	</update>
+
+	<!-- 기업 회원 리스트 -->
+	<select id="selectCompanyList" resultType="com.itwillbs.clish.user.dto.UserDTO">
+		SELECT
+			user_idx
+			, user_name
+			, user_id
+			, user_email
+			, user_phone_number
+			, user_reg_date
+			, user_status
+		FROM 
+			USER
+		WHERE
+			user_type = 2
+	</select>
+	
+	<!-- 기업 회원 상세 정보 -->
+	<select id="selectCompanyInfo" resultType="com.itwillbs.clish.user.dto.UserDTO">
+		SELECT
+			user_idx
+			, user_name
+			, user_id
+			, user_email
+			, user_phone_number
+			, user_postcode
+			, user_address1
+			, user_address2
+			, user_status
+		FROM 
+			USER
+		WHERE
+			user_idx = #{idx}
+	</select>
+	
+	<!-- 기업 회원 정보 변경 -->
+	<update id="updateCompanyInfo">
+		UPDATE
+			USER
+		SET
+			user_name = #{company.userName}
+			, user_id = #{company.userId}
+			, user_email = #{company.userEmail}
+			, user_phone_number = #{company.userPhoneNumber}
+			, user_postcode = #{company.userPostcode}
+			, user_address1 = #{company.userAddress1}
+			, user_address2 = #{company.userAddress2}
+		WHERE
+			user_idx = #{idx}
+	</update>
+	
+	<!-- 회원 상태 변경 -->
+	<update id="updateUserStatus">
+		UPDATE 
+			USER
+		SET
+			user_status = #{status}
+			<if test="status == 3">
+			, user_withdraw_date = now()
+			</if>
+		WHERE
+			user_idx = #{idx}
+	</update>
+	
+	<!-- 알림 정보 추가 -->
+	<insert id="insertNotificatoin">
+		INSERT INTO
+			NOTIFICATION
+		VALUES (
+			#{noticeIdx}
+			, #{userIdx}
+			, #{userNoticeType}
+			, #{userNoticeMessage}
+			, now()
+			, 2
+		)
+	</insert>
+</mapper>  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
