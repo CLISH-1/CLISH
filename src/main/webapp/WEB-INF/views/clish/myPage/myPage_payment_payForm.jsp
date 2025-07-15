@@ -23,15 +23,18 @@
 		<h1>결제페이지</h1>
 		<table >
 			<tr>
-				<th rowspan="3">클래스이미지</th>
+				<th rowspan="5">클래스이미지</th>
 				<th>${reservationClassInfo.class_title}</th>
 			</tr>
+			<tr><th>클래스정원</th></tr>
 			<tr>
 				<th>${reservationClassInfo.class_member}</th>
-			</tr> 
-			<tr>
-				<th>${reservationClassInfo.remain_seats}</th>
 			</tr>
+			<tr><th>남은자리</th></tr> 
+			<tr>
+				<th>${reservationClassInfo.remainSeats}</th>
+			</tr>
+			<tr><th>시작일</th><th>종료일</th></tr>
 			<tr>
 				<th>${reservationClassInfo.start_date}</th>
 				<th>${reservationClassInfo.end_date}</th>
@@ -41,7 +44,7 @@
 			<tr>
 				<th>예약번호</th>
 				<th rowspan="2">클래스이미지</th>
-				<th>유저아이디</th>
+				<th>예약자</th>
 				<th>클래스명</th>
 				<th>예약요청일</th>
 				<th>예약완료일</th>
@@ -51,21 +54,21 @@
 			</tr>
         	<tr>
         		<td>${reservationClassInfo.reservation_idx}</td>
-				<td>${reservationClassInfo.user_id}</td>
+				<td>${user.userName}</td>
 				<td>${reservationClassInfo.class_title}</td>
 				<td>${reservationClassInfo.reservation_class_date}</td>
 				<td>${reservationClassInfo.reservation_com}</td>
-				<td>${reservationClassInfo.remain_seats}</td>
+				<td>${reservationClassInfo.remainSeats}</td>
 				<td>${reservationClassInfo.reservation_members}</td>
-				<td>${reservationClassInfo.price_fin }</td>		
+				<td>${reservationClassInfo.reservation_members * reservationClassInfo.class_price}</td>		
         	</tr>
 		</table>
 			<table>
 				<tr>
 					<td>
-					<input type="button" value="취소" data-reservation-num="${reservationNum}"
+					<input type="button" value="취소" data-reservation-num="${reservationClassInfo.reservation_idx}"
           				onclick="cancelPayment(this)">
-					<input type="button" value="결제" data-reservation-num="${reservationNum}"
+					<input type="button" value="결제" data-reservation-num="${reservationClassInfo.reservation_idx}"
 						onclick="requestPay()" id="paybtn">
           			</td>
           		</tr> 
@@ -79,20 +82,15 @@
 </body>
 </html>
 <script type="text/javascript">
-	function cancelPayment(btn) {
-		if(confirm("결제를 취소하시겠습니까?")){
-		    window.close();
-		}
-	}	
+	
 	var reservation_idx = "${reservationClassInfo.reservation_idx}";
 	var reservation_class_date = "${reservationClassInfo.reservation_class_date}"
 	var reservation_com = "${reservationClassInfo.reservation_com}";
 	var reservation_members = "${reservationClassInfo.reservation_members}";
-	var price_fin = "${reservationClassInfo.price_fin }";
-	var remain_seats = "${reservationClassInfo.remain_seats}";
+	var price = "${reservationClassInfo.reservation_members * reservationClassInfo.class_price}";
 	var class_title = "${reservationClassInfo.class_title}";
-	var user_id = "${reservationClassInfo.user_id}";
-	var from = "${from}";
+	var user_name = "${user.userName}";
+	var from = window.opener.document.getElementById("parent").value;
 	
 	// =================================================================
 	window.onload = () => {
@@ -101,27 +99,21 @@
 	}
 	
 	function requestPay() {
-//		console.log(" 연결완료");
-		console.log("예약인원 " + remain_seats);
-	
-
+		
 	  IMP.request_pay({
 	    pg: "kakaopay", // 고정
 	    pay_method: "card", // 고정
 		storeId: "Clish",
-	    merchant_uid: reservation_idx, // 예약번호
-//	    merchant_uid: randomStr, // 테스트때문에바꿈
+// 	    merchant_uid: reservation_idx, // 예약번호
+	    merchant_uid: randomStr, // 테스트때문에바꿈
 	    name: class_title, // 강의명
-	    amount: price_fin , // 결제금액
-	    buyer_name: user_id, // 결제 user_id
+	    amount: price , // 결제금액
+	    buyer_name: user_name, // 결제 user_name
 //	    m_redirect_url:"",// 모바일 결제 완료 후리다이렉트 할 주소
 //	    m_redirect_url: "http://localhost:8081/clish/myPage/payment_info/payResult",// 모바일 결제 완료 후리다이렉트 할 주소
-//		custom_data: from	     
+		custom_data: from	     
 	  }, function(rsp) {
-		console.log(rsp);
-		alert("rsp");
 	    if (rsp.success) {
-			console.log("테스트 확인");
 		    // 결제 성공 시 서버에 결제정보 전달
 		    $.post("/myPage/payment/verify", { imp_uid: rsp.imp_uid }, function(data) {
 //				console.log("이동 직전!", rsp.imp_uid, rsp.merchant_uid);
@@ -151,6 +143,12 @@
 	    }
 	  });
 	}
+
+	function cancelPayment(btn) {
+		if(confirm("결제를 취소하시겠습니까?")){
+		    window.close();
+		}
+	}	
 	
 	// PC/모바일 환경 구분 함수
 	// navigator.userAgent : 사용자의 브라우저, 운영체제, 기기 정보

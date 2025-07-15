@@ -28,6 +28,7 @@ import com.itwillbs.clish.myPage.dto.PaymentInfoDTO;
 import com.itwillbs.clish.myPage.dto.ReservationDTO;
 import com.itwillbs.clish.myPage.service.MyPageService;
 import com.itwillbs.clish.myPage.service.PaymentService;
+import com.itwillbs.clish.user.dto.UserDTO;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.IamportResponse;
@@ -44,19 +45,16 @@ public class PaymentController {
 	
 	//결제페이지
 	@GetMapping("/payment_info/payReservation")
-	public String payReservationForm(@RequestParam("reservationIdx") String reservationIdx,@RequestParam("from") String from,
-			HttpSession session, Model model, 
-			ReservationDTO reservation) {		
-		reservation.setReservationIdx(reservationIdx);
-		
-//		reservation = myPageService.reservationDetail(reservation);
+	public String payReservationForm(HttpSession session, Model model,
+			ReservationDTO reservation, UserDTO user) {		
+		String id = (String)session.getAttribute("sId");
+		user.setUserId(id);
+		user = myPageService.getUserInfo(user); // 예약자 정보
 		Map<String,Object> reservationClassInfo = myPageService.reservationDetailInfo(reservation);
 		
-//		model.addAttribute("reservation", reservation);
 		model.addAttribute("reservationClassInfo", reservationClassInfo);
-		model.addAttribute("from",from);
-//		System.out.println("reservationDTO : " + reservation);
-		return "/clish/myPage/myPage_reservation_payForm";
+		model.addAttribute("user",user);
+		return "/clish/myPage/myPage_payment_payForm";
 	}
 	
 	
@@ -88,6 +86,19 @@ public class PaymentController {
 			result.put("from", payment.getCustomData());
 			result.put("receiptUrl", payment.getReceiptUrl());
 			System.out.println("영수증 " + payment.getReceiptUrl());
+//			result.put("impUid", payment.getImpUid()); // 포트원 결제 고유번호
+//			result.put("merchantUid", payment.getMerchantUid()); // 주문번호(예약번호)
+//			result.put("amount", payment.getAmount()); // 결제금액
+//			result.put("status", payment.getStatus()); // 구매상태(paid , ready, cancelled)
+//			result.put("userId", payment.getBuyerName()); //구매자 이름
+//			result.put("payMethod", payment.getPayMethod()); // 결제수단
+//			result.put("payTime", payment.getPaidAt()); // 결제시각
+//			result.put("classTitle", payment.getName()); // 상품명(강의명)
+//			result.put("failReason", payment.getFailReason()); // 결제실패 이유
+//			result.put("failTime", payment.getFailedAt()); // 결제 실패 시간
+//			result.put("requestTime", requestTime);
+//			result.put("from", payment.getCustomData());
+//			result.put("receiptUrl", payment.getReceiptUrl());
 		} catch (IamportResponseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -132,17 +143,13 @@ public class PaymentController {
 	
 	//결제상세보기
 	@GetMapping("/payment_info/paymentInfo")
-	public String paymentInfo(PaymentInfoDTO paymentInfoDTO, @RequestParam("reservationIdx")int reservationIdx,
+	public String paymentInfo(PaymentInfoDTO paymentInfoDTO, ReservationDTO reservation, UserDTO user,
 			Model model) {
-		paymentInfoDTO.setMerchantUid(reservationIdx);
-		System.out.println(paymentInfoDTO.getMerchantUid());// 주문번호 받아오기 끝
 		paymentInfoDTO = paymentService.getPayResult(paymentInfoDTO);
+
 		System.out.println(paymentInfoDTO);
-		String payTime = paymentService.convertUnixToDateTimeString(paymentInfoDTO.getPayTime()/1000L);
-		String failTime = paymentService.convertUnixToDateTimeString(paymentInfoDTO.getFailTime()/1000L);
+
 		model.addAttribute("paymentInfoDTO",paymentInfoDTO);
-		model.addAttribute("payTime",payTime);
-		model.addAttribute("failTime",failTime);
 		
 		return "/clish/myPage/myPage_payResult";
 	}

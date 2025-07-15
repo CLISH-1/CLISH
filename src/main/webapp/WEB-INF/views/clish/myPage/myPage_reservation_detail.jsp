@@ -18,7 +18,7 @@
 	<div id="main">
 	
 		<h1>예약상세페이지</h1>
-		
+		<input type="hidden" id="parent" value="detail">
 		<table >
 			<tr>
 				<th rowspan="5">클래스이미지</th>
@@ -64,7 +64,7 @@
 				<td><input type="button" value="수정" data-reservation-num="${reservationClassInfo.reservation_idx}"
          onclick="reservationChange(this)"> </td>
 				<td><input type="button" value="결제" data-reservation-num="${reservationClassInfo.reservation_idx}"
-         data-from="detail" onclick="payReservation(this)"> </td>
+         onclick="payReservation(this)"> </td>
         	</tr>
 		</table>
 	
@@ -109,12 +109,9 @@
 	function payReservation(btn) {
 	    var reservationIdx = btn.getAttribute('data-reservation-num');
 		var from = btn.getAttribute('data-from');
-	    window.open(
+	    location.href ="
 	        '/myPage/payment_info/payReservation?reservationIdx=' + encodeURIComponent(reservationIdx)
-	        + '&from=' + encodeURIComponent(from),
-	        'payReservation',
-	        `width=600,height=1500,resizable=yes,scrollbars=yes`
-	    );
+	        + '&from=' + encodeURIComponent(from)"
 	}
 
 </script>

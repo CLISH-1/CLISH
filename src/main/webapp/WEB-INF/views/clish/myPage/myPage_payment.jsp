@@ -27,6 +27,7 @@
 		<h1>${sessionScope.sId}의 페이지</h1>
 		<hr>
 		<h3>결제내역</h3>
+		<input type="hidden" id="parent" value="list">
 		<div>
 			<h3>예약 목록</h3>
 			<table border="solid 1px">
@@ -56,7 +57,7 @@
 							<td><input type="button" value="취소" data-reservation-num="${reserve.reservationIdx}"
 		          onclick="cancelReservation(this)"></td>
 							<td><input type="button" value="결제" data-reservation-num="${reserve.reservationIdx}"
-		          data-from="list" onclick="payReservation(this)"> </td>
+		          onclick="payReservation(this)"> </td>
 							<td><input type="button" value="상세보기" data-reservation-num="${reserve.reservationIdx}"
 		          onclick="reservationInfo(this)"> </td>
 			        	</tr>
@@ -150,11 +151,9 @@
 	
 	//결제버튼 함수
 	function payReservation(btn) {
-	    var reservationIdx = btn.getAttribute('data-reservation-num');
-		var from = btn.getAttribute('data-from'); 
+	    var reservationIdx = btn.getAttribute('data-reservation-num'); 
 	    window.open(
-	        '/myPage/payment_info/payReservation?reservationIdx=' + encodeURIComponent(reservationIdx)
-	        + '&from=' + encodeURIComponent(from),
+	        '/myPage/payment_info/payReservation?reservationIdx=' + encodeURIComponent(reservationIdx),
 	        'payReservation',
 	        `width=600,height=1500,resizable=yes,scrollbars=yes`
 	    );

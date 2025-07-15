@@ -72,12 +72,14 @@
 		, r.reservation_class_date
 		, r.reservation_com
 		, r.reservation_members
-		, (SELECT 
-				COUNT(*)
+		, (c.class_member - IFNULL(
+		  (	SELECT 
+				SUM(r2.reservation_members)
 			FROM 
-				RESERVATION
+				RESERVATION r2
 			WHERE
-				class_idx = #{classIdx}) as remainSeats
+				r2.class_idx = c.class_idx
+		  ), 0)) AS remainSeats
 	FROM
 		RESERVATION r
 	JOIN

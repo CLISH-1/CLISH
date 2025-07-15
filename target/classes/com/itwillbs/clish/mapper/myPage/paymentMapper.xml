@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.itwillbs.clish.myPage.mapper.PaymentMapper">
+	<insert id="insertPayInfo">
+		insert into payment_info values(
+			#{impUid}
+		    , #{reservationIdx}
+		    , #{amount}
+		    , #{status}
+		    , #{userName}
+		    , #{payMethod}
+		    , #{requestTime}
+		    , #{payTime}
+		    , #{classTitle}
+		    , #{failReason}
+		    , #{failTime}
+		    , #{receiptUrl}
+		); 
+	</insert>
+	
+	<update id="updateReservationStatus">
+		UPDATE reservation
+		SET reservation_status = 2
+		WHERE reservation_idx = #{merchantUid}
+	</update>
+	
+	<select id="selectPayResult" resultType="com.itwill.clish.payment.dto.PaymentInfoDTO">	
+		SELECT *
+		from payment_info
+		where merchant_uid = #{merchantUid}
+	</select>
+	
+	<insert id="insertCancelInfo">
+		insert into payment_cancel values(
+			#{impUid}
+			, #{merchantUid}
+			, #{amount}
+			, #{cancelAmount}
+			, #{status}
+			, #{cancelReason}
+			, #{cancelledAt}
+			, #{buyerName}
+			, #{payMethod}
+			, #{receiptUrl}
+		)
+	</insert>
+	
+	<update id="updatePaymentInfo">
+		update payment_info
+		set status = #{status}
+		where imp_uid = #{impUid}		
+	</update>
+</mapper>
