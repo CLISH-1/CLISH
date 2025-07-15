@@ -36,13 +36,13 @@
 			
 			<!-- 체크박스로 -->
            <label>수업요일:</label><br>
-			<input type="checkbox" name="classDays" value="1"> 월
-			<input type="checkbox" name="classDays" value="2"> 화
-			<input type="checkbox" name="classDays" value="4"> 수
-			<input type="checkbox" name="classDays" value="8"> 목
-			<input type="checkbox" name="classDays" value="16"> 금
-			<input type="checkbox" name="classDays" value="32"> 토
-			<input type="checkbox" name="classDays" value="64"> 일
+			<input type="checkbox" name="classDayNames" value="1"> 월
+			<input type="checkbox" name="classDayNames" value="2"> 화
+			<input type="checkbox" name="classDayNames" value="4"> 수
+			<input type="checkbox" name="classDayNames" value="8"> 목
+			<input type="checkbox" name="classDayNames" value="16"> 금
+			<input type="checkbox" name="classDayNames" value="32"> 토
+			<input type="checkbox" name="classDayNames" value="64"> 일
 			<br><br>
 
             <label>장소 : </label>

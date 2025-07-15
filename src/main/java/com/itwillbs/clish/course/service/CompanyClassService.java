@@ -12,10 +12,15 @@ public class CompanyClassService {
 	public CompanyClassService(CompanyClassMapper companyClassMapper) {
 		this.companyClassMapper = companyClassMapper;
 	}
-
+	
+	// 강의 등록
 	public int registerClass(ClassDTO companyClass) {
-		// TODO Auto-generated method stub
 		return companyClassMapper.insertCompanyClass(companyClass);
+	}
+	
+	// 등록한 강의 상세 조회
+	public ClassDTO getClassInfo(String classIdx) {
+		return companyClassMapper.selectClassByIdx(classIdx);
 	}
 
 

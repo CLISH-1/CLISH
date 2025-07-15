@@ -3,7 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itwillbs.clish.course.mapper.CompanyClassMapper">
-
+	
+	<!-- 강의 등록 -->
 	<insert id="insertCompanyClass">
 	    INSERT INTO CLASS 
 	    VALUES (
@@ -23,6 +24,12 @@
 	        #{userIdx}
 	    )
 	</insert>
-
+	
+	<!-- 등록한 강의 조회 -->
+	<select id="selectClassByIdx" resultType="com.itwillbs.clish.course.dto.ClassDTO">
+		SELECT *
+		FROM CLASS
+		WHERE class_idx = #{classIdx}
+	</select>
 
 </mapper>

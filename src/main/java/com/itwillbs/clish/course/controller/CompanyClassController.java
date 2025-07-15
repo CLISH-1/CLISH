@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.clish.course.dto.ClassDTO;
 import com.itwillbs.clish.course.service.CompanyClassService;
@@ -46,6 +47,7 @@ public class CompanyClassController {
     public String classManageForm() {
         return "/company/companyClass/classManage"; 
     }
+	
 	
 	// 클래스 등록 페이지
 	@GetMapping("/myPage/registerClass")
@@ -88,15 +90,27 @@ public class CompanyClassController {
 	    
 	    if (result > 0) {
 	    	model.addAttribute("msg", "강좌 개설이 완료되었습니다.");
+//	    	model.addAttribute("targetURL", "/company/myPage/classDetail"); // 성공 시 클래스 상세페이지로
+	    	model.addAttribute("targetURL", "/company/myPage/classDetail?classIdx=" + companyClass.getClassIdx());
 	    } else {
 	    	model.addAttribute("msg", "강좌 개설에 실패했습니다. 다시 시도해주세요.");
+//	    	model.addAttribute("targetURL", "/company/myPage/classManage");
 	    }
 	    
-		
-	    
-	    return "redirect:company/myPage/classManage";
+	    return "commons/result_process";
+//	    return "redirect:/myPage/classDetail?classIdx=" + companyClass.getClassIdx();
 	}
 
+	// 클래스 상세페이지
+	@GetMapping("/myPage/classDetail")
+	public String classDetailForm(@RequestParam String classIdx, Model model) {
+		
+		ClassDTO classInfo = companyClassService.getClassInfo(classIdx);
+		
+		model.addAttribute("classInfo", classInfo);
+		
+		return "/company/companyClass/classDetail";
+	}
 	
 	
 }
