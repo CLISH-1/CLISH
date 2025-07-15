@@ -16,7 +16,7 @@
 	<main class="main">
 		<jsp:include page="/WEB-INF/views/admin/sidebar.jsp"></jsp:include>
 		<div>
-			<form action="/clish/admin/user/${user.userIdx}/update" method="post">
+			<form action="/admin/user/${user.userIdx}/update" method="post">
 				<div>
 					<label>이름</label>
 					<input type="text" value="${user.userName}" name="userName" id="userName" />

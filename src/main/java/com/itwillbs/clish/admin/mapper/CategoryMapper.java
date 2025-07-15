@@ -13,4 +13,8 @@ public interface CategoryMapper {
 
 	CategoryDTO selecCategoryByIdx(String categoryIdx);
 
+	String selectCategoryNameByIdx(String parentIdx);
+
+	int insertCategory(CategoryDTO category);
+
 }
