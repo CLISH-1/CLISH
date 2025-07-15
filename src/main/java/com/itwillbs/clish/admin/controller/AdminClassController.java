@@ -33,6 +33,7 @@ public class AdminClassController {
 	// 카테고리 리스트
 	@GetMapping("/category")
 	public String categoryList(Model model) {
+		
 		List<CategoryDTO> parentCategories = categoryService.getCategoriesByDepth(1);
 		List<CategoryDTO> childCategories = categoryService.getCategoriesByDepth(2);
 		
@@ -43,7 +44,16 @@ public class AdminClassController {
 	}
 	
 	@PostMapping("/category/save")
-	public String categorySvae(CategoryDTO category) {
+	public String svaeCategory(@ModelAttribute CategoryDTO category, Model model) {
+//		int count = categoryService.saveCategory(category);
+//		
+//		if (count > 0) {
+//			model.addAttribute("msg", "카테고리를 추가했습니다..");
+//			model.addAttribute("targetURL", "/admin/category");
+//		} else {
+//			model.addAttribute("msg", "다시 시도해주세요!");
+//			return "commons/fail";
+//		}
 		System.out.println("category" + category);
 		
 		return "commons/result_process";

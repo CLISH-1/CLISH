@@ -23,6 +23,35 @@
 		WHERE 
 			category_idx = #{categoryIdx}
 	</select>
+	
+	<select id="selectCategoryNameByIdx" resultType="com.itwillbs.clish.admin.dto.CategoryDTO">
+		SELECT
+			parent_idx
+		FROM
+			CATEGORY
+		WHERE
+			parent_idx = #{parentIdx}
+	</select>
+	
+	<!-- 카테고리 추가 -->
+	<insert id="insertCategory">
+		INSERT INTO
+			CATEGORY
+		VALUES (
+			#{categoryIdx}
+			, #{categoryName}
+			, #{depth}
+			<choose>
+			<when test="depth == 2">
+			, #{parentIdx}
+			</when>
+			<when test="depth == 1">
+			, null
+			</when>
+			</choose>
+			, #{sortOrder}
+		)
+	</insert>
 </mapper>  
   
   

@@ -23,4 +23,22 @@ public class CategoryService {
 		return categoryMapper.selecCategoryByIdx(categoryIdx);
 	}
 
+	// 카테고리 추가 (소분류 추가 예정)
+	public int saveCategory(CategoryDTO category) {
+		int update = 0;
+		
+		if (category.getDepth() == 1) {
+			category.setCategoryIdx("CT_" + category.getCategoryName());
+			category.setParentIdx(null);
+			System.out.println("category" + category);
+			update = categoryMapper.insertCategory(category);
+		} else if (category.getDepth() == 2 && category.getParentIdx() != null) {
+			String parentName = categoryMapper.selectCategoryNameByIdx(category.getParentIdx());
+			category.setCategoryIdx(parentName + "_" + category.getCategoryName());
+			update = categoryMapper.insertCategory(category);
+		}
+		
+		return update;
+	}
+
 }
