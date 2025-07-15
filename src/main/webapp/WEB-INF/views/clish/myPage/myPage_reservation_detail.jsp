@@ -17,7 +17,7 @@
 	
 	<div id="main">
 	
-		<h1>예약상세페이지${reservationClassInfo.class_price }</h1>
+		<h1>예약상세페이지</h1>
 		
 		<table >
 			<tr>

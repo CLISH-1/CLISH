@@ -27,7 +27,7 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "member/login", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
@@ -38,20 +38,22 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-//		return "home";
-		return "main";
+		return "home";
+//		return "main";
 		
 	}
-	@PostMapping("/home")
+	
+	@PostMapping("/member/login")
 	public String login(UserDTO user, HttpSession session) {
+		
 		System.out.println(user.getUserId());
 		System.out.println(user.getUserPassword()); // 넘어오는거 확인
 		
 		session.setAttribute("sId", user.getUserId());
 		
 		
-//		return "home";
-		return "main";
+		return "home";
+//		return "main";
 	}
 	
 }
