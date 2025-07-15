@@ -138,23 +138,6 @@ public class MyPageController {
 		return "/clish/myPage/myPage_reservation_detail";
 	}
 
-	//결제페이지
-	@GetMapping("/payment_info/payReservation")
-	public String payReservationForm(@RequestParam("reservationIdx") String reservationIdx,@RequestParam("from") String from,
-			HttpSession session, Model model, 
-			ReservationDTO reservation) {		
-		reservation.setReservationIdx(reservationIdx);
-		
-//		reservation = myPageService.reservationDetail(reservation);
-		Map<String,Object> reservationClassInfo = myPageService.reservationDetailInfo(reservation);
-		
-//		model.addAttribute("reservation", reservation);
-		model.addAttribute("reservationClassInfo", reservationClassInfo);
-		model.addAttribute("from",from);
-//		System.out.println("reservationDTO : " + reservation);
-		return "/clish/myPage/myPage_reservation_payForm";
-	}
-	
 	//예약 수정페이지
 	@GetMapping("/payment_info/change")
 	public String reservationChangeForm(HttpSession session, Model model, ReservationDTO reservation, UserDTO user) {
@@ -185,7 +168,7 @@ public class MyPageController {
         });
     }
 	
-	//예약 폼 submit시 수행
+	//예약 수정 폼 submit시 수행
 	@PostMapping("/payment_info/change")
 	public String resrvationChange(ReservationDTO reservation) {
 		System.out.println("수정완료페이지 : " + reservation.getReservationIdx());
