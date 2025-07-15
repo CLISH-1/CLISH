@@ -8,43 +8,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="${pageContext.request.contextPath}/resources/css/the_best_styles.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/admin/modal.css" rel="stylesheet" type="text/css">
 </head>
 <style>
-	.modal {
-		position: absolute;
-		display : none;
-		
-		justify-content: center;
-		top: 0;
-		left: 0;
-		
-		width: 100%;
-		height: 100%;
-		
-		background-color: rgba(0,0,0,0.4);
-	}
 	
-	.modal_body {
-		position: absolute;
-		top: 40%;
-		left: 40%;
-		
-		width: 400px;
-		height: 600px;
-		
-		padding: 40px;
-		
-		text-align: center;
-        background-color: rgb(255,255,255);
-        border-radius:10px;
-        box-shadow:0 2px 3px 0 rgba(34,36,38,0.15);
-        transform:translateY(-50%);
-	}
-	
-	.modal.on {
-		display: block;
-	}
 </style>
 <body>
 	<header>

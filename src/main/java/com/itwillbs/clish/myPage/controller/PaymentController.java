@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,6 +25,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itwillbs.clish.myPage.dto.PaymentCancelDTO;
 import com.itwillbs.clish.myPage.dto.PaymentInfoDTO;
+import com.itwillbs.clish.myPage.dto.ReservationDTO;
 import com.itwillbs.clish.myPage.service.MyPageService;
 import com.itwillbs.clish.myPage.service.PaymentService;
 import com.siot.IamportRestClient.IamportClient;
@@ -37,6 +40,27 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/myPage")
 public class PaymentController {
 	private final PaymentService paymentService;
+	private final MyPageService myPageService;
+	
+	//결제페이지
+	@GetMapping("/payment_info/payReservation")
+	public String payReservationForm(@RequestParam("reservationIdx") String reservationIdx,@RequestParam("from") String from,
+			HttpSession session, Model model, 
+			ReservationDTO reservation) {		
+		reservation.setReservationIdx(reservationIdx);
+		
+//		reservation = myPageService.reservationDetail(reservation);
+		Map<String,Object> reservationClassInfo = myPageService.reservationDetailInfo(reservation);
+		
+//		model.addAttribute("reservation", reservation);
+		model.addAttribute("reservationClassInfo", reservationClassInfo);
+		model.addAttribute("from",from);
+//		System.out.println("reservationDTO : " + reservation);
+		return "/clish/myPage/myPage_reservation_payForm";
+	}
+	
+	
+	
 	
 	@PostMapping(value="/payment/verify", produces="application/json; charset=UTF-8")
 	@ResponseBody
