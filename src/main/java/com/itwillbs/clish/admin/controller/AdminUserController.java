@@ -20,7 +20,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Controller
 @Log4j2
-@RequestMapping("/admin")
+@RequestMapping("admin")
 @RequiredArgsConstructor
 public class AdminUserController {
 	private final AdminUserService adminService;
@@ -70,7 +70,7 @@ public class AdminUserController {
 		UserDTO userInfo = adminService.getuserInfo(idx);
 		
 		model.addAttribute("user", userInfo);
-		return "/admin/user_info";
+		return "/admin/user/user_info";
 	}
 	
 	// 일반 회원 정보 수정
@@ -80,13 +80,13 @@ public class AdminUserController {
 		
 		if (count > 0) {
 			model.addAttribute("msg", "회원 정보를 수정했습니다.");
-			model.addAttribute("targetURL", "/clish/admin/user");
+			model.addAttribute("targetURL", "/admin/user");
 		} else {
 			model.addAttribute("msg", "다시 시도해주세요!");
-			return "common/fail";
+			return "commons/fail";
 		}
 		
-		return "common/result_process";
+		return "commons/result_process";
 	}
 	
 	
@@ -97,13 +97,13 @@ public class AdminUserController {
 		
 		if (count > 0) {
 			model.addAttribute("msg", "탈퇴를 처리했습니다.");
-			model.addAttribute("targetURL", "/clish/admin/user");
+			model.addAttribute("targetURL", "/admin/user");
 		} else {
 			model.addAttribute("msg", "다시 시도해주세요!");
-			return "common/fail";
+			return "commons/fail";
 		}
 		
-		return "common/result_process";
+		return "commons/result_process";
 	}
 	
 	
@@ -117,7 +117,7 @@ public class AdminUserController {
 		// jsp에서 해당 데이터를 보여준다
 		model.addAttribute("companys", companyList);
 		
-		return "/admin/company_list";
+		return "/admin/user/company_list";
 	}
 	
 	// 기업 상세 정보
@@ -130,7 +130,7 @@ public class AdminUserController {
 		// 전달받은 데이터를 jsp로 전달
 		UserDTO companyInfo = adminService.getcompanyInfo(idx);
 		model.addAttribute("company", companyInfo);
-		return "/admin/company_info";
+		return "/admin/user/company_info";
 	}
 	
 	// 기업 승인
@@ -144,13 +144,13 @@ public class AdminUserController {
 		
 		if (success > 0) {
 			model.addAttribute("msg", "승인 완료되었습니다.");
-			model.addAttribute("targetURL", "/clish/admin/company");
+			model.addAttribute("targetURL", "/admin/company");
 		} else {
 			model.addAttribute("msg", "다시 시도해주세요!");
-			return "common/fail";
+			return "commons/fail";
 		}
 		
-		return "common/result_process";
+		return "commons/result_process";
 	}
 	
 	// 기업 승인취소
@@ -163,13 +163,13 @@ public class AdminUserController {
 		
 		if (success > 0) {
 			model.addAttribute("msg", "승인 취소 되었습니다.");
-			model.addAttribute("targetURL", "/clish/admin/company");
+			model.addAttribute("targetURL", "/admin/company");
 		} else {
 			model.addAttribute("msg", "다시 시도해주세요!");
-			return "common/fail";
+			return "commons/fail";
 		}
 		
-		return "common/result_process";
+		return "commons/result_process";
 	}
 	
 	// 기업 정보수정
@@ -183,13 +183,13 @@ public class AdminUserController {
 		
 		if (count > 0) {
 			model.addAttribute("msg", "회원 정보를 수정했습니다.");
-			model.addAttribute("targetURL", "/clish/admin/company");
+			model.addAttribute("targetURL", "/admin/company");
 		} else {
 			model.addAttribute("msg", "다시 시도해주세요!");
-			return "common/fail";
+			return "commons/fail";
 		}
 		
-		return "common/result_process";
+		return "commons/result_process";
 	}
 	
 }

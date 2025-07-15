@@ -24,7 +24,7 @@
 	</select>
 	
 	<!-- 강좌 상세 정보 -->
-	<select id="selectClassInfo" resultType="com.itwillbs.clish.admin.dto.ClassDTO">
+	<select id="selectClassInfo" resultType="com.itwillbs.clish.course.dto.ClassDTO">
 		SELECT
 			class_idx
 			, class_title

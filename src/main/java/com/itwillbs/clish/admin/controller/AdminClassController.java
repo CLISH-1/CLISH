@@ -23,7 +23,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("admin")
 @RequiredArgsConstructor
 public class AdminClassController {
 	private final AdminClassService adminClassService;
@@ -46,7 +46,7 @@ public class AdminClassController {
 	public String categorySvae(CategoryDTO category) {
 		System.out.println("category" + category);
 		
-		return "common/result_process";
+		return "commons/result_process";
 	}
 	
 	// 강좌 리스트
@@ -94,14 +94,14 @@ public class AdminClassController {
 		
 		if (count > 0) {
 			model.addAttribute("msg", "강좌 정보를 수정했습니다.");
-			model.addAttribute("targetURL", "/clish/admin/classList");
+			model.addAttribute("targetURL", "/admin/classList");
 		} else {
 			model.addAttribute("msg", "다시 시도해주세요!");
-			return "common/fail";
+			return "commons/fail";
 		}
 		
 		
-		return "common/result_process";
+		return "commons/result_process";
 	}
 	
 	// 강좌 승인
@@ -111,13 +111,13 @@ public class AdminClassController {
 		
 		if (success > 0) {
 			model.addAttribute("msg", "승인 완료되었습니다.");
-			model.addAttribute("targetURL", "/clish/admin/classList");
+			model.addAttribute("targetURL", "/admin/classList");
 		} else {
 			model.addAttribute("msg", "다시 시도해주세요!");
-			return "common/fail";
+			return "commons/fail";
 		}
 		
-		return "common/result_process";
+		return "commons/result_process";
 	}
 	
 	// 강좌 반려
@@ -127,8 +127,8 @@ public class AdminClassController {
 		notificationService.send("comp2025010120250711", 3, content);
 		
 		model.addAttribute("msg", "반려되었습니다.");
-		model.addAttribute("targetURL", "/clish/admin/classList");
+		model.addAttribute("targetURL", "/admin/classList");
 	
-		return "common/result_process";
+		return "commons/result_process";
 	}
 }
