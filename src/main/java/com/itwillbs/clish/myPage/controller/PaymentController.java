@@ -73,10 +73,10 @@ public class PaymentController {
 			IamportResponse<Payment> response = iamportClient.paymentByImpUid(imp_uid);
 			Payment payment = response.getResponse();
 			result.put("impUid", payment.getImpUid()); // 포트원 결제 고유번호
-			result.put("merchantUid", payment.getMerchantUid()); // 주문번호(예약번호)
+			result.put("reservationIdx", payment.getMerchantUid()); // 주문번호(예약번호)
 			result.put("amount", payment.getAmount()); // 결제금액
 			result.put("status", payment.getStatus()); // 구매상태(paid , ready, cancelled)
-			result.put("userId", payment.getBuyerName()); //구매자 이름
+			result.put("userName", payment.getBuyerName()); //구매자 이름
 			result.put("payMethod", payment.getPayMethod()); // 결제수단
 			result.put("payTime", payment.getPaidAt()); // 결제시각
 			result.put("classTitle", payment.getName()); // 상품명(강의명)
@@ -85,7 +85,7 @@ public class PaymentController {
 			result.put("requestTime", requestTime);
 			result.put("from", payment.getCustomData());
 			result.put("receiptUrl", payment.getReceiptUrl());
-			System.out.println("영수증 " + payment.getReceiptUrl());
+			System.out.println("결제요청영수증 " + payment.getReceiptUrl());
 //			result.put("impUid", payment.getImpUid()); // 포트원 결제 고유번호
 //			result.put("merchantUid", payment.getMerchantUid()); // 주문번호(예약번호)
 //			result.put("amount", payment.getAmount()); // 결제금액
@@ -116,15 +116,14 @@ public class PaymentController {
 	public String payResultPage( PaymentInfoDTO paymentInfoDTO,
 	    @RequestParam(required = false) String imp_uid,
 	    @RequestParam(required = false) String merchant_uid,
-	    @RequestParam("from") String from,
 	    Model model 
 	) {	
 		// paymentInfoDTO로 값 넘어오는거 확인 완료
 		// 결제 테이블에 값 저장 필요[insert]
-		paymentService.putPayInfo(paymentInfoDTO);
 		// 예약 테이블 상태 변경
 		System.out.println(paymentInfoDTO);
-		System.out.println("영수증 " + paymentInfoDTO.getReceiptUrl());
+		System.out.println("결제완료페이지영수증 " + paymentInfoDTO.getReceiptUrl());
+		paymentService.putPayInfo(paymentInfoDTO);
 		//결제 시간, 실패시간 long타입저장, 변환필요
 		String payTime = paymentService.convertUnixToDateTimeString(paymentInfoDTO.getPayTime()/1000L);
 		String failTime = paymentService.convertUnixToDateTimeString(paymentInfoDTO.getFailTime()/1000L);
@@ -132,7 +131,6 @@ public class PaymentController {
 		model.addAttribute("paymentInfoDTO",paymentInfoDTO);
 		model.addAttribute("payTime",payTime);
 		model.addAttribute("failTime",failTime);
-		model.addAttribute("from",from);
 
 //		model.addAttribute("result", paymentInfo.isSuccess());
 //	    model.addAttribute("message", paymentInfo.getMessage());
