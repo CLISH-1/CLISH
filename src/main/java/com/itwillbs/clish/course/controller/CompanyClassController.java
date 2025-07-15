@@ -4,6 +4,7 @@ import java.sql.Date;
 //import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -19,7 +20,7 @@ import com.itwillbs.clish.course.dto.ClassDTO;
 import com.itwillbs.clish.course.service.CompanyClassService;
 
 @Controller
-//@RequestMapping("/company") // -> 우클릭 - properties - web project settings에 company 입력해당 해당 롬복 필요 없음.
+@RequestMapping("/company") // -> 우클릭 - properties - web project settings에 company 입력해당 해당 롬복 필요 없음.
 public class CompanyClassController {
 	private final CompanyClassService companyClassService;
 	
@@ -27,21 +28,29 @@ public class CompanyClassController {
 		this.companyClassService = companyClassService;
 	}
 	
+	// 기업 메인페이지
+	@GetMapping("")
+	public String companyMainForm() {
+		return "company/company_main";	
+	}
+
+	
+	// 기업 마이페이지
 	@GetMapping("/myPage")
 	public String comMyPage() {
-		return "myPage"; 
+		return "company/myPage"; 
 	}
 	
-	
+	// 클래스 관리 페이지
 	@GetMapping("/myPage/classManage")
     public String classManageForm() {
-        return "/class/classManage"; 
+        return "/company/companyClass/classManage"; 
     }
 	
-	
+	// 클래스 등록 페이지
 	@GetMapping("/myPage/registerClass")
     public String registerClassForm() {
-        return "/class/registerClass"; 
+        return "/company/companyClass/registerClass"; 
     }
 	
 	@PostMapping("/myPage/registerClass")
@@ -71,6 +80,8 @@ public class CompanyClassController {
 		    }
 		}
 		companyClass.setClassDays(classDaysValue);
+		companyClass.setUserIdx("comp2025010120250711");
+		companyClass.setCategoryIdx("CT_it_backend");
 	    // ------------------------------------------------------------------------------------------------------
 	    // 강좌 등록
 	    int result = companyClassService.registerClass(companyClass);
@@ -83,7 +94,7 @@ public class CompanyClassController {
 	    
 		
 	    
-	    return "redirect:/myPage/classManage";
+	    return "redirect:company/myPage/classManage";
 	}
 
 	

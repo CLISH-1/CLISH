@@ -33,4 +33,5 @@ public class ClassDTO {
 	private Integer classDays;
 	private String location;
 	private List<String> classDayNames;
+	private String userIdx;
 }

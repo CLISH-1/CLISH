@@ -17,32 +17,32 @@
 <!-- 			<input type="text" name="classIdx" /><br><br> -->
 			
 			<label>강의명 : </label>
-            <input type="text" name="class_title" required><br><br>
+            <input type="text" name="classTitle" required><br><br>
 
             <label>카테고리 ID : </label>
-            <input type="text" name="category_idx" required><br><br>
+            <input type="text" name="categoryIdx" required><br><br>
 
             <label>수강료 : </label>
-            <input type="number" name="class_price" value="0" required><br><br>
+            <input type="number" name="classPrice" value="0" required><br><br>
 
             <label>정원 : </label>
-            <input type="number" name="class_member" required><br><br>
+            <input type="number" name="classMember" required><br><br>
 
             <label>강의 시작일 : </label>
-            <input type="date" name="start_date" required><br><br>
+            <input type="date" name="startDate" required><br><br>
 
             <label>강의 종료일 : </label>
-            <input type="date" name="end_date" required><br><br>
+            <input type="date" name="endDate" required><br><br>
 			
 			<!-- 체크박스로 -->
            <label>수업요일:</label><br>
-			<input type="checkbox" name="class_days_temp" value="1"> 월
-			<input type="checkbox" name="class_days_temp" value="2"> 화
-			<input type="checkbox" name="class_days_temp" value="4"> 수
-			<input type="checkbox" name="class_days_temp" value="8"> 목
-			<input type="checkbox" name="class_days_temp" value="16"> 금
-			<input type="checkbox" name="class_days_temp" value="32"> 토
-			<input type="checkbox" name="class_days_temp" value="64"> 일
+			<input type="checkbox" name="classDays" value="1"> 월
+			<input type="checkbox" name="classDays" value="2"> 화
+			<input type="checkbox" name="classDays" value="4"> 수
+			<input type="checkbox" name="classDays" value="8"> 목
+			<input type="checkbox" name="classDays" value="16"> 금
+			<input type="checkbox" name="classDays" value="32"> 토
+			<input type="checkbox" name="classDays" value="64"> 일
 			<br><br>
 
             <label>장소 : </label>
