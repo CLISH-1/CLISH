@@ -25,8 +25,8 @@
 		
 		<hr>
 		
-		<form action="/clish/myPage/change_user_info" method="post" class="form" name="modifyForm">
-			<table border="solid" >
+		<form action="/myPage/change_user_info" method="post" class="form" name="modifyForm">
+			<table >
 				<tr>
 					<th>ID</th>
 					<td>${sessionScope.sId }</td>
@@ -54,7 +54,7 @@
 				</tr>
 				<tr>
 					<th>우편번호</th>
-					<td><input type="text" name="userPostCode" value="${user.userPostCode }"></td>
+					<td><input type="text" name="userPostcode" value="${user.userPostcode }"></td>
 				</tr>
 				<tr>
 					<th>상세주소</th>

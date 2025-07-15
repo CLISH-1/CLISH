@@ -12,12 +12,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ReservationDTO {
-	int reservationIdx;
+	String reservationIdx;
 	String userId;
 	int reservationMembers;
 	Timestamp reservationClassDate;
 	Timestamp reservationCom;
-	int classIdx;
+	String classIdx;
 	int reservationStatus;
 	BigDecimal priceFin;
 	

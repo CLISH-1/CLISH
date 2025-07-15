@@ -9,11 +9,11 @@
 	<div class="title-fixed">
 		<h1>${sessionScope.sId}'s page</h1>
 	</div>
-	<input type="button" value="개인정보변경" class="slide_btn" onclick="location.href='change_user_info'"><br>
+	<input type="button" value="개인정보변경" class="slide_btn" onclick="location.href='/myPage/change_user_info'"><br>
 	<input type="button" value="즐겨찾기" class="slide_btn"><br>
 	<input type="button" value="나의문의" class="slide_btn"><br>
 	<input type="button" value="작성한 수강평" class="slide_btn"><br>
-	<input type="button" value="결제내역" class="slide_btn" onclick="location.href='payment_info'"><br>
+	<input type="button" value="결제내역" class="slide_btn" onclick="location.href='/myPage/payment_info'"><br>
 	<input type="button" value="회원탈퇴" class="slide_btn"><br>
 </div>
 

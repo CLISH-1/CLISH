@@ -10,4 +10,38 @@
 		FROM USER
 		WHERE user_id = #{userId}
 	</select>
+	
+	<update id="updateUserInfo">
+		UPDATE USER
+		SET
+			user_name = #{userName},
+			user_password = #{userPassword},
+			<if test="newEmail != null and newEmail != ''">
+			user_email = #{newEmail},
+			</if>
+			user_phone_number = #{userPhoneNumber},
+			user_postcode = #{userPostcode},
+			user_address1 = #{userAddress1},
+			user_address2 = #{userAddress2}
+		WHERE
+			user_id = #{userId}
+	</update>
+	
+	<select id="selectAllReservationInfo" resultType="com.itwillbs.clish.myPage.dto.ReservationDTO">
+		SELECT *
+		FROM
+			RESERVATION
+		WHERE 
+			user_idx = #{userIdx} AND reservation_status = 1
+		ORDER BY
+			reservation_com
+	</select>
+	
+	<select id="selectOneReservationInfo" resultType="com.itwillbs.clish.myPage.dto.ReservationDTO">
+		SELECT *
+		FROM
+			RESERVATION
+		WHERE
+			reservation_idx = #{reservationIdx}
+	</select>
 </mapper>
