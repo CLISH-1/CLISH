@@ -65,6 +65,9 @@ form#search-form {
 }
 #top-menu {
     border-bottom: 1.2px solid #d9d9d9;
+    border-right: none;
+    border-left: none;
+    border-top: none;
 }
 input#search {
     background-image: url("/resources/images/search.png");
@@ -132,6 +135,8 @@ input#search {
     display: none;
     flex-direction: row;
     justify-content: center;
+    top: 100px;
+    left: 0;
     position: absolute;
     background-color: white;
     border: 1px solid #ccc;

@@ -1,4 +1,4 @@
-package com.itwillbs.clish;
+package com.itwillbs.clish.home.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -38,7 +38,9 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "home";
+//		return "home";
+		return "main";
+		
 	}
 	@PostMapping("/home")
 	public String login(UserDTO user, HttpSession session) {
@@ -48,7 +50,8 @@ public class HomeController {
 		session.setAttribute("sId", user.getUserId());
 		
 		
-		return "home";
+//		return "home";
+		return "main";
 	}
 	
 }
