@@ -1,13 +1,12 @@
 package com.itwillbs.clish.admin.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.clish.admin.dto.NotificationDTO;
-import com.itwillbs.clish.admin.dto.UserDTO;
+import com.itwillbs.clish.user.dto.UserDTO;
 
 
 @Mapper
