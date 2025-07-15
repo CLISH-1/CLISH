@@ -103,14 +103,14 @@
 		var reservationIdx = btn.getAttribute('data-reservation-num');
 		console.log("예약번호 :" + reservationIdx);
 		console.log("예약정보수정페이지이동");
-		location.href="/clish/myPage/payment_info/change?reservationIdx=" + reservationIdx;
+		location.href="/myPage/payment_info/change?reservationIdx=" + reservationIdx;
 	}
 	
 	function payReservation(btn) {
 	    var reservationIdx = btn.getAttribute('data-reservation-num');
 		var from = btn.getAttribute('data-from');
 	    window.open(
-	        '/clish/myPage/payment_info/payReservation?reservationIdx=' + encodeURIComponent(reservationIdx)
+	        '/myPage/payment_info/payReservation?reservationIdx=' + encodeURIComponent(reservationIdx)
 	        + '&from=' + encodeURIComponent(from),
 	        'payReservation',
 	        `width=600,height=1500,resizable=yes,scrollbars=yes`

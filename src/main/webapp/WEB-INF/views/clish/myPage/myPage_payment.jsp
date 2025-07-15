@@ -149,7 +149,7 @@
 	    var reservationIdx = btn.getAttribute('data-reservation-num');
 		var from = btn.getAttribute('data-from'); 
 	    window.open(
-	        '/clish/myPage/payment_info/payReservation?reservationIdx=' + encodeURIComponent(reservationIdx)
+	        '/myPage/payment_info/payReservation?reservationIdx=' + encodeURIComponent(reservationIdx)
 	        + '&from=' + encodeURIComponent(from),
 	        'payReservation',
 	        `width=600,height=1500,resizable=yes,scrollbars=yes`
@@ -159,7 +159,7 @@
 	function cancelPayment(btn) {
 		var reservationIdx = btn.getAttribute('data-reservation-num');
 		window.open(
-			'/clish/myPage/payment_info/cancelPayment?reservationIdx=' + encodeURIComponent(reservationIdx),			
+			'/myPage/payment_info/cancelPayment?reservationIdx=' + encodeURIComponent(reservationIdx),			
 			'paymentInfo',
 			`width=600,height=1500, resizable=yes, scrollbars=yes`
 		);
@@ -168,7 +168,7 @@
 	function paymentInfo(btn) {
 		var reservationIdx = btn.getAttribute('data-reservation-num');
 		window.open(
-			'/clish/myPage/payment_info/paymentInfo?reservationIdx=' + encodeURIComponent(reservationIdx),			
+			'/myPage/payment_info/paymentInfo?reservationIdx=' + encodeURIComponent(reservationIdx),			
 			'paymentInfo',
 			`width=600,height=1500, resizable=yes, scrollbars=yes`
 		);

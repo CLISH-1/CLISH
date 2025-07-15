@@ -135,19 +135,18 @@ public class MyPageController {
 		
 		model.addAttribute("user", user);
 		model.addAttribute("reservationClassInfo", reservationDetailInfo);
-		System.out.println("페이지넘어간다!");
 		return "/clish/myPage/myPage_reservation_detail";
 	}
 
 	//결제페이지
 	@GetMapping("/payment_info/payReservation")
-	public String payReservationForm(@RequestParam("reservationIdx") int reservationIdx,@RequestParam("from") String from,
+	public String payReservationForm(@RequestParam("reservationIdx") String reservationIdx,@RequestParam("from") String from,
 			HttpSession session, Model model, 
 			ReservationDTO reservation) {		
 		reservation.setReservationIdx(reservationIdx);
 		
 //		reservation = myPageService.reservationDetail(reservation);
-		Map<String,Object> reservationClassInfo = myPageService.reservationClassInfo(reservation);
+		Map<String,Object> reservationClassInfo = myPageService.reservationDetailInfo(reservation);
 		
 //		model.addAttribute("reservation", reservation);
 		model.addAttribute("reservationClassInfo", reservationClassInfo);
@@ -158,18 +157,17 @@ public class MyPageController {
 	
 	//예약 수정페이지
 	@GetMapping("/payment_info/change")
-	public String reservationChangeForm(@RequestParam("reservationIdx") int reservationIdx, HttpSession session, Model model, 
-			ReservationDTO reservation) {
-		System.out.println(reservationIdx); // 파라미터 잘 넘어옴
-		reservation.setReservationIdx(reservationIdx);
-		
-//		reservation = myPageService.reservationDetail(reservation);
-		Map<String,Object> reservationClassInfo = myPageService.reservationClassInfo(reservation); 
-//		model.addAttribute("reservation", reservation);
+	public String reservationChangeForm(HttpSession session, Model model, ReservationDTO reservation, UserDTO user) {
+		String id = (String)session.getAttribute("sId");
+		user.setUserId(id);
+		user = myPageService.getUserInfo(user); // 예약자 정보
+		Map<String,Object> reservationClassInfo = myPageService.reservationDetailInfo(reservation); 
 		model.addAttribute("reservationClassInfo", reservationClassInfo);
+		model.addAttribute("user",user);
 		
 		return "/clish/myPage/myPage_reservation_change";
 	}
+	
 	// 폼 submit시 DTO에 주입할 데이터 변경[SQL : DATETIME -> DTO TIMESTAMP]
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -190,11 +188,10 @@ public class MyPageController {
 	//예약 폼 submit시 수행
 	@PostMapping("/payment_info/change")
 	public String resrvationChange(ReservationDTO reservation) {
-		System.out.println("rservation : " + reservation);
-		System.out.println("이동완료");
+		System.out.println("수정완료페이지 : " + reservation.getReservationIdx());
 		
 		myPageService.changeReservation(reservation);
-		
+//		return "";
 		return "redirect:/myPage/payment_info/detail?reservationIdx=" + reservation.getReservationIdx();
 	}
 	

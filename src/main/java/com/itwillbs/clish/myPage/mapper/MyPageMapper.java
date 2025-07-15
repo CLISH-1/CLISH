@@ -24,13 +24,14 @@ public interface MyPageMapper {
 
 	ClassDTO selectOneClassInfo(ReservationDTO reservation);
 
+	Map<String, Object> ReservationDetailInfo(ReservationDTO reservation);
+
 	int deleteReservation(ReservationDTO reservation);
 
 	ReservationDTO selectReservationDetail(ReservationDTO reservation);
 
 	void updateReservationInfo(ReservationDTO reservation);
 
-	Map<String, Object> ReservationDetailInfo(ReservationDTO reservation);
 
 
 
