@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.itwillbs.clish.course.dto.ClassDTO;
 import com.itwillbs.clish.myPage.dto.ReservationDTO;
 import com.itwillbs.clish.myPage.mapper.MyPageMapper;
 import com.itwillbs.clish.user.dto.UserDTO;
@@ -37,25 +38,26 @@ public class MyPageService {
 		return myPageMapper.selectOneReservationInfo(reservation);
 	}
 
-	public int cancelReservation(String id, int reservationIdx) {
-		// TODO Auto-generated method stub
-		return myPageMapper.deleteReservation(id, reservationIdx);
+	public ClassDTO getClassInfo(ReservationDTO reservation) {
+		return myPageMapper.selectOneClassInfo(reservation);
+	}
+
+	public int cancelReservation(ReservationDTO reservation) {
+		return myPageMapper.deleteReservation(reservation);
 	}
 	
 	public ReservationDTO reservationDetail(ReservationDTO reservation) {
-		// TODO Auto-generated method stub
 		return myPageMapper.selectReservationDetail(reservation);
 	}
 	
-	public Map<String, Object> reservationClassInfo(ReservationDTO reservation) {
-		// TODO Auto-generated method stub
-		return myPageMapper.selectReservationClass(reservation);
+	public Map<String, Object> reservationDetailInfo(ReservationDTO reservation) {
+		return myPageMapper.ReservationDetailInfo(reservation);
 	}
 
 	public void changeReservation(ReservationDTO reservation) {
-		// TODO Auto-generated method stub
 		myPageMapper.updateReservationInfo(reservation);
 	}
+
 
 
 }

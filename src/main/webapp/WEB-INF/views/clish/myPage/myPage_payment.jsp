@@ -109,13 +109,13 @@
 		if(confirm("정말로 예약을 취소하시겠습니까?")){
 		    // 1. 버튼의 data- 속성에서 예약번호 읽기
 		    var reservationIdx = btn.getAttribute('data-reservation-num');
-		
+			console.log(reservationIdx);
 		    // 2. 필요하면 같은 행의 다른 정보도 읽을 수 있음
 		    // var row = btn.closest('tr');
 		    // var userId = row.cells[1].innerText;
 		
 		    // 3. 서버로 AJAX 전송 (fetch 사용)
-		    fetch('/clish/myPage/payment_info/cancel', {
+		    fetch('/myPage/payment_info/cancel', {
 		        method: 'POST',
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 		        body: 'reservationIdx=' + encodeURIComponent(reservationIdx)
@@ -149,7 +149,7 @@
 	    var reservationIdx = btn.getAttribute('data-reservation-num');
 		var from = btn.getAttribute('data-from'); 
 	    window.open(
-	        '/clish/myPage/payment_info/payReservation?reservationIdx=' + encodeURIComponent(reservationIdx)
+	        '/myPage/payment_info/payReservation?reservationIdx=' + encodeURIComponent(reservationIdx)
 	        + '&from=' + encodeURIComponent(from),
 	        'payReservation',
 	        `width=600,height=1500,resizable=yes,scrollbars=yes`
@@ -159,7 +159,7 @@
 	function cancelPayment(btn) {
 		var reservationIdx = btn.getAttribute('data-reservation-num');
 		window.open(
-			'/clish/myPage/payment_info/cancelPayment?reservationIdx=' + encodeURIComponent(reservationIdx),			
+			'/myPage/payment_info/cancelPayment?reservationIdx=' + encodeURIComponent(reservationIdx),			
 			'paymentInfo',
 			`width=600,height=1500, resizable=yes, scrollbars=yes`
 		);
@@ -168,7 +168,7 @@
 	function paymentInfo(btn) {
 		var reservationIdx = btn.getAttribute('data-reservation-num');
 		window.open(
-			'/clish/myPage/payment_info/paymentInfo?reservationIdx=' + encodeURIComponent(reservationIdx),			
+			'/myPage/payment_info/paymentInfo?reservationIdx=' + encodeURIComponent(reservationIdx),			
 			'paymentInfo',
 			`width=600,height=1500, resizable=yes, scrollbars=yes`
 		);

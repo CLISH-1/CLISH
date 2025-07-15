@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.itwillbs.clish.course.dto.ClassDTO;
 import com.itwillbs.clish.myPage.dto.ReservationDTO;
 import com.itwillbs.clish.myPage.service.MyPageService;
 import com.itwillbs.clish.user.dto.UserDTO;
@@ -32,59 +33,41 @@ public class MyPageController {
 	// 마이페이지 메인
 	@GetMapping("/main")
 	public String myPage_main() {
-		
 		return "/clish/myPage/myPage_main";
 	}
 	
 	// 마이페이지 정보변경
 	@GetMapping("/change_user_info")
 	public String mypage_change_user_info_main(HttpSession session) {
-		System.out.println("세션아이디 확인 : "+session.getAttribute("sId"));
-
 		return "/clish/myPage/myPage_change_user_info";
 	}
 	
 	// 비밀번호 확인 일치시 수정페이지로 불일치시 비밀번호가 틀렸습니다 메시지
 	@PostMapping("/change_user_info_form")
 	public String mypage_change_user_info_form(UserDTO user, HttpSession session, Model model) {
-//		System.out.println("세션 ID : " + session.getId());
-//		System.out.println("세션 sId : " + session.getAttribute("sId"));
 		String inputPw = user.getUserPassword();
-		// session의 sId 확인, 존재하지 않으면 예외처리
 		if(session.getAttribute("sId") == null) {
-			System.out.println("로그인필요 세션아이디없음");
-		} else { // sId 있으면 sId 정보 userDTO 불러오기
-//			System.out.println("정보변경 비밀번호 확인 : " + inputPw); // 입력한 비밀번호 받아오기 성공
-//			System.out.println("세션아이디있음");
+			model.addAttribute("msg","로그인 이용후 사용가능한 페이지입니다.");
+			model.addAttribute("targetUrl","/");
+		} 
 			
-			user.setUserId((String)session.getAttribute("sId"));
-			
-			user = myPageService.getUserInfo(user);
-			
-			System.out.println(user); //입력된 id 의 유저정보 불러오기
-			
-		}
-		// session의 sId와 일치하는 id정보 db에서 받아오기
-		// id정보와 pw 일치여부 판별
-		System.out.println("입력된 비밀번호 : " + inputPw);
-		System.out.println("DB비밀번호 : " + user.getUserPassword());
+		user.setUserId((String)session.getAttribute("sId"));
+		user = myPageService.getUserInfo(user);
 		
 		if(user.getUserPassword().equals(inputPw)) {
 			System.out.println("정보변경으로이동");
 			model.addAttribute("user", user);
 			return "clish/myPage/myPage_change_user_info_form"; //비밀번호 일치시 이동페이지
 		}
-		
-		System.out.println("비밀번호가 일치하지 않습니다");
+		model.addAttribute("msg","비밀번호가 틀렸습니다.");
+		model.addAttribute("targetUrl","myPage/change_user_info_form");
 		return "/clish/myPage/myPage_change_user_info";
-//		return "";
 	}
 	
 	// 수정정보 UPDATE문 으로 반영후 정보변경 메인페이지로 이동
 	@PostMapping("/change_user_info")
 	public String mypage_change_user_info(UserDTO user, HttpSession session,
 			@RequestParam("new_password2") String new_password) {
-//		System.out.println(user); // 수정정보 받아오기 성공
 		user.setUserId((String)session.getAttribute("sId"));
 		
 		UserDTO user1 = myPageService.getUserInfo(user); // 기존 유저 정보 불러오기
@@ -93,18 +76,14 @@ public class MyPageController {
 			user.setNewEmail(user.getUserEmail());
 		}
 		
-		System.out.println("new_password = " + new_password);
-		System.out.println(new_password.isEmpty());
-		
 		if(!new_password.isEmpty()) { // 새비밀번호가 있다면 비밀번호 새로지정
 			user.setUserPassword(new_password);
 		}else { // 아니면 기존 비밀번호 유지
 			user.setUserPassword(user1.getUserPassword());
 		}
+				
+		myPageService.setUserInfo(user);
 		
-		int count = myPageService.setUserInfo(user);
-		System.out.println(count + "회 업데이트 완료");
-//		return "";
 		return "redirect:/myPage/change_user_info";
 	}
 	
@@ -116,10 +95,8 @@ public class MyPageController {
 		String sId = (String)session.getAttribute("sId");
 		user.setUserId(sId);
 		user = myPageService.getUserInfo(user);
-		System.out.println(sId);
-		
+
 		if(sId != null && !sId.equals("")) {
-			//예약목록 List에 저장, model로 전송
 			List<ReservationDTO> reservationList = myPageService.getReservationInfo(user); 
 			model.addAttribute("reservationList",reservationList);
 			model.addAttribute("user",user);
@@ -134,10 +111,12 @@ public class MyPageController {
 	//예약 취소
 	@PostMapping(value="/payment_info/cancel", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public String cancelReservation(@RequestParam("reservationIdx") int reservationIdx, HttpSession session) {
-	    // reservationIdx으로 예약 취소 처리
-		String id = (String)session.getAttribute("sId");
-	    int count = myPageService.cancelReservation(id, reservationIdx);
+	public String cancelReservation(@RequestParam("reservationIdx") String reservationIdx, HttpSession session,
+			ReservationDTO reservation) {
+		System.out.println("reservationIdx" + reservationIdx);
+		reservation.setReservationIdx(reservationIdx);
+		System.out.println("DTO : " + reservation.getReservationIdx());
+	    int count = myPageService.cancelReservation(reservation);
 	    if(count == 0) {
 	    	return "예약취소 실패";
 	    }
@@ -147,26 +126,27 @@ public class MyPageController {
 	
 	//예약상세보기
 	@GetMapping("/payment_info/detail")
-	public String reservationDetail(HttpSession session, Model model, ReservationDTO reservation) {
-//		System.out.println("예약상세 확인" + reservation.getReservationIdx());
-		reservation = myPageService.getReservationInfo(reservation);
-//		Map<String,Object> reservationClassInfo = myPageService.reservationClassInfo(reservation); 
-		model.addAttribute("reservation", reservation);
-//		model.addAttribute("reservationClassInfo", reservationClassInfo);
+	public String reservationDetail(HttpSession session, Model model, ReservationDTO reservation, UserDTO user, ClassDTO claSs) {
+		String id = (String)session.getAttribute("sId");
+		user.setUserId(id);
+		user = myPageService.getUserInfo(user); // 예약자 정보
 		
-//		System.out.println("reservationDTO : " + reservation);
+		Map<String,Object> reservationDetailInfo = myPageService.reservationDetailInfo(reservation); 
+		
+		model.addAttribute("user", user);
+		model.addAttribute("reservationClassInfo", reservationDetailInfo);
 		return "/clish/myPage/myPage_reservation_detail";
 	}
 
 	//결제페이지
 	@GetMapping("/payment_info/payReservation")
-	public String payReservationForm(@RequestParam("reservationIdx") int reservationIdx,@RequestParam("from") String from,
+	public String payReservationForm(@RequestParam("reservationIdx") String reservationIdx,@RequestParam("from") String from,
 			HttpSession session, Model model, 
 			ReservationDTO reservation) {		
 		reservation.setReservationIdx(reservationIdx);
 		
 //		reservation = myPageService.reservationDetail(reservation);
-		Map<String,Object> reservationClassInfo = myPageService.reservationClassInfo(reservation);
+		Map<String,Object> reservationClassInfo = myPageService.reservationDetailInfo(reservation);
 		
 //		model.addAttribute("reservation", reservation);
 		model.addAttribute("reservationClassInfo", reservationClassInfo);
@@ -177,18 +157,17 @@ public class MyPageController {
 	
 	//예약 수정페이지
 	@GetMapping("/payment_info/change")
-	public String reservationChangeForm(@RequestParam("reservationIdx") int reservationIdx, HttpSession session, Model model, 
-			ReservationDTO reservation) {
-		System.out.println(reservationIdx); // 파라미터 잘 넘어옴
-		reservation.setReservationIdx(reservationIdx);
-		
-//		reservation = myPageService.reservationDetail(reservation);
-		Map<String,Object> reservationClassInfo = myPageService.reservationClassInfo(reservation); 
-//		model.addAttribute("reservation", reservation);
+	public String reservationChangeForm(HttpSession session, Model model, ReservationDTO reservation, UserDTO user) {
+		String id = (String)session.getAttribute("sId");
+		user.setUserId(id);
+		user = myPageService.getUserInfo(user); // 예약자 정보
+		Map<String,Object> reservationClassInfo = myPageService.reservationDetailInfo(reservation); 
 		model.addAttribute("reservationClassInfo", reservationClassInfo);
+		model.addAttribute("user",user);
 		
 		return "/clish/myPage/myPage_reservation_change";
 	}
+	
 	// 폼 submit시 DTO에 주입할 데이터 변경[SQL : DATETIME -> DTO TIMESTAMP]
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -209,11 +188,10 @@ public class MyPageController {
 	//예약 폼 submit시 수행
 	@PostMapping("/payment_info/change")
 	public String resrvationChange(ReservationDTO reservation) {
-		System.out.println("rservation : " + reservation);
-		System.out.println("이동완료");
+		System.out.println("수정완료페이지 : " + reservation.getReservationIdx());
 		
 		myPageService.changeReservation(reservation);
-		
+//		return "";
 		return "redirect:/myPage/payment_info/detail?reservationIdx=" + reservation.getReservationIdx();
 	}
 	

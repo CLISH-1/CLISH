@@ -17,18 +17,22 @@
 	
 	<div id="main">
 	
-		<h1>예약상세페이지</h1>
+		<h1>예약상세페이지${reservationClassInfo.class_price }</h1>
+		
 		<table >
 			<tr>
-				<th rowspan="3">클래스이미지</th>
+				<th rowspan="5">클래스이미지</th>
 				<th>${reservationClassInfo.class_title}</th>
 			</tr>
+			<tr><th>클래스정원</th></tr>
 			<tr>
-				<th>${reservationClassInfo.class_members}</th>
-			</tr> 
-			<tr>
-				<th>${reservationClassInfo.remain_seats}</th>
+				<th>${reservationClassInfo.class_member}</th>
 			</tr>
+			<tr><th>남은자리</th></tr> 
+			<tr>
+				<th>${reservationClassInfo.remainSeats}</th>
+			</tr>
+			<tr><th>시작일</th><th>종료일</th></tr>
 			<tr>
 				<th>${reservationClassInfo.start_date}</th>
 				<th>${reservationClassInfo.end_date}</th>
@@ -49,12 +53,12 @@
 			</tr>
         	<tr>
         		<td>${reservationClassInfo.reservation_idx}</td>
-				<td>${reservationClassInfo.user_id}</td>
+				<td>${user.userName}</td>
 				<td>${reservationClassInfo.class_title}</td>
 				<td>${reservationClassInfo.reservation_class_date}</td>
 				<td>${reservationClassInfo.reservation_members}</td>
 				<td>${reservationClassInfo.reservation_com}</td>
-				<td>${reservationClassInfo.price_fin }</td>
+				<td>${reservationClassInfo.reservation_members * reservationClassInfo.class_price}</td>
 				<td><input type="button" value="취소" data-reservation-num="${reservationClassInfo.reservation_idx}"
          onclick="cancelReservation(this)"></td>
 				<td><input type="button" value="수정" data-reservation-num="${reservationClassInfo.reservation_idx}"
@@ -78,12 +82,7 @@
 		    // 1. 버튼의 data- 속성에서 예약번호 읽기
 		    var reservationIdx = btn.getAttribute('data-reservation-num');
 		
-		    // 2. 필요하면 같은 행의 다른 정보도 읽을 수 있음
-		    // var row = btn.closest('tr');
-		    // var userId = row.cells[1].innerText;
-		
-		    // 3. 서버로 AJAX 전송 (fetch 사용)
-		    fetch('/clish/myPage/payment_info/cancel', {
+		    fetch('/myPage/payment_info/cancel', {
 		        method: 'POST',
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 		        body: 'reservationIdx=' + encodeURIComponent(reservationIdx)
@@ -104,14 +103,14 @@
 		var reservationIdx = btn.getAttribute('data-reservation-num');
 		console.log("예약번호 :" + reservationIdx);
 		console.log("예약정보수정페이지이동");
-		location.href="/clish/myPage/payment_info/change?reservationIdx=" + reservationIdx;
+		location.href="/myPage/payment_info/change?reservationIdx=" + reservationIdx;
 	}
 	
 	function payReservation(btn) {
 	    var reservationIdx = btn.getAttribute('data-reservation-num');
 		var from = btn.getAttribute('data-from');
 	    window.open(
-	        '/clish/myPage/payment_info/payReservation?reservationIdx=' + encodeURIComponent(reservationIdx)
+	        '/myPage/payment_info/payReservation?reservationIdx=' + encodeURIComponent(reservationIdx)
 	        + '&from=' + encodeURIComponent(from),
 	        'payReservation',
 	        `width=600,height=1500,resizable=yes,scrollbars=yes`

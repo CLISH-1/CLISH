@@ -4,8 +4,10 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class UserDTO {
 	private String userIdx;
 	private String userName;

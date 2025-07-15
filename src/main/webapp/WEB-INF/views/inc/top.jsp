@@ -6,6 +6,7 @@
 <div id="top_menu">
 
 <h1>top menu</h1>
+<a href="/">홈</a>
 
 </div>
 <hr>

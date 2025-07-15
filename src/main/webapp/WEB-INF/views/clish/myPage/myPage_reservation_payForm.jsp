@@ -123,13 +123,13 @@
 	    if (rsp.success) {
 			console.log("테스트 확인");
 		    // 결제 성공 시 서버에 결제정보 전달
-		    $.post("/clish/myPage/payment/verify", { imp_uid: rsp.imp_uid }, function(data) {
+		    $.post("/myPage/payment/verify", { imp_uid: rsp.imp_uid }, function(data) {
 //				console.log("이동 직전!", rsp.imp_uid, rsp.merchant_uid);
 //				alert("JSON.stringify(data, null, 2)"); 
 //			      // 서버 검증 후 처리
 				if (!isMobile()) {
 		        window.location.href =
-		          "/clish/myPage/payment_info/payResult"
+		          "/myPage/payment_info/payResult"
 		            + "?impUid=" + data.impUid
 		            + "&merchantUid=" + data.merchantUid
 					+ `&amount=`+ data.amount 
