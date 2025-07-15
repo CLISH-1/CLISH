@@ -27,7 +27,7 @@
 		WHERE reservation_idx = #{merchantUid}
 	</update>
 	
-	<select id="selectPayResult" resultType="com.itwill.clish.payment.dto.PaymentInfoDTO">	
+	<select id="selectPayResult" resultType="com.itwillbs.clish.myPage.dto.PaymentInfoDTO">	
 		SELECT *
 		from payment_info
 		where merchant_uid = #{merchantUid}
