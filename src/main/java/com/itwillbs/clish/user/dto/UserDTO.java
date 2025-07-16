@@ -12,7 +12,7 @@ public class UserDTO {
 	private String userIdx;
 	private String userName;
 	private String userRepName;
-	private Timestamp userBirth;
+	private Date userBirth;
 	private String userGender;
 	private String userId;
 	private String userPassword;
