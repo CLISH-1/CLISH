@@ -3,30 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee; https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-	<!-- 
-	스프링에 필요한 기본 설정이 기술된 root-context.xml 과 servlet-context.xml 등의 설정 파일을 
-	다른 위치로 이동했을 경우 web.xml 파일에 해당 위치가 기술되어야 한다.
-	1) root-context.xml : 웹과 관련없는 스프링 빈들을 관리하는 ContextLoaderListener 객체를 통한 
-	                      Root WebApplicationContext 영역 객체 설정
-	   => 기본 위치 : /WEB-INF/spring/root-context.xml
-	   => 변경할 위치 : src/main/resources/config/root-context.xml
-	    
-	2) servlet-context.xml : 웹과 관련된 작업을 처리하는 스프링 빈들을 관리하는 DispatcherServlet 객체 설정
-	   => 기본 위치 : /WEB-INF/spring/appServlet/servlet-context.xml
-	   => 변경할 위치 : src/main/resources/config/servlet-context.xml 
-	   
-	=> 이 때, src/main/resources 경로는 classpath:/ 로 대체해서 지정!
-	=> 참고) 복수개의 설정 파일이 있을 경우 줄바꿈을 통해 복수개를 차례대로 기술
-	-->
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-<!-- 		<param-value>/WEB-INF/spring/root-context.xml</param-value> -->
 		<param-value>classpath:/config/root-context.xml</param-value>
 	</context-param>
-	<!-- INFO : org.springframework.web.context.ContextLoader - Root WebApplicationContext: initialization completed -->
-	<!-- 위의 메세지가 콘솔에 출력되어 있을 경우 root-context.xml 파일 내의 설정 내용이 틀리지 않았다는 의미 -->
-	<!-- =================================================================================================== -->
 	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
@@ -51,7 +32,6 @@
 	</servlet-mapping>
 
 	<!-- ================================================================================= -->
-	<!-- Tomcat 9.x 이하 버전 사용 시 POST 방식 파라미터에 대한 한글 등의 인코딩 필터 설정 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -65,8 +45,6 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
-
 </web-app>
 
 
