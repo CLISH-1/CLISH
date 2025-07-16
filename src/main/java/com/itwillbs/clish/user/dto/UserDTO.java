@@ -13,13 +13,13 @@ public class UserDTO {
 	private String userName;
 	private String userRepName;
 	private Timestamp userBirth;
-	private char userGender;
+	private String userGender;
 	private String userId;
 	private String userPassword;
 	private String userEmail;
 	private String newEmail;
 	private String userEmailToken;
-	private char userEmailAuthYn;
+	private String userEmailAuthYn;
 	private String userPhoneNumber;
 	private String userPhoneNumberSub;
 	private String userPostcode;
