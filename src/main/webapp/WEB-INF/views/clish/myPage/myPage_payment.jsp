@@ -27,7 +27,7 @@
 		<h1>${sessionScope.sId}의 페이지</h1>
 		<hr>
 		<h3>결제내역</h3>
-		<input type="hidden" id="parent" value="list">
+<!-- 		<input type="hidden" id="parent" value="list"> -->
 		<div>
 			<h3>예약 목록</h3>
 			<table border="solid 1px">
@@ -70,30 +70,30 @@
 			<h3>결제 목록</h3>
 			<table border="solid 1px">
 				<tr>
-					<th>결제상태</th>
-					<th>예약번호</th>
-					<th>유저아이디</th>
-					<th>클래스아이디</th>
-					<th>예약요청일</th>
-					<th>예약완료일</th>
+					<th>결제 번호</th>
+					<th>예약 번호</th>
+					<th>결제 상태</th>
+					<th>유저이름</th>
+					<th>클래스명</th>
+					<th>결제요청시각</th>
+					<th>결제완료시각</th>
 					<th>취소</th>
 					<th>상세보기</th>
 				</tr>
-				<c:forEach var="reserve" items="${reservationList }" >
-					<c:if test="${reserve.reservationStatus == 2}">
-			        	<tr>
-			        		<td><c:if test="${reserve.reservationStatus eq 2 }">결제완료</c:if></td>
-			        		<td>${reserve.reservationIdx}</td>
-							<td>${reserve.userId}</td>
-							<td>${reserve.classIdx}</td>
-							<td>${reserve.reservationClassDate}</td>
-							<td>${reserve.reservationCom}</td>
-							<td><input type="button" value="결제취소" data-reservation-num="${reserve.reservationIdx}"
-		          onclick="cancelPayment(this)"></td>
-							<td><input type="button" value="상세보기" data-reservation-num="${reserve.reservationIdx}"
-		          onclick="paymentInfo(this)"> </td>
-			        	</tr>
-			        </c:if>
+				<c:forEach var="payment" items="${paymentList }" >
+		        	<tr>
+		        		<td>${payment.imp_uid }</td>
+		        		<td>${payment.reservation_idx}</td>
+		        		<td>${payment.status }</td>
+						<td>${payment.user_name}</td>
+						<td>${payment.class_title}</td>
+						<td>${payment.request_time}</td>
+						<td>${payment.pay_time}</td>
+						<td><input type="button" value="결제취소" data-reservation-num="${reserve.reservationIdx}"
+	          onclick="cancelPayment(this)"></td>
+						<td><input type="button" value="상세보기" data-reservation-num="${reserve.reservationIdx}"
+	          onclick="paymentInfo(this)"> </td>
+		        	</tr>
 	       		</c:forEach>
 			</table>
 		</div>
@@ -114,7 +114,7 @@
 		if(confirm("정말로 예약을 취소하시겠습니까?")){
 		    // 1. 버튼의 data- 속성에서 예약번호 읽기
 		    var reservationIdx = btn.getAttribute('data-reservation-num');
-			console.log(reservationIdx);
+// 			console.log(reservationIdx);
 		    // 2. 필요하면 같은 행의 다른 정보도 읽을 수 있음
 		    // var row = btn.closest('tr');
 		    // var userId = row.cells[1].innerText;
@@ -153,7 +153,7 @@
 	function payReservation(btn) {
 	    var reservationIdx = btn.getAttribute('data-reservation-num'); 
 	    window.open(
-	        '/myPage/payment_info/payReservation?reservationIdx=' + encodeURIComponent(reservationIdx),
+	        '/myPage/payment_info/payReservation?from=list&reservationIdx=' + encodeURIComponent(reservationIdx),
 	        'payReservation',
 	        `width=600,height=1500,resizable=yes,scrollbars=yes`
 	    );

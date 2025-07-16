@@ -13,11 +13,7 @@
 	</select>
 	
 	<select id="selecCategoryByIdx" resultType="com.itwillbs.clish.admin.dto.CategoryDTO">
-		SELECT 
-			category_idx
-			, category_name
-			, depth
-			, parent_idx
+		SELECT *
 		FROM
 			CATEGORY
 		WHERE 
@@ -42,12 +38,12 @@
 			, #{categoryName}
 			, #{depth}
 			<choose>
-			<when test="depth == 2">
-			, #{parentIdx}
-			</when>
 			<when test="depth == 1">
-			, null
+				,null
 			</when>
+			<otherwise>
+				,#{parentIdx}
+			</otherwise>
 			</choose>
 			, #{sortOrder}
 		)

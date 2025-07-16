@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.clish.user.mapper.UserMapper">
+	
+	 <insert id="insertUser" parameterType="com.itwillbs.clish.user.dto.UserDTO">
+        INSERT INTO USER SET
+            user_idx               = #{userIdx}
+          , user_name              = #{userName}
+          , user_rep_name          = #{userRepName}
+          , user_birth             = #{userBirth}
+          , user_gender            = #{userGender}
+          , user_id                = #{userId}
+          , user_password          = #{userPassword}
+          , user_email             = #{userEmail}
+          , user_email_token       = ""
+          , user_email_auth_yn     = "Y"
+          , user_phone_number      = #{userPhoneNumber}
+          , user_phone_number_sub  = #{userPhoneNumberSub}
+          , user_postcode          = #{userPostcode}
+          , user_address1          = #{userAddress1}
+          , user_address2          = #{userAddress2}
+          , user_status            = 1
+          , user_reg_date          = NOW()
+          , user_withdraw_date     = #{userWithdrawDate}
+          , user_type              = #{userType}
+          , user_penalty_count     = 0
+    </insert>
+	<insert id="insertCompany" parameterType="com.itwillbs.clish.user.dto.CompanyDTO">
+        INSERT INTO COMPANY SET
+            user_idx         = #{userIdx}
+          , biz_reg_no       = #{bizRegNo}
+          , biz_file_name    = #{bizFileName}
+          , biz_file         = #{bizFile}
+    </insert>
+    
+	<select id="selectUserId" parameterType="String" resultType="com.itwillbs.clish.user.dto.UserDTO">
+	    SELECT
+	        user_idx,
+	        user_name,
+	        user_rep_name,
+	        user_birth,
+	        user_gender,
+	        user_id,
+	        user_password,
+	        user_email,
+	        user_email_token,
+	        user_email_auth_yn,
+	        user_phone_number,
+	        user_phone_number_sub,
+	        user_postcode,
+	        user_address1,
+	        user_address2,
+	        user_status,
+	        user_reg_date,
+	        user_withdraw_date,
+	        user_type,
+	        user_penalty_count
+	    FROM
+	        user
+	    WHERE
+	        user_id = #{userId}
+	</select>
+
+
+</mapper>  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

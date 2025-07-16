@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.clish.course.dto.ClassDTO;
+import com.itwillbs.clish.myPage.dto.PaymentInfoDTO;
 import com.itwillbs.clish.myPage.dto.ReservationDTO;
 import com.itwillbs.clish.user.dto.UserDTO;
 
@@ -31,6 +32,8 @@ public interface MyPageMapper {
 	ReservationDTO selectReservationDetail(ReservationDTO reservation);
 
 	void updateReservationInfo(ReservationDTO reservation);
+
+	List<PaymentInfoDTO> selectAllPaymentInfo(UserDTO user);
 
 
 

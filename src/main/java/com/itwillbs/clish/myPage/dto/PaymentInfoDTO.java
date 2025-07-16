@@ -18,13 +18,12 @@ public class PaymentInfoDTO {
     private String reservationIdx;   // 주문번호(예약번호)
     private BigDecimal amount;    // 결제금액
     private String status;        // 구매상태(paid, ready, cancelled)
-    private String userId;        // 구매자 이름\
+    private String userName;        // 구매자 이름\
     private String payMethod;     // 결제수단
-    private LocalDateTime requestTime;   // 결제 요청 시간
-    private LocalDateTime payTime;         // 결제시각 (UNIX 타임스탬프)
+    private long requestTime;   // 결제 요청 시간
+    private long payTime;         // 결제시각 (UNIX 타임스탬프)
     private String classTitle;    // 상품명(강의명)
-    private String failReason;    // 결제실패 이유
-    private LocalDateTime failTime;        // 결제 실패 시간 (UNIX 타임스탬프)
+    private long cancelTime;
     private String cancelReason;  // 결제 취소 이유
     private String receiptUrl; // 결제영수증주소
 }

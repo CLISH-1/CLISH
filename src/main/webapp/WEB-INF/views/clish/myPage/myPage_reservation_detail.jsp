@@ -18,7 +18,7 @@
 	<div id="main">
 	
 		<h1>예약상세페이지</h1>
-		<input type="hidden" id="parent" value="detail">
+<!-- 		<input type="hidden" id="parent" value="detail"> -->
 		<table >
 			<tr>
 				<th rowspan="5">클래스이미지</th>
@@ -109,9 +109,11 @@
 	function payReservation(btn) {
 	    var reservationIdx = btn.getAttribute('data-reservation-num');
 		var from = btn.getAttribute('data-from');
-	    location.href ="
-	        '/myPage/payment_info/payReservation?reservationIdx=' + encodeURIComponent(reservationIdx)
-	        + '&from=' + encodeURIComponent(from)"
+		window.open(
+		        '/myPage/payment_info/payReservation?from=detail&reservationIdx=' + encodeURIComponent(reservationIdx),
+		        'payReservation',
+		        `width=600,height=1500,resizable=yes,scrollbars=yes`
+		    );
 	}
 
 </script>

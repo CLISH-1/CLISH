@@ -13,7 +13,7 @@
 	<header>
 		<jsp:include page="/WEB-INF/views/admin/header.jsp"></jsp:include>
 	</header>
-	<div class="modal">
+	<div class="modal" id="add_category">
 		<div class="modal_body">
 			<h3>카테고리 등록</h3>
 			<form action="/admin/category/save" method="post">
@@ -24,17 +24,18 @@
 				<div>
 					<span>대분류</span>
 					<select name="parentIdx">
-						<option value="null">없음</option>
+						<option value="no_parent">없음</option>
 						<c:forEach var="category" items="${parentCategories}">
 							<option value="${fn:substringAfter(category.categoryIdx, 'CT_')}">${fn:substringAfter(category.categoryIdx, 'CT_')}</option>
 						</c:forEach>
 					</select>
+					<span>1차 카테고리는 없음 선택</span>
 				</div>
 				<div>
 					<label>카테고리 순서</label>
 					<input type="number" name="sortOrder"/>
 				</div>
-				<button type="button" onclick="closeModal()">닫기</button>
+				<button type="button" onclick="closeAddModal()">닫기</button>
 				<button type="submit">등록하기</button>
 			</form>
 		</div>
@@ -49,7 +50,7 @@
 				<div>
 					<div>
 						<h3>대분류</h3>
-						<button type="button" onclick="onModal()">추가</button>
+						<button type="button" onclick="onAddModal()">추가</button>
 					</div>
 				</div>
 				<table id="parentTable">
@@ -71,7 +72,7 @@
 								<td><input type="text" value="${category.categoryName}"></td>
 								<td><input type="text" value="${category.sortOrder}" /></td>
 								<td>
-									<button type="button">수정</button>
+									<button type="button" onclick="onModifyModal('${category.categoryIdx}')">수정</button>
 									<button type="button">삭제</button>
 								</td>
 							</tr>
@@ -116,40 +117,68 @@
 				</table>
 			</div>
 		</div>
+		<div class="modal" id="modify_category">
+			<div class="modal_body">
+				<h3>카테고리 수정</h3>
+				<form action="/admin/category/save" method="post">
+					<div>
+						<label>카테고리 이름</label>
+						<input type="text"  name="categoryName"/>
+					</div>
+					<div>
+						<span>대분류</span>
+						<select name="parentIdx">
+							<option value="no_parent">없음</option>
+						    <c:forEach var="p" items="${parentCategories}">
+						        <option value="${fn:substringAfter(p.categoryIdx, 'CT_')}"
+						            <c:if test="${fn:substringAfter(p.categoryIdx, 'CT_') == fn:substringAfter(category.parentIdx, 'CT_')}">selected</c:if>
+						        >
+						            ${fn:substringAfter(p.categoryIdx, 'CT_')}
+						        </option>
+						    </c:forEach>
+						</select>
+
+						<span>1차 카테고리는 없음 선택</span>
+					</div>
+					<div>
+						<label>카테고리 순서</label>
+						<input type="number" name="sortOrder"/>
+					</div>
+					<button type="button" onclick="closeModifyModal()">닫기</button>
+					<button type="submit">저장</button>
+				</form>
+			</div>
+		</div>
 	</main>
 	<footer>
 		<jsp:include page="/WEB-INF/views/admin/bottom.jsp"></jsp:include>
 	</footer>
 	<script type="text/javascript">
-		function addParentRow() {
-			const table = document.getElementById("parentTable")
-					.getElementsByTagName('tbody')[0];
-			const newRow = table.insertRow();
-
-			const cell1 = newRow.insertCell();
-			cell1.innerHTML = "<input type='checkbox' />";
-
-			const cell2 = newRow.insertCell();
-			cell2.innerHTML = "<input type='text' name='categoryIdx' id='categoryIdx' />";
-
-			const cell3 = newRow.insertCell();
-			cell3.innerHTML = "<input type='text' name='categoryName' id='categoryName' />";
-
-			const cell4 = newRow.insertCell();
-			cell4.innerHTML = "<input type='text' name='sortOrder' id='sortOrder' />";
-
-			const cell5 = newRow.insertCell();
-			cell5.innerHTML = "<input type='hidden' value='1' name='depth' id='depth' />";
-		}
-
-		function onModal() {
-			const modal = document.querySelector('.modal');
-			modal.classList.add("on");
+		function onAddModal() {
+			const modal = document.querySelector('#add_category');
+			modal.style.display = "block";
 		}
 		
-		function closeModal() {
-			const modal = document.querySelector('.modal');
-			modal.classList.remove("on");
+		function closeAddModal() {
+			const modal = document.querySelector('#add_category');
+			modal.style.display = "none";
+		}
+		
+		function onModifyModal(categoryIdx) {
+		    fetch(`/admin/category/modify?cId=` + categoryIdx )
+		        .then(response => response.json())
+		        .then(data => {
+		            document.querySelector('#modify_category input[name="categoryName"]').value = data.categoryName;
+		            document.querySelector('#modify_category select[name="parentIdx"]').value = data.parentIdx === null ? 'no_parent' : data.parentIdx;
+		            document.querySelector('#modify_category input[name="sortOrder"]').value = data.sortOrder;
+
+		            document.querySelector('#modify_category').style.display = 'block';
+		        });
+		}
+		
+		function closeModifyModal() {
+			const modal = document.querySelector('#modify_category');
+			modal.style.display = "none";
 		}
 		
 	</script>

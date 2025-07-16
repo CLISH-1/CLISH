@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.clish.admin.dto.CategoryDTO;
 import com.itwillbs.clish.admin.service.AdminClassService;
@@ -43,18 +44,30 @@ public class AdminClassController {
 		return "/admin/class/category_list";
 	}
 	
+	// 카테고리 수정
+	@ResponseBody
+	@GetMapping("/category/modify")
+	public CategoryDTO getCategoryJson(@RequestParam("cId") String categoryId) {
+	    return categoryService.getCategoryByIdx(categoryId);
+	}
+	
 	@PostMapping("/category/save")
-	public String svaeCategory(@ModelAttribute CategoryDTO category, Model model) {
-//		int count = categoryService.saveCategory(category);
-//		
-//		if (count > 0) {
-//			model.addAttribute("msg", "카테고리를 추가했습니다..");
-//			model.addAttribute("targetURL", "/admin/category");
-//		} else {
-//			model.addAttribute("msg", "다시 시도해주세요!");
-//			return "commons/fail";
-//		}
-		System.out.println("category" + category);
+	public String saveCategory(@ModelAttribute CategoryDTO category, @RequestParam("parentIdx") String parentIdx ,Model model) {
+		if (parentIdx.equals("no_parent")) {
+			category.setDepth(1);
+		} else {
+			category.setDepth(2);
+		}
+		
+		int count = categoryService.saveCategory(category);
+		
+		if (count > 0) {
+			model.addAttribute("msg", "카테고리를 추가했습니다..");
+			model.addAttribute("targetURL", "/admin/category");
+		} else {
+			model.addAttribute("msg", "다시 시도해주세요!");
+			return "commons/fail";
+		}
 		
 		return "commons/result_process";
 	}
