@@ -10,102 +10,36 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	
-	<!-- 웹과 관련없는 객체들의 스프링 빈 등록을 위한 스캔 대상 패키지 설정 -->
-	<!-- @Service, @Repository 등의 어노테이션이 지정된 클래스들을 스캔 대상으로 지정 -->
-<!-- 	<context:component-scan base-package="com.itwillbs.mvc_board.member.service"></context:component-scan> -->
-<!-- 	<context:component-scan base-package="com.itwillbs.mvc_board.common.util"></context:component-scan> -->
-
-	<!-- 스캔 대상 패키지를 공통 루트 패키지만 지정하고, 대신 스캔할 어노테이션을 지정하는 방법  -->
-	<!-- component-scan 태그의 base-package 속성을 기본 패키지를 지정하고 -->
-	<!-- 태그 내부에 exclude-filter(제외할 대상 어노테이션) 또는 include-filter(포함할 대상 어노테이션) 지정 -->
 	<context:component-scan base-package="com.itwillbs.clish">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
-	<!-- =================== [ MyBatis 설정 ] =================== -->
-	<!-- HikariCP 라이브러리 사용을 위한 설정(커넥션풀 설정) -->
-	<!-- 1. HikariCP 를 활용한 DB 접속 정보 설정 위해 HikariConfig 객체 설정(JDBC 기본 설정) -->
-	<!-- com.zaxxer.hikari 패키지의 HikariConfig 클래스 지정 및 속성 설정 -->
-	<!-- 1) id 속성에 변수명처럼 사용할 속성명 기술, class 속성에 HiKariConfig 클래스 지정 -->
-	<!-- 2) 태그 내부에 <property> 태그를 사용하여 JDBC 기본 정보 설정 -->
-	<!-- name 속성은 고정값 사용, value 속성은 JDBC 에 사용되는 설정값(DB 관련 설정) 지정 -->
-<!-- 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig"> -->
-<!-- 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property> -->
-<!-- 		<property name="jdbcUrl"         value="jdbc:mysql://localhost:3306/spring_mvc_board"></property> -->
-<!-- 		<property name="username"        value="root"></property> -->
-<!-- 		<property name="password"        value="1234"></property> -->
-<!-- 	</bean> -->
-
 	<!-- SQL 로그 메세지 출력을 위해 log4jdbc 라이브러리 관련 DBCP  -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<!-- log4jdbc 사용 시 드라이버 클래스 변경 => log4jdbc 라이브러리의 DriverSpy 클래스로 변경 -->
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<!-- log4jdbc 사용 시 URL 부분의 프로토콜 부분도 jdbc:log4jdbc:mysql 형태로 변경 -->
-		<!-- DB 정보를 외부 properties 파일로 관리 시 해당 프로퍼티 가져와서 접속 정보에 함께 포함 -->
-		<!-- 현재 파일(root-context.xml) 내에 properties 파일 연결되어야 함 -->
 		<property name="jdbcUrl"         value="jdbc:log4jdbc:mysql://${db.host}/${db.db_name}"></property>
 		<property name="username"        value="${db.username}"></property>
 		<property name="password"        value="${db.password}"></property>
 	</bean>
 	
-	<!-- 2. HikariCP 를 통해 커넥션을 관리하는 DataSource 객체(HikariDataSource) 설정 -->
-	<!-- 생성자 파라미터로 1번에서 생성한 HikariConfig 객체(id 속성값) 전달 -->
-	<!-- 커넥션 객체 사용 완료 후 자동으로 close() 메서드 호출하여 커넥션풀에 객체 반환하기 위해 -->
-	<!-- bean 태그의 destroy-method 속성값으로 "close" 지정 -->
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
 		<constructor-arg ref="hikariConfig"></constructor-arg>
 	</bean>
 	
-	<!-- 3. Connection 객체 생성, 쿼리 전달 및 결과 리턴 등의 작업을 수행할 SQLSessionFactory 객체 설정 -->
-	<!-- MyBatis - Spring 연결을 담당하며, 내부적으로 SQLSession 객체를 통해 작업 수행 -->
-	<!-- 
-	주의!
-	1) 이전에 이미 DataSource 객체 설정이 완료되어 있어야 함
-	2) <bean> 태그의 id 값, class 값은 고정
-	3) <property> 태그의 dataSource, configLocation, mapperLocations 이름(name 속성값) 고정 
-	4) name="dataSource" 속성(항목)의 ref 값은 2번에서 설정한 id 값 지정
-	5) configLocation, mapperLocations 속성(항목)에 지정된 각각의 파일(xml)이 실제 위치에 생성되어 있어야 함
-	   (설정 항목 중 classpath 가 가리키는 기본 위치 : src/main/resources 패키지)
-	=> 이 때, 특정 패키지 및 해당 패키지의 서브 패키지까지 모두 지정해야할 경우 /**/ 형태로 지정(Ant 패턴)
-	-->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="configLocation" value="classpath:/config/mybatis-config.xml"></property>
-<!-- 		<property name="mapperLocations" value="classpath:/com/itwillbs/mvc_board/mapper/*Mapper.xml"></property> -->
 		<property name="mapperLocations" value="classpath:/com/itwillbs/clish/mapper/**/*Mapper.xml"></property>
 	</bean>
 	
-	<!-- 4. MyBatis 연동에 사용될 객체(클래스)들의 패키지 위치 지정 -->
-	<!-- 이 설정이 없을 경우(또는 패키지가 잘못됐을 경우) 3번 관련 객체(XXXMapper.java 인터페이스 등) 로딩 불가!  -->
-	<!-- 단, 대상 패키키가 복수개일 경우 콤마(,) 또는 세미콜론(;) 으로 구분하여 나열 -->
-<!-- 	<mybatis-spring:scan base-package="com.itwillbs.mvc_board.member.mapper, com.itwillbs.mvc_board.board.mapper"/> -->
-	<!-- 또는 하위패키지까지 포함하도록 상위패키지명(루트 패키지)을 지정 -->
 	<mybatis-spring:scan base-package="com.itwillbs.clish"/>
 	
-	<!-- 5. 트랜잭션 설정(마이바티스가 commit, rollback 여부를 자동으로 결정하여 수행 -->	
-	<!-- 5-1) <bean> 태그 사용하여 DataSourceTransaction 객체 설정 -->
-	<!--      <bean> 태그 내부에 <property> 태그를 사용하여 2번 과정에서 생성한 DataSource 객체 지정 -->
-	<!--      => name 속성값은 dataSource 고정, ref 속성값에 DataSource 객체의 id 속성값 지정 -->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
-	<!-- 5-2) <tx:annotation-driven> 태그를 통해 5-1 번 과정에서 생성한 TransactionManager 객체 지정 -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
-	<!-- ================================================================================== -->
-	<!-- 
-	애플리케이션 내에서 사용할 데이터(= 속성값)들을 직접 소스코드에 하드코딩하는 대신
-	외부 파일에 속성값들을 저장한 후 스프링 내에서 접근하기 위해
-	해당 파일을 XML 파일(root-context.xml 또는 servlet-context.xml)에 등록해야한다!
-	<context:property-placeholder /> 태그 내의 location 속성값에 프로퍼티 파일 지정하면 된다!
-	=> location 속성값에 지정할 파일의 경로 중에서 src/main/resources/ 부분은 classpath:/ 로 대체
-	=> 여기에서 지정한 파일은 XML 파일 및 스프링 빈에서 접근 가능
-	   - 스프링 빈 클래스에서는 @Value 어노테이션으로 속성값 접근 가능
-	   - XML 파일에서는 ${속성명} 형태로 접근 가능
-	=> 주의! context:component-scan 태그로 지정한 대상 패키지가 전체 패키지가 아닌 특정 패키지이고
-	   servlet-context.xml 파일에도 별도의 패키지를 스캔 대상으로 따로 지정했을 경우
-	   servlet-context.xml 파일에 properties 파일 추가 설정 필요함(단, MVC 관련 클래스에서 사용하지 않으면 불필요)
-	-->
+	
 	<context:property-placeholder location="classpath:/config/application.properties"/>
 </beans>
 
