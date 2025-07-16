@@ -107,6 +107,18 @@
 		WHERE
 			reservation_idx = #{reservationIdx}
 	</update>
+	
+	<!-- 결제정보 조회 -->
+	<select id="selectAllPaymentInfo" resultType="map"> 
+		SELECT
+			p. *
+		FROM
+			RESERVATION r
+		JOIN
+			PAYMENT_INFO p ON r.reservation_idx = p.reservation_idx
+		WHERE
+			r.user_idx = #{userIdx}
+	</select>
 </mapper>
 
 

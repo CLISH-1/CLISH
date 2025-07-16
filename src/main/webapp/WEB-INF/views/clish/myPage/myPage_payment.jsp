@@ -70,30 +70,30 @@
 			<h3>결제 목록</h3>
 			<table border="solid 1px">
 				<tr>
-					<th>결제상태</th>
-					<th>예약번호</th>
-					<th>유저아이디</th>
-					<th>클래스아이디</th>
-					<th>예약요청일</th>
-					<th>예약완료일</th>
+					<th>결제 번호</th>
+					<th>예약 번호</th>
+					<th>결제 상태</th>
+					<th>유저이름</th>
+					<th>클래스명</th>
+					<th>결제요청시각</th>
+					<th>결제완료시각</th>
 					<th>취소</th>
 					<th>상세보기</th>
 				</tr>
-				<c:forEach var="reserve" items="${reservationList }" >
-					<c:if test="${reserve.reservationStatus == 2}">
-			        	<tr>
-			        		<td><c:if test="${reserve.reservationStatus eq 2 }">결제완료</c:if></td>
-			        		<td>${reserve.reservationIdx}</td>
-							<td>${reserve.userId}</td>
-							<td>${reserve.classIdx}</td>
-							<td>${reserve.reservationClassDate}</td>
-							<td>${reserve.reservationCom}</td>
-							<td><input type="button" value="결제취소" data-reservation-num="${reserve.reservationIdx}"
-		          onclick="cancelPayment(this)"></td>
-							<td><input type="button" value="상세보기" data-reservation-num="${reserve.reservationIdx}"
-		          onclick="paymentInfo(this)"> </td>
-			        	</tr>
-			        </c:if>
+				<c:forEach var="payment" items="${paymentList }" >
+		        	<tr>
+		        		<td>${payment.imp_uid }</td>
+		        		<td>${payment.reservation_idx}</td>
+		        		<td>${payment.status }</td>
+						<td>${payment.user_name}</td>
+						<td>${payment.class_title}</td>
+						<td>${payment.request_time}</td>
+						<td>${payment.pay_time}</td>
+						<td><input type="button" value="결제취소" data-reservation-num="${reserve.reservationIdx}"
+	          onclick="cancelPayment(this)"></td>
+						<td><input type="button" value="상세보기" data-reservation-num="${reserve.reservationIdx}"
+	          onclick="paymentInfo(this)"> </td>
+		        	</tr>
 	       		</c:forEach>
 			</table>
 		</div>

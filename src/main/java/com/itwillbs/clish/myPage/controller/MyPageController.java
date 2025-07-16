@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.clish.course.dto.ClassDTO;
+import com.itwillbs.clish.myPage.dto.PaymentInfoDTO;
 import com.itwillbs.clish.myPage.dto.ReservationDTO;
 import com.itwillbs.clish.myPage.service.MyPageService;
 import com.itwillbs.clish.user.dto.UserDTO;
@@ -89,7 +90,7 @@ public class MyPageController {
 	
 	//------------------------------------------------------------------------------------
 	//결제내역
-	// 예약목록 불러오기
+	// 예약/결제 목록 불러오기
 	@GetMapping("/payment_info")
 	public String payment_info(HttpSession session, Model model,UserDTO user) {
 		String sId = (String)session.getAttribute("sId");
@@ -97,8 +98,10 @@ public class MyPageController {
 		user = myPageService.getUserInfo(user);
 
 		if(sId != null && !sId.equals("")) {
-			List<ReservationDTO> reservationList = myPageService.getReservationInfo(user); 
+			List<ReservationDTO> reservationList = myPageService.getReservationInfo(user);
+			List<PaymentInfoDTO> paymentList = myPageService.getPaymentList(user);
 			model.addAttribute("reservationList",reservationList);
+			model.addAttribute("paymentList",paymentList);
 			model.addAttribute("user",user);
 			return "/clish/myPage/myPage_payment";
 		} else {

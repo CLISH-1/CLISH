@@ -1,5 +1,7 @@
 package com.itwillbs.clish.myPage.service;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.clish.course.dto.ClassDTO;
+import com.itwillbs.clish.myPage.dto.PaymentInfoDTO;
 import com.itwillbs.clish.myPage.dto.ReservationDTO;
 import com.itwillbs.clish.myPage.mapper.MyPageMapper;
 import com.itwillbs.clish.user.dto.UserDTO;
@@ -57,6 +60,11 @@ public class MyPageService {
 	public void changeReservation(ReservationDTO reservation) {
 		myPageMapper.updateReservationInfo(reservation);
 	}
+
+	public List<PaymentInfoDTO> getPaymentList(UserDTO user) {
+		return myPageMapper.selectAllPaymentInfo(user);
+	}
+	
 
 
 
