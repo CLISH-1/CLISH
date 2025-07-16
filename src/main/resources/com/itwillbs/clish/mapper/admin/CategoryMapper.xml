@@ -42,12 +42,12 @@
 			, #{categoryName}
 			, #{depth}
 			<choose>
-			<when test="depth == 2">
-			, #{parentIdx}
-			</when>
 			<when test="depth == 1">
-			, null
+				,null
 			</when>
+			<otherwise>
+				,#{parentIdx}
+			</otherwise>
 			</choose>
 			, #{sortOrder}
 		)
