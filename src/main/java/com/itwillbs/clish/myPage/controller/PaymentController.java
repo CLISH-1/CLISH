@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itwillbs.clish.myPage.dto.PaymentCancelDTO;
@@ -57,9 +58,7 @@ public class PaymentController {
 		return "/clish/myPage/myPage_payment_payForm";
 	}
 	
-	
-	
-	
+	// 결제요청 버튼 결제 진행 후 리스폰 리턴맵핑  	
 	@PostMapping(value="/payment/verify", produces="application/json; charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object> verifyPayment(@RequestParam String imp_uid) {
@@ -79,10 +78,7 @@ public class PaymentController {
 			result.put("payMethod", payment.getPayMethod()); // 결제수단
 			result.put("payTime", payment.getPaidAt()); // 결제시각
 			result.put("classTitle", payment.getName()); // 상품명(강의명)
-			result.put("failReason", payment.getFailReason()); // 결제실패 이유
-			result.put("failTime", payment.getFailedAt()); // 결제 실패 시간
 			result.put("requestTime", requestTime);
-			result.put("from", payment.getCustomData());
 			result.put("receiptUrl", payment.getReceiptUrl());
 			System.out.println("영수증요청 " + payment.getReceiptUrl());
 		} catch (IamportResponseException e) {
@@ -98,75 +94,59 @@ public class PaymentController {
 	    return result;
 	}
 	
+	// 결제결과데이터 저장
 	@GetMapping("/payment_info/payResult")
 	public String payResultPage( PaymentInfoDTO paymentInfoDTO, Model model,
-			@RequestParam("from") String from) {	
-		System.out.println("결제정보창");
-		System.out.println(from);
-		// paymentInfoDTO로 값 넘어오는거 확인 완료
-		// 결제 테이블에 값 저장 필요[insert]
+			RedirectAttributes redirectAttributes) {
+		System.out.println("결제데이터입력페이지");
 		paymentService.putPayInfo(paymentInfoDTO);
+		System.out.println("데이터입력완료");
 		// 예약 테이블 상태 변경
-		System.out.println(paymentInfoDTO);
-		System.out.println("영수증 " + paymentInfoDTO.getReceiptUrl());
 		//결제 시간, 실패시간 long타입저장, 변환필요
-//		String payTime = paymentService.convertUnixToDateTimeString(paymentInfoDTO.getPayTime()/1000L);
-//		String failTime = paymentService.convertUnixToDateTimeString(paymentInfoDTO.getFailTime()/1000L);
 		// 2. 결제 성공/실패 결과를 model에 담기
-		model.addAttribute("paymentInfoDTO",paymentInfoDTO);
-//		model.addAttribute("payTime",payTime);
-//		model.addAttribute("failTime",failTime);
-//		model.addAttribute("result", paymentInfo.isSuccess());
-//	    model.addAttribute("message", paymentInfo.getMessage());
-//	    model.addAttribute("amount", paymentInfo.getAmount());
-//	    model.addAttribute("merchant_uid", paymentInfo.getMerchantUid());
-	    return "/clish/myPage/myPage_payment_payResult"; // JSP 파일명에 맞게 수정
+		redirectAttributes.addAttribute("impUid",paymentInfoDTO.getImpUid());
+	    return "redirect:/myPage/payment_info/paymentDetail"; // JSP 파일명에 맞게 수정
 	}
-	
-	//결제상세보기
-	@GetMapping("/payment_info/paymentInfo")
-	public String paymentInfo(PaymentInfoDTO paymentInfoDTO, ReservationDTO reservation, UserDTO user,
-			Model model) {
+		
+	//결제상세보기페이지
+	@GetMapping("/payment_info/paymentDetail")
+	public String paymentInfo(PaymentInfoDTO paymentInfoDTO, UserDTO user,Model model) {
 		paymentInfoDTO = paymentService.getPayResult(paymentInfoDTO);
-
-		System.out.println(paymentInfoDTO);
+		String payTime = paymentService.convertUnixToDateTimeString(paymentInfoDTO.getPayTime()/1000L);
+		String requestTime = paymentService.convertUnixToDateTimeString(paymentInfoDTO.getRequestTime()/1000L);
 
 		model.addAttribute("paymentInfoDTO",paymentInfoDTO);
-		
-		return "/clish/myPage/myPage_payResult";
+		model.addAttribute("requestTime",requestTime);
+		model.addAttribute("payTime",payTime);
+		return "/clish/myPage/myPage_payment_payResult";
 	}
 	
 	//결제취소: 결제취소창으로이동
 	@GetMapping("/payment_info/cancelPayment")
-	public String cancelPaymentForm(PaymentInfoDTO paymentInfoDTO, @RequestParam("reservationIdx")int reservationIdx,
-			Model model) {
-		paymentInfoDTO.setMerchantUid(reservationIdx);
-//		System.out.println(paymentInfoDTO.getMerchantUid());// 주문번호 받아오기 끝
+	public String cancelPaymentForm(PaymentInfoDTO paymentInfoDTO, Model model) {
 		
 		//주문번호로 결제정보 불러와서 넘기기
 		paymentInfoDTO = paymentService.getPayResult(paymentInfoDTO);
 		System.out.println(paymentInfoDTO);
+		String requestTime = paymentService.convertUnixToDateTimeString(paymentInfoDTO.getRequestTime()/1000L);
 		String payTime = paymentService.convertUnixToDateTimeString(paymentInfoDTO.getPayTime()/1000L);
-		String failTime = paymentService.convertUnixToDateTimeString(paymentInfoDTO.getFailTime()/1000L);
 		model.addAttribute("paymentInfoDTO",paymentInfoDTO);
 		model.addAttribute("payTime",payTime);
-		model.addAttribute("failTime",failTime);
+		model.addAttribute("requestTime",requestTime);
 		
-		return "/clish/myPage/myPage_cancelPayment";
+		return "/clish/myPage/myPage_payment_cancelForm";
 	}
 	
 	@PostMapping("/payment_info/cancelPayment")
-	public String cancelPayment(PaymentInfoDTO paymentInfoDTO, Model model) {
-		System.out.println(paymentInfoDTO.getCancelReason());
-		System.out.println(paymentInfoDTO.getImpUid());
+	public String cancelPayment(PaymentCancelDTO paymentCancelDTO, Model model) {
 	    //포트원 액세스 토큰 발급
 		String accessToken = paymentService.getAccessToken();
 		//결제 취소 API 호출
 		String cancelUrl = "https://api.iamport.kr/payments/cancel";
 
 		Map<String, Object> cancelRequest = new HashMap<>();
-		cancelRequest.put("imp_uid", paymentInfoDTO.getImpUid());
-		cancelRequest.put("reason", paymentInfoDTO.getCancelReason());
+		cancelRequest.put("imp_uid", paymentCancelDTO.getImpUid());
+		cancelRequest.put("reason", paymentCancelDTO.getCancelReason());
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authorization", accessToken);
@@ -191,19 +171,17 @@ public class PaymentController {
 	    int code = (int) responseBody.get("code");
 	    Map<String, Object> responseMap = (Map<String, Object>) responseBody.get("response");
 	    
-	    PaymentCancelDTO paymentCancelDTO = null;
 	    if (responseMap != null) {
 	        ObjectMapper mapper = new ObjectMapper();
 	        paymentCancelDTO = mapper.convertValue(responseMap, PaymentCancelDTO.class);	       
 	    }
 	    
-	    String cancelTime = paymentService.convertUnixToDateTimeString(paymentCancelDTO.getCancelledAt());
-	    
 	    if (code == 0) {
+	    	System.out.println("1번까지");
 	    	paymentService.cancelComplete(paymentCancelDTO);
+	    	System.out.println("2번까지");
 	    	model.addAttribute("paymentCancel", paymentCancelDTO);
 	    	model.addAttribute("message", "결제 취소가 정상 처리되었습니다.");
-	    	model.addAttribute("cancelTime", cancelTime);
 	        System.out.println("환불 처리 완료 ");
 	    } else {
 	        String errorMsg = (String) responseBody.get("message");
@@ -211,6 +189,6 @@ public class PaymentController {
 	    	model.addAttribute("paymentCancel", paymentCancelDTO);
 	        System.out.println("환불 처리 실패");
 	    }
-		return "/clish/myPage/myPage_cancelResult";
+		return "/clish/myPage/myPage_payment_cancelResult";
 	}
 }
