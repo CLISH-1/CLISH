@@ -13,11 +13,7 @@
 	</select>
 	
 	<select id="selecCategoryByIdx" resultType="com.itwillbs.clish.admin.dto.CategoryDTO">
-		SELECT 
-			category_idx
-			, category_name
-			, depth
-			, parent_idx
+		SELECT *
 		FROM
 			CATEGORY
 		WHERE 

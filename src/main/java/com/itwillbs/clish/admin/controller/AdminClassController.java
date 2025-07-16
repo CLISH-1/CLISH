@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.clish.admin.dto.CategoryDTO;
 import com.itwillbs.clish.admin.service.AdminClassService;
@@ -43,8 +44,15 @@ public class AdminClassController {
 		return "/admin/class/category_list";
 	}
 	
+	// 카테고리 수정
+	@ResponseBody
+	@GetMapping("/category/modify")
+	public CategoryDTO getCategoryJson(@RequestParam("cId") String categoryId) {
+	    return categoryService.getCategoryByIdx(categoryId);
+	}
+	
 	@PostMapping("/category/save")
-	public String svaeCategory(@ModelAttribute CategoryDTO category, @RequestParam("parentIdx") String parentIdx ,Model model) {
+	public String saveCategory(@ModelAttribute CategoryDTO category, @RequestParam("parentIdx") String parentIdx ,Model model) {
 		if (parentIdx.equals("no_parent")) {
 			category.setDepth(1);
 		} else {

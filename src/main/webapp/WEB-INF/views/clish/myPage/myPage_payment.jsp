@@ -89,9 +89,9 @@
 						<td>${payment.class_title}</td>
 						<td>${payment.request_time}</td>
 						<td>${payment.pay_time}</td>
-						<td><input type="button" value="결제취소" data-reservation-num="${reserve.reservationIdx}"
+						<td><input type="button" value="결제취소" data-imp-num="${payment.imp_uid}"
 	          onclick="cancelPayment(this)"></td>
-						<td><input type="button" value="상세보기" data-reservation-num="${reserve.reservationIdx}"
+						<td><input type="button" value="상세보기" data-imp-num="${payment.imp_uid}"
 	          onclick="paymentInfo(this)"> </td>
 		        	</tr>
 	       		</c:forEach>
@@ -160,18 +160,18 @@
 	}
 	
 	function cancelPayment(btn) {
-		var reservationIdx = btn.getAttribute('data-reservation-num');
+		var impUid = btn.getAttribute('data-imp-num');
 		window.open(
-			'/myPage/payment_info/cancelPayment?reservationIdx=' + encodeURIComponent(reservationIdx),			
+			'/myPage/payment_info/cancelPayment?impUid=' + encodeURIComponent(impUid),			
 			'paymentInfo',
 			`width=600,height=1500, resizable=yes, scrollbars=yes`
 		);
 	}
 	
 	function paymentInfo(btn) {
-		var reservationIdx = btn.getAttribute('data-reservation-num');
+		var impUid = btn.getAttribute('data-imp-num');
 		window.open(
-			'/myPage/payment_info/paymentInfo?reservationIdx=' + encodeURIComponent(reservationIdx),			
+			'/myPage/payment_info/paymentDetail?impUid=' + encodeURIComponent(impUid),			
 			'paymentInfo',
 			`width=600,height=1500, resizable=yes, scrollbars=yes`
 		);

@@ -15,7 +15,7 @@
 		<h3>
  	${message } <br>
  	${paymentCancel.impUid } <br>
- 	${paymentCancel.merchantUid }<br>
+<%--  	${paymentCancel.merchantUid }<br> --%>
  	${paymentCancel.amount }<br>
  	${paymentCancel.cancelAmount }<br>
  	${paymentCancel.status }<br>

@@ -21,11 +21,9 @@
 			구매 I  D : ${paymentInfoDTO.userName }<br>
 			구매 상태 : ${paymentInfoDTO.status }<br>
 			요청 시각 : ${paymentInfoDTO.requestTime}<br>
+			  변 환   : ${requestTime}<br>
 			결제 시각 : ${paymentInfoDTO.payTime}<br>
 			  변 환   : ${payTime}<br>
-			실패 시각 : ${paymentInfoDTO.failTime }<br>
-			  변 환   : ${failTime}<br>
-			실패 이유 : ${paymentInfoDTO.failReason }<br>
 			결제영수증 : ${paymentInfoDTO.receiptUrl }<br>
 			
 		</h3>

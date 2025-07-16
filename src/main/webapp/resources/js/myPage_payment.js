@@ -14,27 +14,10 @@ window.onload = () => {
 		    buyer_name: user_name, // 결제 유저이름
 	//	    m_redirect_url:"",// 모바일 결제 완료 후리다이렉트 할 주소
 		    m_redirect_url: "http://localhost:8081/clish/myPage/payment_info/payResult",// 모바일 결제 완료 후리다이렉트 할 주소
-			custom_data: from
-			
-			
 		}, function(rsp) {
 		    if (rsp.success) {
 			    // 결제 성공 시 서버에 결제정보 전달
 			    $.post("/myPage/payment/verify", { imp_uid: rsp.imp_uid }, function(data) {
-					console.log("impUid : " + data.impUid);
-					console.log("예약번호 : " + data.merchantUid);
-					console.log("amount : " + data.amount);
-					console.log("status : " + data.status);
-					console.log("userName : " + data.userName);
-					console.log(data.payMethod);
-					console.log(data.payTime);
-					console.log(data.classTitle);
-					console.log(data.failReason);
-					console.log(data.failTime);
-					console.log(data.requestTime);
-					console.log(data.from);
-					console.log(data.receiptUrl);
-					alert("변화됐음");
 					
 	//			      // 서버 검증 후 처리
 					if (!isMobile()) {
@@ -48,10 +31,7 @@ window.onload = () => {
 							+ `&payMethod=` + data.payMethod
 				            + `&payTime=`+ data.payTime 
 							+ `&classTitle=` + data.classTitle
-//							+ `&failReason=`+ data.failReason
-//							+ `&failTime=`+ data.failTime
 							+ `&requestTime=` + data.requestTime
-							+ `&from=` + data.from
 							+ `&receiptUrl=` + encodeURIComponent(data.receiptUrl);
 		        	}
 	//			

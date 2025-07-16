@@ -23,7 +23,7 @@ public class PaymentInfoDTO {
     private long requestTime;   // 결제 요청 시간
     private long payTime;         // 결제시각 (UNIX 타임스탬프)
     private String classTitle;    // 상품명(강의명)
-    private long cancelTime;
-    private String cancelReason;  // 결제 취소 이유
     private String receiptUrl; // 결제영수증주소
+    private String failReason;
+    private long failTime;
 }

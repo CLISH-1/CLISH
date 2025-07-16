@@ -13,7 +13,7 @@
     
   </head>
   <body>
-		<form action="" method="post">
+		<form action="/myPage/payment_info/cancelPayment" method="post">
 		<h1>${message }</h1>
 		<table>
 			<tr>
@@ -21,16 +21,16 @@
 				<td><input type="text" value="${paymentInfoDTO.impUid }" name="impUid" readonly></td>
 			</tr><tr>
 				<th>상품 이름</th>
-				<td><input type="text" value="${paymentInfoDTO.classTitle}" name="classTitle" readonly></td>
+				<td><input type="text" value="${paymentInfoDTO.classTitle}" name="name" readonly></td>
 			</tr><tr>
 				<th>주문 번호</th>
-				<td><input type="text" value="${paymentInfoDTO.merchantUid}"name="merchantUid" readonly></td>
+				<td><input type="text" value="${paymentInfoDTO.reservationIdx}"name="merchantUid" readonly></td>
 			</tr><tr>
 				<th>결제 금액</th>
 				<td><input type="text" value="${paymentInfoDTO.amount }" name="amount" readonly></td>
 			</tr><tr>
 				<th>구매 I  D</th>
-				<td><input type="text" value="${paymentInfoDTO.userId }"name="userId" readonly></td>
+				<td><input type="text" value="${paymentInfoDTO.userName}"name="userName" readonly></td>
 			</tr><tr>
 				<th>구매 상태</th>
 				<td><input type="text" value="${paymentInfoDTO.status }" readonly></td>
