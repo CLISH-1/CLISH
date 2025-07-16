@@ -28,9 +28,9 @@ window.onload = () => {
 	}
 
 	// 2. 비밀번호 확인
-	if (confirmInput) {
+	if (passwordInput && confirmInput) {
 		confirmInput.onblur = function () {
-			const pwd = passwordInput?.value || "";
+			const pwd = passwordInput.value;
 			const pwd2 = this.value;
 			const result = document.getElementById("checkPasswd2Result");
 

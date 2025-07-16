@@ -11,11 +11,11 @@
 <link href="${pageContext.request.contextPath}/resources/css/home/top.css" rel="stylesheet" >
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/the_best_styles.css" >
 </head>
-
-<body>
-	<header>
+<header>
 		<jsp:include page="/WEB-INF/views/inc/top.jsp" />
-	</header>
+</header>
+<body>
+	
 	<h4>
 		<a href="${pageContext.request.contextPath}/user/join/form?from=general">일반회원</a>
 		<br>

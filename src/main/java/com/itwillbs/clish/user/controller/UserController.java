@@ -78,10 +78,16 @@ public class UserController {
 	        : userService.registerGeneralUser(userDTO);
 
 	    if (result > 0) {
-	        return "redirect:/member/join_success";
+	        return "redirect:/user/join_success";
 	    } else {
 	        redirect.addFlashAttribute("errorMsg", "회원가입 실패");
 	        return "redirect:/commons/fail";
 	    }
 	}
+	
+	@GetMapping("/join_success")
+	public String joinSuccess() {
+		return "/user/join_success";
+	}
+	
 }
