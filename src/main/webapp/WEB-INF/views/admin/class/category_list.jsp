@@ -24,11 +24,12 @@
 				<div>
 					<span>대분류</span>
 					<select name="parentIdx">
-						<option value="null">없음</option>
+						<option value="no_parent">없음</option>
 						<c:forEach var="category" items="${parentCategories}">
 							<option value="${fn:substringAfter(category.categoryIdx, 'CT_')}">${fn:substringAfter(category.categoryIdx, 'CT_')}</option>
 						</c:forEach>
 					</select>
+					<span>1차 카테고리는 없음 선택</span>
 				</div>
 				<div>
 					<label>카테고리 순서</label>
