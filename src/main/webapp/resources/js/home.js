@@ -24,6 +24,7 @@ window.onload = () => {
 			location.href = "/member/logout";
 		}
 	}
+	
 	$(function() {
 		let timer;
  		let count = 600;

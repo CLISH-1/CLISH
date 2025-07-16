@@ -27,7 +27,7 @@
 		<h1>${sessionScope.sId}의 페이지</h1>
 		<hr>
 		<h3>결제내역</h3>
-		<input type="hidden" id="parent" value="list">
+<!-- 		<input type="hidden" id="parent" value="list"> -->
 		<div>
 			<h3>예약 목록</h3>
 			<table border="solid 1px">
@@ -114,7 +114,7 @@
 		if(confirm("정말로 예약을 취소하시겠습니까?")){
 		    // 1. 버튼의 data- 속성에서 예약번호 읽기
 		    var reservationIdx = btn.getAttribute('data-reservation-num');
-			console.log(reservationIdx);
+// 			console.log(reservationIdx);
 		    // 2. 필요하면 같은 행의 다른 정보도 읽을 수 있음
 		    // var row = btn.closest('tr');
 		    // var userId = row.cells[1].innerText;
@@ -153,7 +153,7 @@
 	function payReservation(btn) {
 	    var reservationIdx = btn.getAttribute('data-reservation-num'); 
 	    window.open(
-	        '/myPage/payment_info/payReservation?reservationIdx=' + encodeURIComponent(reservationIdx),
+	        '/myPage/payment_info/payReservation?from=list&reservationIdx=' + encodeURIComponent(reservationIdx),
 	        'payReservation',
 	        `width=600,height=1500,resizable=yes,scrollbars=yes`
 	    );

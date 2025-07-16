@@ -16,9 +16,9 @@
 			${from}<br>
 			결제 번호 : ${paymentInfoDTO.impUid }<br>
 			상품 이름 : ${paymentInfoDTO.classTitle}<br>
-			주문 번호 : ${paymentInfoDTO.merchantUid}<br>
+			주문 번호 : ${paymentInfoDTO.reservationIdx}<br>
 			결제 금액 : ${paymentInfoDTO.amount }<br>
-			구매 I  D : ${paymentInfoDTO.userId }<br>
+			구매 I  D : ${paymentInfoDTO.userName }<br>
 			구매 상태 : ${paymentInfoDTO.status }<br>
 			요청 시각 : ${paymentInfoDTO.requestTime}<br>
 			결제 시각 : ${paymentInfoDTO.payTime}<br>

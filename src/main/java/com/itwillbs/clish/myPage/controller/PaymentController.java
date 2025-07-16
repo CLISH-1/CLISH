@@ -64,8 +64,7 @@ public class PaymentController {
 	@ResponseBody
 	public Map<String, Object> verifyPayment(@RequestParam String imp_uid) {
 		// imp_uid로 아임포트 API를 호출해 결제 정보 조회
-		String requestTime  // 요청시간
-			= LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		long requestTime = System.currentTimeMillis();
 
 		Map<String, Object> result = new HashMap<> ();
 		try {
@@ -73,7 +72,7 @@ public class PaymentController {
 			IamportResponse<Payment> response = iamportClient.paymentByImpUid(imp_uid);
 			Payment payment = response.getResponse();
 			result.put("impUid", payment.getImpUid()); // 포트원 결제 고유번호
-			result.put("reservationIdx", payment.getMerchantUid()); // 주문번호(예약번호)
+			result.put("merchantUid", payment.getMerchantUid()); // 주문번호(예약번호)
 			result.put("amount", payment.getAmount()); // 결제금액
 			result.put("status", payment.getStatus()); // 구매상태(paid , ready, cancelled)
 			result.put("userName", payment.getBuyerName()); //구매자 이름
@@ -85,20 +84,7 @@ public class PaymentController {
 			result.put("requestTime", requestTime);
 			result.put("from", payment.getCustomData());
 			result.put("receiptUrl", payment.getReceiptUrl());
-			System.out.println("결제요청영수증 " + payment.getReceiptUrl());
-//			result.put("impUid", payment.getImpUid()); // 포트원 결제 고유번호
-//			result.put("merchantUid", payment.getMerchantUid()); // 주문번호(예약번호)
-//			result.put("amount", payment.getAmount()); // 결제금액
-//			result.put("status", payment.getStatus()); // 구매상태(paid , ready, cancelled)
-//			result.put("userId", payment.getBuyerName()); //구매자 이름
-//			result.put("payMethod", payment.getPayMethod()); // 결제수단
-//			result.put("payTime", payment.getPaidAt()); // 결제시각
-//			result.put("classTitle", payment.getName()); // 상품명(강의명)
-//			result.put("failReason", payment.getFailReason()); // 결제실패 이유
-//			result.put("failTime", payment.getFailedAt()); // 결제 실패 시간
-//			result.put("requestTime", requestTime);
-//			result.put("from", payment.getCustomData());
-//			result.put("receiptUrl", payment.getReceiptUrl());
+			System.out.println("영수증요청 " + payment.getReceiptUrl());
 		} catch (IamportResponseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -113,30 +99,28 @@ public class PaymentController {
 	}
 	
 	@GetMapping("/payment_info/payResult")
-	public String payResultPage( PaymentInfoDTO paymentInfoDTO,
-	    @RequestParam(required = false) String imp_uid,
-	    @RequestParam(required = false) String merchant_uid,
-	    Model model 
-	) {	
+	public String payResultPage( PaymentInfoDTO paymentInfoDTO, Model model,
+			@RequestParam("from") String from) {	
+		System.out.println("결제정보창");
+		System.out.println(from);
 		// paymentInfoDTO로 값 넘어오는거 확인 완료
 		// 결제 테이블에 값 저장 필요[insert]
+		paymentService.putPayInfo(paymentInfoDTO);
 		// 예약 테이블 상태 변경
 		System.out.println(paymentInfoDTO);
-		System.out.println("결제완료페이지영수증 " + paymentInfoDTO.getReceiptUrl());
-		paymentService.putPayInfo(paymentInfoDTO);
+		System.out.println("영수증 " + paymentInfoDTO.getReceiptUrl());
 		//결제 시간, 실패시간 long타입저장, 변환필요
-		String payTime = paymentService.convertUnixToDateTimeString(paymentInfoDTO.getPayTime()/1000L);
-		String failTime = paymentService.convertUnixToDateTimeString(paymentInfoDTO.getFailTime()/1000L);
+//		String payTime = paymentService.convertUnixToDateTimeString(paymentInfoDTO.getPayTime()/1000L);
+//		String failTime = paymentService.convertUnixToDateTimeString(paymentInfoDTO.getFailTime()/1000L);
 		// 2. 결제 성공/실패 결과를 model에 담기
 		model.addAttribute("paymentInfoDTO",paymentInfoDTO);
-		model.addAttribute("payTime",payTime);
-		model.addAttribute("failTime",failTime);
-
+//		model.addAttribute("payTime",payTime);
+//		model.addAttribute("failTime",failTime);
 //		model.addAttribute("result", paymentInfo.isSuccess());
 //	    model.addAttribute("message", paymentInfo.getMessage());
 //	    model.addAttribute("amount", paymentInfo.getAmount());
 //	    model.addAttribute("merchant_uid", paymentInfo.getMerchantUid());
-	    return "/clish/myPage/myPage_payResult"; // JSP 파일명에 맞게 수정
+	    return "/clish/myPage/myPage_payment_payResult"; // JSP 파일명에 맞게 수정
 	}
 	
 	//결제상세보기

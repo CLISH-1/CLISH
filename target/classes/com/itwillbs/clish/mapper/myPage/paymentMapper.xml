@@ -5,16 +5,16 @@
   
 <mapper namespace="com.itwillbs.clish.myPage.mapper.PaymentMapper">
 	<insert id="insertPayInfo">
-		insert into payment_info values(
+		insert into PAYMENT_INFO values(
 			#{impUid}
 		    , #{reservationIdx}
+		    , #{classTitle}
 		    , #{amount}
 		    , #{status}
 		    , #{userName}
 		    , #{payMethod}
 		    , #{requestTime}
 		    , #{payTime}
-		    , #{classTitle}
 		    , #{failReason}
 		    , #{failTime}
 		    , #{receiptUrl}
@@ -22,21 +22,21 @@
 	</insert>
 	
 	<update id="updateReservationStatus">
-		UPDATE reservation
+		UPDATE RESERVATION
 		SET reservation_status = 2
-		WHERE reservation_idx = #{merchantUid}
+		WHERE reservation_idx = #{reservationIdx}
 	</update>
 	
 	<select id="selectPayResult" resultType="com.itwillbs.clish.myPage.dto.PaymentInfoDTO">	
 		SELECT *
 		from payment_info
-		where merchant_uid = #{merchantUid}
+		where merchant_uid = #{reservationIdx}
 	</select>
 	
 	<insert id="insertCancelInfo">
 		insert into payment_cancel values(
 			#{impUid}
-			, #{merchantUid}
+			, #{reservationIdx}
 			, #{amount}
 			, #{cancelAmount}
 			, #{status}

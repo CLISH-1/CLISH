@@ -111,9 +111,9 @@ public class MyPageController {
 	//예약 취소
 	@PostMapping(value="/payment_info/cancel", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public String cancelReservation(@RequestParam("reservationIdx") String reservationIdx, HttpSession session,
-			ReservationDTO reservation) {
-		System.out.println("reservationIdx" + reservationIdx);
+	public String cancelReservation(HttpSession session, ReservationDTO reservation) {
+		System.out.println("reservationIdx" + reservation.getReservationIdx());
+		String reservationIdx = reservation.getReservationIdx();
 		reservation.setReservationIdx(reservationIdx);
 		System.out.println("DTO : " + reservation.getReservationIdx());
 	    int count = myPageService.cancelReservation(reservation);
