@@ -25,7 +25,7 @@ import com.itwillbs.clish.course.service.CompanyClassService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/company") // -> 우클릭 - properties - web project settings에 company 입력해당 해당 롬복 필요 없음.
+@RequestMapping("/company")
 @RequiredArgsConstructor
 public class CompanyClassController {
 	private final CompanyClassService companyClassService;
@@ -46,7 +46,10 @@ public class CompanyClassController {
 	
 	// 클래스 관리 페이지
 	@GetMapping("/myPage/classManage")
-    public String classManageForm() {
+    public String classManageForm(Model model) {
+		List<Map<String , Object>> classList = adminClassService.getClassList();
+		model.addAttribute("classList", classList);
+		
         return "/company/companyClass/classManage"; 
     }
 	
@@ -103,16 +106,6 @@ public class CompanyClassController {
 //	    return "redirect:/myPage/classDetail?classIdx=" + companyClass.getClassIdx();
 	}
 
-	// 클래스 상세페이지 -- 수정(황준) : 클래스 리스트 -> 클래스 상세 페이지
-	@GetMapping("/myPage/classList")
-	public String classListForm(Model model) {
-		
-		List<Map<String , Object>> classList = adminClassService.getClassList();
-		
-		model.addAttribute("classList", classList);
-		
-		return "/company/companyClass/classList";
-	}
 	
 	// 클래스 상세 페이지
 	@GetMapping("/myPage/classDetail")
