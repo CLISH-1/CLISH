@@ -96,6 +96,7 @@ public class MyPageController {
 		String sId = (String)session.getAttribute("sId");
 		user.setUserId(sId);
 		user = myPageService.getUserInfo(user);
+		System.out.println(user);
 
 		if(sId != null && !sId.equals("")) {
 			List<ReservationDTO> reservationList = myPageService.getReservationInfo(user);

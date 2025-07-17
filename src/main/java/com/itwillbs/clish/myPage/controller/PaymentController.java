@@ -205,9 +205,6 @@ public class PaymentController {
     	model.addAttribute("requestTime",requestTime);
     	model.addAttribute("paymentCancel", paymentCancelDTO);
     	model.addAttribute("message", "결제 취소가 정상 처리되었습니다.");
-
-
-		
 		
 		return "/clish/myPage/myPage_payment_cancelResult";
 	}
