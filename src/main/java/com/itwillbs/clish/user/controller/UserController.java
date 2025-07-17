@@ -3,7 +3,10 @@ package com.itwillbs.clish.user.controller;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -88,6 +91,50 @@ public class UserController {
 	@GetMapping("/join_success")
 	public String joinSuccess() {
 		return "/user/join_success";
+	}
+	
+	@GetMapping("/login")
+	public String showLoginForm() {
+	    return "user/login_form";
+	}
+	
+	@PostMapping("/login")
+	public String login(
+	        @ModelAttribute UserDTO userDTO,
+	        @RequestParam(value = "rememberId", required = false) String rememberId,
+	        HttpServletResponse response, HttpSession session, RedirectAttributes redirect) {
+	    
+	    UserDTO dbUser = userService.selectUserId(userDTO.getUserId());
+	    
+	    if (dbUser == null || !dbUser.getUserPassword().equals(userDTO.getUserPassword())) {
+	        redirect.addFlashAttribute("errorMsg", "비밀번호 불일치");
+	        return "redirect:/member/login";
+	    }
+
+	    if (Objects.equals(dbUser.getUserStatus(), 3)) {
+	        redirect.addFlashAttribute("errorMsg", "탈퇴한 회원입니다.");
+	        return "redirect:/member/login";
+	    }
+
+	    if (Objects.equals(dbUser.getUserEmailAuthYn(), "N")) {
+	        redirect.addFlashAttribute("errorMsg", "이메일 인증 후 로그인 가능합니다.");
+	        return "redirect:/member/login";
+	    }
+
+	    session.setAttribute("sId", dbUser.getUserId());
+	    session.setAttribute("loginUser", dbUser);
+	    session.setMaxInactiveInterval(600);
+
+	    Cookie cookie = new Cookie("rememberId", dbUser.getUserId());
+	    cookie.setPath("/");
+	    if (rememberId != null) {
+	        cookie.setMaxAge(60 * 60 * 24 * 30); 
+	    } else {
+	        cookie.setMaxAge(0);
+	    }
+	    response.addCookie(cookie);
+
+	    return "redirect:/";
 	}
 	
 }

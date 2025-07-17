@@ -54,10 +54,10 @@
            <a class="button header-button">마이페이지</a>
            <c:choose>
 				<c:when test="${empty sessionScope.sId}">
-		            <a href="/member/login" class="header-button button">로그인</a>
+		            <a href="/user/login" class="header-button button">로그인</a>
 				</c:when>
 				<c:otherwise>
-					<a class="header-button button" href="javascript:void(0)" onclick="logout()">라그아웃</a>  
+					<a class="header-button button" href="javascript:void(0)" onclick="logout()">로그아웃</a>  
 					<c:if test="${sessionScope.sId eq 'admin'}">
 						 <a class="header-button button" href="/admin/main">management page</a>
 					</c:if>

@@ -11,24 +11,23 @@
 
 </head>
 <body>
-
-	
 	<main id="container">
 	
 	<div id="main">
 	
 		<h1>예약변경</h1>
-		<form action="/myPage/payment_info/change" method="post">
+		remain_seats: [${reservationClassInfo.remain_seats}]<br>
+		<form action="/myPage/payment_info/change" method="post" onsubmit="return validateForm();">
 		<table >
 			<tr>
 				<th rowspan="3">클래스이미지</th>
 				<th>${reservationClassInfo.class_title}</th>
 			</tr>
 			<tr>
-				<th>${reservationClassInfo.class_members}</th>
+				<th>${reservationClassInfo.class_member}</th>
 			</tr> 
 			<tr>
-				<th>${reservationClassInfo.remain_seats}</th>
+				<th>${reservationClassInfo.remainSeats}</th>
 			</tr>
 			<tr>
 				<th>${reservationClassInfo.start_date}</th>
@@ -69,7 +68,48 @@
 	</div>
 	
 	</main>
-	
+	<script>
+
+		function validateForm() {
+		    const dateInput = document.querySelector('input[name="reservationClassDate"]');
+		    const membersInput = document.querySelector('input[name="reservationMembers"]');
+		    const dateValue = dateInput.value.trim();
+		    const membersValue = membersInput.value.trim();
+		
+		    // JSTL 값을 자바스크립트 변수로 전달
+		    const remainSeats = parseInt('${reservationClassInfo.remainSeats}');
+		    const classMember = parseInt('${reservationClassInfo.class_member}');
+		    const reservationMembers = parseInt('${reservationClassInfo.reservation_members}');
+		    const maxMembers = remainSeats + reservationMembers
+		    console.log(maxMembers + ": 맥스멤버");
+		    console.log("남은자리 : " + remainSeats);
+		    console.log("예약자리 : " + reservationMembers);
+		    
+		    if (!dateValue) {
+		        alert("예약일을 입력하세요.");
+		        dateInput.focus();
+		        return false;
+		    }
+		    
+		    if (
+		        !membersValue ||
+		        isNaN(membersValue) ||
+		        parseInt(membersValue) < 1
+		    ) {
+		        alert("예약 인원은 1명 이상이어야 합니다.");
+		        membersInput.focus();
+		        return false;
+		    }
+		    
+		    if (parseInt(membersValue) > maxMembers) {
+		        alert("예약 가능한 최대 인원은 " + maxMembers + "명입니다.");
+		        membersInput.focus();
+		        return false;
+		    }
+		    
+		    return true;
+		}
+	</script>
 
 </body>
 </html>

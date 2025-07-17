@@ -12,7 +12,8 @@
     
   </head>
   <body>
-		<h3>
+  <h1>결제취소완료</h1>
+	<h3>
  	${message } <br>
  	${paymentCancel.impUid } <br>
 <%--  	${paymentCancel.merchantUid }<br> --%>
@@ -22,17 +23,20 @@
  	${paymentCancel.cancelReason }<br>
  	${paymentCancel.cancelledAt }<br>
  	${cancelTime}
- 	${paymentCancel.buyerName }<br>
+ 	${paymentCancel.userName }<br>
  	${paymentCancel.payMethod }<br>
+ 	${paymentCancel.cancelRequestTime}<br>
  	${paymentCancel.receiptUrl }<br>
+ 	${paymentCancel.cancelReceiptUrl }<br>
  	</h3>
   </body>
 </html>
 <script type="text/javascript">
 window.onload = function() {
-	var message = "${message}";
-	if(message != null){
-		alert(message);
-	}	
+	if (window.opener && window.opener.opener) {
+		    window.opener.opener.location.reload();      
+		} else if (window.opener) {                      
+		    window.opener.location.reload();             
+		}
 }
 </script>
