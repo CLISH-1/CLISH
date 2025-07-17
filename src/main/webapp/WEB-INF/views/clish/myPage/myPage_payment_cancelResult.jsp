@@ -12,7 +12,8 @@
     
   </head>
   <body>
-		<h3>
+  <h1>결제취소완료</h1>
+	<h3>
  	${message } <br>
  	${paymentCancel.impUid } <br>
 <%--  	${paymentCancel.merchantUid }<br> --%>
@@ -32,9 +33,10 @@
 </html>
 <script type="text/javascript">
 window.onload = function() {
-	var message = "${message}";
-	if(message != null){
-		alert(message);
-	}	
+	if (window.opener && window.opener.opener) {
+		    window.opener.opener.location.reload();      
+		} else if (window.opener) {                      
+		    window.opener.location.reload();             
+		}
 }
 </script>
