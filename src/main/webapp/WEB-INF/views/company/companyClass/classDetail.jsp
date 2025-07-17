@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>클래스 상세 페이지</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/the_best_styles.css">
 </head>
 <body>
@@ -41,8 +41,9 @@
 			
 		<!-- 아직 안함.. -->
         <div style="text-align: center; padding-top: 30px;">
-            <button class="orange-button">클래스 목록</button>
-        </div>
+		    <button class="orange-button" onclick="location.href='${pageContext.request.contextPath}/company/myPage/classManage'">클래스 관리</button>
+		</div>
+
 
 
 </section>
