@@ -39,7 +39,7 @@ public class AdminClassService {
 		int update = adminClassMapper.updateClassStatus(idx, status);
 		
 		if (update > 0) {
-			notificationService.send("comp2025010120250711", 3, "등록 요청하신 강좌가 승인되었습니다.");
+			notificationService.send(idx, 3, "등록 요청하신 강좌가 승인되었습니다.");
 		} 
 		
 		return update;
@@ -51,7 +51,7 @@ public class AdminClassService {
 		int update = adminClassMapper.updateClassInfo(idx, classInfo);
 		
 		if (update > 0) {
-			notificationService.send("comp2025010120250711", 3, "강좌 정보가 수정되었습니다.");
+			notificationService.send(classInfo.getUserIdx(), 3, "강좌 정보가 수정되었습니다.");
 		}
 		return update;
 	}
