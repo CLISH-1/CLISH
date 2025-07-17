@@ -6,18 +6,46 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/the_best_styles.css">
 </head>
 <body>
-	<div align="center">
+<section style="max-width: 800px; margin: 50px auto; padding: 40px;">
 		<h1>클래스 상세 페이지</h1>
-		<h3>클래스 상세 정보</h3>
-			<p>강의명 : ${classInfo.classTitle}</p>
-			<p>카테고리 ID : ${classInfo.categoryIdx}</p>
-			<p>수강료 : ${classInfo.classPrice}</p>
-			<p>정원 : ${classInfo.classMember}</p>
-			<p>강의 시작일 ~ 종료일 : ${classInfo.startDate} ~ ${class.endDate}</p>
-			<p>수업요일 : ${classInfo.classDayNames}</p>
-			<p>장소 : ${classInfo.location}</p>
-	</div>
+		<h3 style="text-align: center; margin-bottom: 30px;">[ 클래스 상세 정보 ]</h3>
+		
+		<table class="table-with-side-borders" style="width: 90%;">
+			<tr>
+				<th>강의명</th> <td>${classInfo.classTitle}</td>
+			</tr>
+			<tr>
+				<th>카테고리 ID</th> <td>${classInfo.categoryIdx}</td>
+			</tr>
+			<tr>
+				<th>수강료</th> <td>${classInfo.classPrice}</td>
+			</tr>
+			<tr>
+				<th>정원</th> <td> ${classInfo.classMember}</td>
+			</tr>
+			<tr>
+				<th>강의 기간</th> <td>${classInfo.startDate} ~ ${classInfo.endDate}</td>
+			</tr>
+			<tr>
+				<th>수업요일</th> <td>${classInfo.classDayNames}</td>
+			</tr>
+			<tr>
+				<th>장소</th> <td>${classInfo.location}</td>
+			</tr>
+			
+			
+		</table>
+			
+		<!-- 아직 안함.. -->
+        <div style="text-align: center; padding-top: 30px;">
+            <button class="orange-button">클래스 목록</button>
+        </div>
+
+
+</section>
+
 </body>
 </html>

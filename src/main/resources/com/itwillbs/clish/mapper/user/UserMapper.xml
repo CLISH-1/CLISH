@@ -37,28 +37,14 @@
     
 	<select id="selectUserId" parameterType="String" resultType="com.itwillbs.clish.user.dto.UserDTO">
 	    SELECT
-	        user_idx,
 	        user_name,
-	        user_rep_name,
-	        user_birth,
-	        user_gender,
 	        user_id,
 	        user_password,
-	        user_email,
-	        user_email_token,
-	        user_email_auth_yn,
-	        user_phone_number,
-	        user_phone_number_sub,
-	        user_postcode,
-	        user_address1,
-	        user_address2,
 	        user_status,
-	        user_reg_date,
-	        user_withdraw_date,
 	        user_type,
-	        user_penalty_count
+	        user_email_auth_yn
 	    FROM
-	        user
+	        USER
 	    WHERE
 	        user_id = #{userId}
 	</select>
