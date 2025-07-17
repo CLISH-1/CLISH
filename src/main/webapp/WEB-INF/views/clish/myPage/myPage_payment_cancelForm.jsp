@@ -21,10 +21,10 @@
 				<td><input type="text" value="${paymentInfoDTO.impUid }" name="impUid" readonly></td>
 			</tr><tr>
 				<th>상품 이름</th>
-				<td><input type="text" value="${paymentInfoDTO.classTitle}" name="name" readonly></td>
+				<td><input type="text" value="${paymentInfoDTO.classTitle}" name="classTitle" readonly></td>
 			</tr><tr>
 				<th>주문 번호</th>
-				<td><input type="text" value="${paymentInfoDTO.reservationIdx}"name="merchantUid" readonly></td>
+				<td><input type="text" value="${paymentInfoDTO.reservationIdx}"name="reservationIdx" readonly></td>
 			</tr><tr>
 				<th>결제 금액</th>
 				<td><input type="text" value="${paymentInfoDTO.amount }" name="amount" readonly></td>
@@ -35,23 +35,11 @@
 				<th>구매 상태</th>
 				<td><input type="text" value="${paymentInfoDTO.status }" readonly></td>
 			</tr><tr>
-				<th>요청 시각</th>
-				<td><input type="text" value="${paymentInfoDTO.requestTime}" readonly></td>
-			</tr><tr>
 				<th>결제 시각</th>
 				<td><input type="text" value="${paymentInfoDTO.payTime}" readonly></td>
 			</tr><tr>
 				<th>변 환</th>
 				<td><input type="text" value="${payTime}" readonly></td>
-			</tr><tr>
-				<th>실패 시각</th>
-				<td><input type="text" value="${paymentInfoDTO.failTime }" readonly></td>
-			</tr><tr>
-				<th>변 환</th>
-				<td><input type="text" value="${failTime}" readonly></td>
-			</tr><tr>
-				<th>실패 이유</th>
-				<td><input type="text" value="${paymentInfoDTO.failReason }" readonly></td>
 			</tr>
 			<tr>
 				<th>취소 이유</th>

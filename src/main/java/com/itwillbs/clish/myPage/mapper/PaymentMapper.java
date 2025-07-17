@@ -19,4 +19,6 @@ public interface PaymentMapper {
 
 	void updatePaymentInfo(PaymentCancelDTO paymentCancelDTO);
 
+	PaymentCancelDTO selectCancelResult(PaymentCancelDTO paymentCancelDTO);
+
 }
