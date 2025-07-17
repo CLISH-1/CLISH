@@ -57,13 +57,14 @@ public class AdminClassService {
 	}
 	
 	public int removeCategory(String categoryIdx, int depth) {
-		List<Boolean> isReferenced = adminClassMapper.existsByCategory(categoryIdx, depth);
+		boolean isReferenced = adminClassMapper.existsByCategory(categoryIdx, depth);
 		
-		if (!isReferenced.isEmpty()) {
+		if (isReferenced) {
 			return 0;
+		} else {
+			categoryService.removeCategory(categoryIdx);
+			return 1;
 		}
-		
-		return categoryService.removeCategory(categoryIdx);
 	}
 	
 	// 강좌 수업 요일 구하는 공식

@@ -108,7 +108,7 @@ public class AdminClassController {
 			return "commons/fail";
 		}
 		
-		return "redirect:/admin/category";
+		return "commons/result_process";
 	}
 	
 	// 강좌 리스트

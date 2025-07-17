@@ -19,6 +19,6 @@ public interface AdminClassMapper {
 
 	int updateClassInfo(@Param("idx") String idx, @Param("classInfo") ClassDTO classInfo);
 
-	List<Boolean> existsByCategory(@Param("categoryIdx") String categoryIdx, @Param("depth") int depth);
+	boolean existsByCategory(@Param("categoryIdx") String categoryIdx, @Param("depth") int depth);
 
 }

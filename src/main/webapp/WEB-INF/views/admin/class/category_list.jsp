@@ -109,7 +109,7 @@
 								<td><input type="text" value="${category.sortOrder}" /></td>
 								<td>
 									<button type="button" onclick="onModifyModal('${category.categoryIdx}')">수정</button>
-									<button type="button">삭제</button>
+									<button type="button" onclick="deleteCategory('${category.categoryIdx}', ${category.depth})">삭제</button>
 								</td>
 							</tr>
 						</c:forEach>
@@ -183,12 +183,7 @@
 		
 		function deleteCategory(categoryIdx, depth) {
 			if (confirm("해당 카테고리를 삭제하시겠습니까?")) {
-				if ("${msg}" == true) {
-					return location.href = "/admin/category/delete?cId=" + categoryIdx + "&depth=" + depth;
-				}
-					return location.href = "/admin/category/delete?cId=" + categoryIdx + "&depth=" + depth;
-				
-				alert("${msg}");
+				location.href = "/admin/category/delete?cId=" + categoryIdx + "&depth=" + depth;
 			}
 		}
 		
