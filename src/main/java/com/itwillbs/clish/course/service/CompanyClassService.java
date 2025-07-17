@@ -18,6 +18,7 @@ public class CompanyClassService {
 	
 	// 강의 등록
 	public int registerClass(ClassDTO companyClass) {
+		companyClass.setClassStatus(1);
 		return companyClassMapper.insertCompanyClass(companyClass);
 	}
 	

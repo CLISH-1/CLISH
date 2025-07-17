@@ -24,21 +24,41 @@ public class CategoryService {
 	}
 
 	// 카테고리 추가
-	public int saveCategory(CategoryDTO category) {
-		int update = 0;
+	public int addCategory(CategoryDTO category) {
+		int insert = 0;
 		
 		if (category.getDepth() == 1) {
 			category.setCategoryIdx("CT_" + category.getCategoryName());
 			category.setParentIdx(null);
-			update = categoryMapper.insertCategory(category);
+			insert = categoryMapper.insertCategory(category);
 		} else if (category.getDepth() == 2 && category.getParentIdx() != null) {
 			String parentIdx = "CT_" + category.getParentIdx();
 			category.setParentIdx(parentIdx);
 			category.setCategoryIdx(parentIdx + "_" + category.getCategoryName());
-			update = categoryMapper.insertCategory(category);
+			insert = categoryMapper.insertCategory(category);
 		}
 		
+		return insert;
+	}
+
+	// 카테고리 수정
+	public int modifyCategory(CategoryDTO category) {
+		int update = 0;
+		if (category.getParentIdx().equals("no_parent")) {
+			category.setDepth(1);
+			category.setParentIdx(null);
+			update = categoryMapper.updateCategory(category);
+		} else if (!category.getParentIdx().equals("no_parent") && category.getParentIdx() != null){
+			String parentIdx = "CT_" + category.getParentIdx();
+			category.setDepth(2);
+			category.setParentIdx(parentIdx);
+			update = categoryMapper.updateCategory(category);
+		}
 		return update;
+	}
+
+	public int removeCategory(String categoryIdx) {
+		return categoryMapper.deleteCategory(categoryIdx);
 	}
 
 }
