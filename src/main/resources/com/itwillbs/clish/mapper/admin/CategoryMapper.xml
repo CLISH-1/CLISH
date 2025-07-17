@@ -48,6 +48,26 @@
 			, #{sortOrder}
 		)
 	</insert>
+	
+	<!-- 카테고리 수정 -->
+	<update id="updateCategory">
+		UPDATE 
+			CATEGORY
+		SET
+			category_name = #{categoryName}
+			, depth = #{depth}
+			<choose>
+			<when test="depth == 1">
+			, parent_idx = null
+			</when>
+			<otherwise>
+			, parent_idx = #{parentIdx}
+			</otherwise>
+			</choose>
+			, sort_order = #{sortOrder}
+		WHERE
+			category_idx = #{categoryIdx}
+	</update>
 </mapper>  
   
   

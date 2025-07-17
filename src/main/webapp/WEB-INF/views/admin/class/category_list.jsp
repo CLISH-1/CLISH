@@ -16,7 +16,7 @@
 	<div class="modal" id="add_category">
 		<div class="modal_body">
 			<h3>카테고리 등록</h3>
-			<form action="/admin/category/save" method="post">
+			<form action="/admin/category/add" method="post">
 				<div>
 					<label>카테고리 이름</label>
 					<input type="text"  name="categoryName"/>
@@ -73,7 +73,7 @@
 								<td><input type="text" value="${category.sortOrder}" /></td>
 								<td>
 									<button type="button" onclick="onModifyModal('${category.categoryIdx}')">수정</button>
-									<button type="button">삭제</button>
+									<button type="button" onclick="deleteCategory()">삭제</button>
 								</td>
 							</tr>
 						</c:forEach>
@@ -108,7 +108,7 @@
 								<td><input type="text" value="${category.categoryName}" /></td>
 								<td><input type="text" value="${category.sortOrder}" /></td>
 								<td>
-									<button type="button">수정</button>
+									<button type="button" onclick="onModifyModal('${category.categoryIdx}')">수정</button>
 									<button type="button">삭제</button>
 								</td>
 							</tr>
@@ -120,7 +120,8 @@
 		<div class="modal" id="modify_category">
 			<div class="modal_body">
 				<h3>카테고리 수정</h3>
-				<form action="/admin/category/save" method="post">
+				<form action="/admin/category/update" method="post">
+					<input type="hidden" name="categoryIdx"/>
 					<div>
 						<label>카테고리 이름</label>
 						<input type="text"  name="categoryName"/>
@@ -131,13 +132,12 @@
 							<option value="no_parent">없음</option>
 						    <c:forEach var="p" items="${parentCategories}">
 						        <option value="${fn:substringAfter(p.categoryIdx, 'CT_')}"
-						            <c:if test="${fn:substringAfter(p.categoryIdx, 'CT_') == fn:substringAfter(category.parentIdx, 'CT_')}">selected</c:if>
+						            <c:if test="${fn:substringAfter(p.categoryIdx, 'CT_')}">selected</c:if>
 						        >
 						            ${fn:substringAfter(p.categoryIdx, 'CT_')}
 						        </option>
 						    </c:forEach>
 						</select>
-
 						<span>1차 카테고리는 없음 선택</span>
 					</div>
 					<div>
@@ -169,9 +169,9 @@
 		        .then(response => response.json())
 		        .then(data => {
 		            document.querySelector('#modify_category input[name="categoryName"]').value = data.categoryName;
-		            document.querySelector('#modify_category select[name="parentIdx"]').value = data.parentIdx === null ? 'no_parent' : data.parentIdx;
+		            document.querySelector('#modify_category select[name="parentIdx"]').value = data.parentIdx === null ? 'no_parent' : data.parentIdx.replace('CT_', '');
 		            document.querySelector('#modify_category input[name="sortOrder"]').value = data.sortOrder;
-
+		            document.querySelector('#modify_category input[name="categoryIdx"]').value = data.categoryIdx;
 		            document.querySelector('#modify_category').style.display = 'block';
 		        });
 		}
@@ -179,6 +179,16 @@
 		function closeModifyModal() {
 			const modal = document.querySelector('#modify_category');
 			modal.style.display = "none";
+		}
+		
+		function deleteCategory(categoryIdx) {
+			if (confirm("해당 카테고리를 삭제하시겠습니까?")) {
+				if ("${msg}" == true) {
+					return location.href = "/admin/category/delete" + categoryIdx
+				}
+				
+				alert("${msg}");
+			}
 		}
 		
 	</script>

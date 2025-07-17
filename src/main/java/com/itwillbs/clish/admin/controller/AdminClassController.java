@@ -51,18 +51,41 @@ public class AdminClassController {
 	    return categoryService.getCategoryByIdx(categoryId);
 	}
 	
-	@PostMapping("/category/save")
-	public String saveCategory(@ModelAttribute CategoryDTO category, @RequestParam("parentIdx") String parentIdx ,Model model) {
+	// 카테고리 추가
+	@PostMapping("/category/add")
+	public String addCategory(@ModelAttribute CategoryDTO category, @RequestParam("parentIdx") String parentIdx ,Model model) {
 		if (parentIdx.equals("no_parent")) {
 			category.setDepth(1);
 		} else {
 			category.setDepth(2);
 		}
 		
-		int count = categoryService.saveCategory(category);
+		int count = categoryService.addCategory(category);
 		
 		if (count > 0) {
 			model.addAttribute("msg", "카테고리를 추가했습니다..");
+			model.addAttribute("targetURL", "/admin/category");
+		} else {
+			model.addAttribute("msg", "다시 시도해주세요!");
+			return "commons/fail";
+		}
+		
+		return "commons/result_process";
+	}
+	
+	// 카테고리 수정
+	@PostMapping("/category/update")
+	public String modifyCategory(@ModelAttribute CategoryDTO category,Model model) {
+		if (category.getParentIdx().equals("no_parent")) {
+			category.setDepth(1);
+		} else {
+			category.setDepth(2);
+		}
+		
+		int count = categoryService.modifyCategory(category);
+		
+		if (count > 0) {
+			model.addAttribute("msg", "카테고리를 수정했습니다.");
 			model.addAttribute("targetURL", "/admin/category");
 		} else {
 			model.addAttribute("msg", "다시 시도해주세요!");
