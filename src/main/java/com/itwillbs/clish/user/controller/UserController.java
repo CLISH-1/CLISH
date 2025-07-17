@@ -137,4 +137,13 @@ public class UserController {
 	    return "redirect:/";
 	}
 	
+	@PostMapping("/saveEmailSession")
+	public String saveEmailSession(@RequestParam("user_email") String userEmail,
+	                               HttpSession session,
+	                               RedirectAttributes redirect) {
+	    session.setAttribute("user_email", userEmail);
+	    redirect.addFlashAttribute("authMsg", "======");
+	    return "redirect:/member/general_join";
+	}
+	
 }

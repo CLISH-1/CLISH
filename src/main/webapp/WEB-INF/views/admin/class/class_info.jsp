@@ -47,6 +47,10 @@
 					<input type="text" value="${classInfo.classMember}" name="classMember" id="classMember" />
 				</div>
 				<div>
+					<label>가격</label>
+					<input type="text" value="${classInfo.classPrice}" name="classPrice" id="classPrice" />
+				</div>
+				<div>
 					<label>시작날짜</label>
 						<input type="date" value="${classInfo.startDate}" name="startDate" id="startDate"/>
 				</div>

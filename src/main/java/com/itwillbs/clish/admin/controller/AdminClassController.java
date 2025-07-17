@@ -51,21 +51,60 @@ public class AdminClassController {
 	    return categoryService.getCategoryByIdx(categoryId);
 	}
 	
-	@PostMapping("/category/save")
-	public String saveCategory(@ModelAttribute CategoryDTO category, @RequestParam("parentIdx") String parentIdx ,Model model) {
+	// 카테고리 추가
+	@PostMapping("/category/add")
+	public String addCategory(@ModelAttribute CategoryDTO category, @RequestParam("parentIdx") String parentIdx ,Model model) {
 		if (parentIdx.equals("no_parent")) {
 			category.setDepth(1);
 		} else {
 			category.setDepth(2);
 		}
 		
-		int count = categoryService.saveCategory(category);
+		int count = categoryService.addCategory(category);
 		
 		if (count > 0) {
 			model.addAttribute("msg", "카테고리를 추가했습니다..");
 			model.addAttribute("targetURL", "/admin/category");
 		} else {
 			model.addAttribute("msg", "다시 시도해주세요!");
+			return "commons/fail";
+		}
+		
+		return "commons/result_process";
+	}
+	
+	// 카테고리 수정
+	@PostMapping("/category/update")
+	public String modifyCategory(@ModelAttribute CategoryDTO category, Model model) {
+		if (category.getParentIdx().equals("no_parent")) {
+			category.setDepth(1);
+		} else {
+			category.setDepth(2);
+		}
+		
+		int count = categoryService.modifyCategory(category);
+		
+		if (count > 0) {
+			model.addAttribute("msg", "카테고리를 수정했습니다.");
+			model.addAttribute("targetURL", "/admin/category");
+		} else {
+			model.addAttribute("msg", "다시 시도해주세요!");
+			return "commons/fail";
+		}
+		
+		return "commons/result_process";
+	}
+	
+	// 카테고리 삭제
+	@GetMapping("/category/delete")
+	public String deleteCategory(@RequestParam("cId") String categoryIdx, @RequestParam("depth") int depth, Model model) {
+		int count = adminClassService.removeCategory(categoryIdx, depth);
+		
+		if (count > 0) {
+			model.addAttribute("msg", "카테고리를 삭제했습니다.");
+			model.addAttribute("targetURL", "/admin/category");
+		} else {
+			model.addAttribute("msg", "하위 카테고리나 관련 강의가 있어 삭제할 수 없습니다!");
 			return "commons/fail";
 		}
 		
@@ -145,9 +184,10 @@ public class AdminClassController {
 	
 	// 강좌 반려
 	@PostMapping("/class/{idx}/reject")
-	public String rejectClass (@RequestParam("content") String content, Model model) {
+	public String rejectClass (@PathVariable("idx") String idx, @RequestParam("content") String content, Model model) {
+		ClassDTO classInfo = adminClassService.getClassInfo(idx);
 		
-		notificationService.send("comp2025010120250711", 3, content);
+		notificationService.send(classInfo.getUserIdx(), 3, content);
 		
 		model.addAttribute("msg", "반려되었습니다.");
 		model.addAttribute("targetURL", "/admin/classList");
