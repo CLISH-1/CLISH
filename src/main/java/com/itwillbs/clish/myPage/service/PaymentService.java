@@ -50,7 +50,6 @@ public class PaymentService {
 	}
 
 	public PaymentInfoDTO getPayResult(PaymentInfoDTO paymentInfoDTO) {
-		// TODO Auto-generated method stub
 		return paymentMapper.selectPayResult(paymentInfoDTO);
 	}
 
@@ -68,10 +67,13 @@ public class PaymentService {
 	
 	@Transactional
 	public void cancelComplete(PaymentCancelDTO paymentCancelDTO) {
-		// TODO Auto-generated method stub
 		paymentMapper.insertCancelInfo(paymentCancelDTO);
 		paymentMapper.updatePaymentInfo(paymentCancelDTO);
 		
+	}
+
+	public PaymentCancelDTO getCancelResult(PaymentCancelDTO paymentCancelDTO) {
+		return paymentMapper.selectCancelResult(paymentCancelDTO);
 	}
 
 	

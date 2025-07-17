@@ -34,23 +34,34 @@
 	</select>
 	
 	<insert id="insertCancelInfo">
-		insert into payment_cancel values(
+		insert into PAYMENT_CANCEL values(
 			#{impUid}
 			, #{reservationIdx}
+			, #{classTitle}
 			, #{amount}
 			, #{cancelAmount}
 			, #{status}
 			, #{cancelReason}
 			, #{cancelledAt}
-			, #{buyerName}
+			, #{userName}
 			, #{payMethod}
 			, #{receiptUrl}
+			, #{cancelRequestTime}
+			, #{cancelReceiptUrl}
 		)
 	</insert>
 	
 	<update id="updatePaymentInfo">
-		update payment_info
+		update PAYMENT_INFO
 		set status = #{status}
 		where imp_uid = #{impUid}		
 	</update>
+	
+	<select id="selectCancelResult" resultType="com.itwillbs.clish.myPage.dto.PaymentCancelDTO">
+		select *
+		from 
+			PAYMENT_CANCEL
+		WHERE
+			imp_uid = #{impUid}
+	</select>
 </mapper>

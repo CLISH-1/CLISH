@@ -22,9 +22,11 @@
  	${paymentCancel.cancelReason }<br>
  	${paymentCancel.cancelledAt }<br>
  	${cancelTime}
- 	${paymentCancel.buyerName }<br>
+ 	${paymentCancel.userName }<br>
  	${paymentCancel.payMethod }<br>
+ 	${paymentCancel.cancelRequestTime}<br>
  	${paymentCancel.receiptUrl }<br>
+ 	${paymentCancel.cancelReceiptUrl }<br>
  	</h3>
   </body>
 </html>
