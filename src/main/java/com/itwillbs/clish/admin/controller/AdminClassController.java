@@ -184,9 +184,10 @@ public class AdminClassController {
 	
 	// 강좌 반려
 	@PostMapping("/class/{idx}/reject")
-	public String rejectClass (@RequestParam("content") String content, Model model) {
+	public String rejectClass (@PathVariable("idx") String idx, @RequestParam("content") String content, Model model) {
+		ClassDTO classInfo = adminClassService.getClassInfo(idx);
 		
-		notificationService.send("comp2025010120250711", 3, content);
+		notificationService.send(classInfo.getUserIdx(), 3, content);
 		
 		model.addAttribute("msg", "반려되었습니다.");
 		model.addAttribute("targetURL", "/admin/classList");
