@@ -33,14 +33,13 @@
 	<!-- 예약정보 불러오기 -->
 	<select id="selectAllReservationInfo" resultType="com.itwillbs.clish.myPage.dto.ReservationDTO">
 		SELECT *
-		FROM
+		FROM 
 			RESERVATION
-		WHERE 
-			user_idx = #{userIdx} AND reservation_status = 1
-		ORDER BY
-			reservation_com
+		WHERE
+			user_idx = #{userIdx}
+		ORDER BY 
+			(reservation_status = 1) DESC, reservation_com
 	</select>
-	
 	<!-- 예약상세정보불러오기 -->
 	<select id="selectOneReservationInfo" resultType="com.itwillbs.clish.myPage.dto.ReservationDTO">
 		SELECT *

@@ -22,9 +22,6 @@ public class MyPageService {
 	private final MyPageMapper myPageMapper;
 	//-----------------------------------------------------
 	public UserDTO getUserInfo(UserDTO user) {
-		// TODO Auto-generated method stub
-
-		
 		return myPageMapper.selectUserInfo(user);
 	}
 	

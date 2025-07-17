@@ -62,6 +62,20 @@
 		          onclick="reservationInfo(this)"> </td>
 			        	</tr>
 			        </c:if>
+			        <c:if test="${reserve.reservationStatus == 2}">
+			        	<tr>
+			        		<td><input type="checkbox" name="${reserve.reservationIdx}"> </td>
+			        		<td><c:if test="${reserve.reservationStatus eq 2 }">결제완료</c:if></td>
+			        		<td>${reserve.reservationIdx}</td>
+							<td>${user.userName}</td>
+							<td>${reserve.classIdx}</td>
+							<td>${reserve.reservationClassDate}</td>
+							<td>${reserve.reservationCom}</td>
+							<td></td><td></td>
+							<td><input type="button" value="상세보기" data-reservation-num="${reserve.reservationIdx}"
+		          onclick="reservationInfo(this)"> </td>
+			        	</tr>
+			        </c:if>
 	       		</c:forEach>
 			</table>
 		</div>
@@ -91,7 +105,7 @@
 						<td>${payment.pay_time}</td>
 						<td><input type="button" value="결제취소" data-imp-num="${payment.imp_uid}"
 	          onclick="cancelPayment(this)"></td>
-						<td><input type="button" value="상세보기" data-imp-num="${payment.imp_uid}"
+						<td><input type="button" value="상세보기" data-imp-num="${payment.imp_uid}" data-status="${payment.status }"
 	          onclick="paymentInfo(this)"> </td>
 		        	</tr>
 	       		</c:forEach>
@@ -170,11 +184,22 @@
 	
 	function paymentInfo(btn) {
 		var impUid = btn.getAttribute('data-imp-num');
-		window.open(
-			'/myPage/payment_info/paymentDetail?impUid=' + encodeURIComponent(impUid),			
-			'paymentInfo',
-			`width=600,height=1500, resizable=yes, scrollbars=yes`
-		);
+		var status = btn.getAttribute('data-status');
+		console.log(status);
+		if(status == 'paid'){
+			window.open(
+				'/myPage/payment_info/paymentDetail?impUid=' + encodeURIComponent(impUid),			
+				'paymentInfo',
+				`width=600,height=1500, resizable=yes, scrollbars=yes`
+			);
+		}
+		if(status == 'cancelled'){
+			window.open(
+					'/myPage/payment_info/cancelDetail?impUid=' + encodeURIComponent(impUid),			
+					'paymentInfo',
+					`width=600,height=1500, resizable=yes, scrollbars=yes`
+				);
+		}
 	}
 	
 	
