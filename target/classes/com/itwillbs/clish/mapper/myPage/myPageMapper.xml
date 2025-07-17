@@ -118,6 +118,15 @@
 		WHERE
 			r.user_idx = #{userIdx}
 	</select>
+	
+	<!-- 탈퇴 조회 -->
+	<update id="withdraw">
+		UPDATE USER
+		SET
+			user_status = 3
+		WHERE
+			user_id = #{userId}
+	</update>
 </mapper>
 
 

@@ -35,6 +35,8 @@ public interface MyPageMapper {
 
 	List<PaymentInfoDTO> selectAllPaymentInfo(UserDTO user);
 
+	int withdraw(UserDTO user);
+
 
 
 

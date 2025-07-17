@@ -72,7 +72,7 @@ public class MyPageController {
 		user.setUserId((String)session.getAttribute("sId"));
 		
 		UserDTO user1 = myPageService.getUserInfo(user); // 기존 유저 정보 불러오기
-		//기존 email주소와 입력된 이메일 주소가 다르면 newEmail에 새 이메일 값 저장 
+
 		if(!user1.getUserEmail().equals(user.getUserEmail())){
 			user.setNewEmail(user.getUserEmail());
 		}
@@ -182,4 +182,80 @@ public class MyPageController {
 		return "redirect:/myPage/payment_info/detail?reservationIdx=" + reservation.getReservationIdx();
 	}
 	
+	//---------------------------------------------------------------------------------------
+	// 회원 탈퇴페이지
+	@GetMapping("/withdraw")
+	public String withdraw() {
+		return "/clish/myPage/myPage_withdraw";
+	}
+	
+	@PostMapping("/withdraw")
+	public String withdrawForm(HttpSession session, UserDTO user, Model model) {
+		String id = (String)session.getAttribute("sId");
+		user.setUserId(id);
+		String inputPw = user.getUserPassword();
+		user = myPageService.getUserInfo(user);
+		if(user.getUserPassword().equals(inputPw)) {
+			
+			return "/clish/myPage/myPage_withdraw_withdrawResult";
+		}
+		model.addAttribute("msg","비밀번호 틀렸슴다");
+		return "/commons/fail";
+	}
+	
+	@PostMapping(value="/withdrawFinal", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public String withdrawFinal(HttpSession session, UserDTO user) {
+		String id = (String)session.getAttribute("sId");
+		user.setUserId(id);
+		int withdrawResult = myPageService.withdraw(user);
+		if(withdrawResult >0) {
+			session.invalidate();
+			return "탈퇴완료";
+		} else {
+			return "탈퇴실패 다시할것";
+		}
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

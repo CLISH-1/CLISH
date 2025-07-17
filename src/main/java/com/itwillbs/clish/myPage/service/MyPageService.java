@@ -61,6 +61,10 @@ public class MyPageService {
 	public List<PaymentInfoDTO> getPaymentList(UserDTO user) {
 		return myPageMapper.selectAllPaymentInfo(user);
 	}
+
+	public int withdraw(UserDTO user) {
+		return myPageMapper.withdraw(user);
+	}
 	
 
 
