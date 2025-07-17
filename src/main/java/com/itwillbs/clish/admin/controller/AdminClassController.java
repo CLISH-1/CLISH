@@ -75,7 +75,7 @@ public class AdminClassController {
 	
 	// 카테고리 수정
 	@PostMapping("/category/update")
-	public String modifyCategory(@ModelAttribute CategoryDTO category,Model model) {
+	public String modifyCategory(@ModelAttribute CategoryDTO category, Model model) {
 		if (category.getParentIdx().equals("no_parent")) {
 			category.setDepth(1);
 		} else {
@@ -93,6 +93,22 @@ public class AdminClassController {
 		}
 		
 		return "commons/result_process";
+	}
+	
+	// 카테고리 삭제
+	@GetMapping("/category/delete")
+	public String deleteCategory(@RequestParam("cId") String categoryIdx, @RequestParam("depth") int depth, Model model) {
+		int count = adminClassService.removeCategory(categoryIdx, depth);
+		
+		if (count > 0) {
+			model.addAttribute("msg", "카테고리를 삭제했습니다.");
+			model.addAttribute("targetURL", "/admin/category");
+		} else {
+			model.addAttribute("msg", "하위 카테고리나 관련 강의가 있어 삭제할 수 없습니다!");
+			return "commons/fail";
+		}
+		
+		return "redirect:/admin/category";
 	}
 	
 	// 강좌 리스트

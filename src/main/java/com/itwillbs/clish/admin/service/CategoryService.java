@@ -57,4 +57,8 @@ public class CategoryService {
 		return update;
 	}
 
+	public int removeCategory(String categoryIdx) {
+		return categoryMapper.deleteCategory(categoryIdx);
+	}
+
 }

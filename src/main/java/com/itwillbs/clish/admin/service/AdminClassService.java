@@ -19,6 +19,7 @@ import lombok.extern.log4j.Log4j2;
 public class AdminClassService {
 	private final AdminClassMapper adminClassMapper;
 	private final NotificationService notificationService;
+	private final CategoryService categoryService;
 	
 	// 강좌 리스트
 	public List<Map<String, Object>> getClassList() {
@@ -55,6 +56,16 @@ public class AdminClassService {
 		return update;
 	}
 	
+	public int removeCategory(String categoryIdx, int depth) {
+		List<Boolean> isReferenced = adminClassMapper.existsByCategory(categoryIdx, depth);
+		
+		if (!isReferenced.isEmpty()) {
+			return 0;
+		}
+		
+		return categoryService.removeCategory(categoryIdx);
+	}
+	
 	// 강좌 수업 요일 구하는 공식
 	private List<String> decodeClassDays(int classDays) {
 		String[] dayNames = {"월", "화", "수", "목", "금", "토", "일"};
@@ -67,4 +78,5 @@ public class AdminClassService {
 		}
 		return result;
 	}
+
 }

@@ -19,4 +19,6 @@ public interface CategoryMapper {
 
 	int updateCategory(CategoryDTO category);
 
+	int deleteCategory(String categoryIdx);
+
 }

@@ -68,6 +68,14 @@
 		WHERE
 			category_idx = #{categoryIdx}
 	</update>
+	
+	<delete id="deleteCategory">
+		DELETE
+		FROM
+			CATEGORY
+		WHERE
+			category_idx = #{categoryIdx}
+	</delete>
 </mapper>  
   
   
