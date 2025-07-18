@@ -1,9 +1,11 @@
 package com.itwillbs.clish.user.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import java.util.UUID;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 	
 	private final UserService userService;
+	private static final String UPLOAD_DIR = "src/main/webapp/resources/upload/biz";
 	
 	//회원가입
 	@GetMapping("/join")
@@ -52,8 +55,8 @@ public class UserController {
 	@PostMapping("/register")
 	public String processJoin( 
 			@ModelAttribute UserDTO userDTO,
-	        @RequestParam(value = "biz_file", required = false) MultipartFile bizFile,
-	        @RequestParam(value = "biz_reg_no", required = false) String bizRegNo,
+	        @RequestParam(value = "bizFile", required = false) MultipartFile bizFileName,
+	        @RequestParam(value = "bizRegNo", required = false) String bizRegNo,
 	        RedirectAttributes redirect) {
 
 	    String prefix = (userDTO.getUserType() == 1) ? "user" : "comp";
@@ -68,10 +71,27 @@ public class UserController {
 	        companyDTO.setBizRegNo(bizRegNo);
 
 	        try {
-	            companyDTO.setBizFileName(bizFile.getOriginalFilename());
-	            companyDTO.setBizFile(bizFile.getBytes());
+	            // 업로드 디렉토리 생성 (없을 경우)
+	            File uploadDir = new File(UPLOAD_DIR);
+	            if (!uploadDir.exists()) {
+	                uploadDir.mkdirs();
+	            }
+
+	            // UUID + 원본파일명으로 저장
+	            String originalFilename = bizFileName.getOriginalFilename();
+	            String uuid = UUID.randomUUID().toString();
+	            String newFilename = uuid + "_" + originalFilename;
+
+	            // 파일 저장
+	            File destFile = new File(uploadDir, newFilename);
+	            bizFileName.transferTo(destFile);
+
+	            // DTO 설정
+	            companyDTO.setBizFileName(newFilename); // 저장된 파일명
+	            companyDTO.setBizFilePath("/resources/upload/biz/" + newFilename); // URL 기준 접근 경로
+
 	        } catch (IOException e) {
-	            redirect.addFlashAttribute("errorMsg", "기업 회원가입 실패");
+	            redirect.addFlashAttribute("errorMsg", "기업 회원가입 실패 - 파일 저장 오류");
 	            return "redirect:/user/join/form";
 	        }
 	    }
@@ -93,7 +113,7 @@ public class UserController {
 		return "/user/join_success";
 	}
 	
-	@GetMapping("/login")
+	@GetMapping("login")
 	public String showLoginForm() {
 	    return "user/login_form";
 	}

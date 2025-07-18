@@ -13,5 +13,5 @@ public class CompanyDTO {
     private String userIdx;               
     private String bizRegNo;             
     private String bizFileName;        
-    private byte[] bizFile;               
+    private String bizFilePath;              
 }
