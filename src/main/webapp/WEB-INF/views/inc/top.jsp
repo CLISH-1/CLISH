@@ -10,7 +10,7 @@
                   <input type="search" id="search" placeholder="검색어를 입력하세요" name="query" required>
               </form>
           </li>
-          <li><a id="sub-nav-toggle" href="#">정기 강의</a></li>
+          <li><a id="sub-nav-toggle" href="/course/user/classList">정기 강의</a></li>
           <li><a href="#">단기 강의</a></li>
           <li><a href="#">고객 센터</a> </li> 
           <li><a href="#">이벤트</a></li>
