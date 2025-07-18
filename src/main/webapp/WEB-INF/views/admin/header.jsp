@@ -6,8 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link href="${pageContext.request.contextPath}/resources/css/admin/header.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<h3>header</h3>
+	<div class="admin-header">
+		<a  href="/"><img id="logo" alt="logo" src="${pageContext.request.contextPath}/resources/images/logo4-2.png"></a>
+		<nav class="nave-link">
+			<span>관리자</span>
+		</nav>
+	</div>
 </body>
 </html>
