@@ -1,6 +1,5 @@
 package com.itwillbs.clish.admin.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,14 +25,6 @@ public class AdminClassService {
 		return adminClassMapper.selectClassList();
 	}
 	
-	// 강좌 상세 정보
-	public ClassDTO getClassInfo(String idx) {
-		ClassDTO dbClass = adminClassMapper.selectClassInfo(idx);
-		dbClass.setClassDayNames(decodeClassDays(dbClass.getClassDays()));
-		
-		return dbClass;
-	}
-	
 	@Transactional
 	public int modifyStatus(String idx, int status) {
 		int update = adminClassMapper.updateClassStatus(idx, status);
@@ -56,6 +47,7 @@ public class AdminClassService {
 		return update;
 	}
 	
+	// 카테고리 삭제
 	public int removeCategory(String categoryIdx, int depth) {
 		boolean isReferenced = adminClassMapper.existsByCategory(categoryIdx, depth);
 		
@@ -65,19 +57,6 @@ public class AdminClassService {
 			categoryService.removeCategory(categoryIdx);
 			return 1;
 		}
-	}
-	
-	// 강좌 수업 요일 구하는 공식
-	private List<String> decodeClassDays(int classDays) {
-		String[] dayNames = {"월", "화", "수", "목", "금", "토", "일"};
-		List<String> result = new ArrayList<>();
-		
-		for (int i = 0; i < 7; i++) {
-			if ((classDays & (1 << i)) > 0) {
-				result.add(dayNames[i]);
-			}
-		}
-		return result;
 	}
 
 }
