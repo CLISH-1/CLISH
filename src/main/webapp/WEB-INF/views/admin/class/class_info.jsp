@@ -38,6 +38,7 @@
 	<jsp:include page="/WEB-INF/views/admin/sidebar.jsp"></jsp:include>
 		<div>
 			<form id="classForm">
+				<input type="hidden" name="userIdx" id="userIdx" value="${classInfo.userIdx}"/>
 				<div>
 					<label>강좌 이름</label>
 					<input type="text" value="${classInfo.classTitle}" name="classTitle" id="classTitle" />

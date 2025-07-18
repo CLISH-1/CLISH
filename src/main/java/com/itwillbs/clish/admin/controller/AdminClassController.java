@@ -171,8 +171,8 @@ public class AdminClassController {
 	
 	// 강좌 승인
 	@PostMapping("/class/{idx}/approve")
-	public String approveClass(@PathVariable("idx") String idx, Model model) {
-		int success = adminClassService.modifyStatus(idx, 2);
+	public String approveClass(@PathVariable("idx") String idx, @RequestParam("userIdx") String userIdx, Model model) {
+		int success = adminClassService.modifyStatus(userIdx, idx, 2);
 		
 		if (success > 0) {
 			model.addAttribute("msg", "승인 완료되었습니다.");
