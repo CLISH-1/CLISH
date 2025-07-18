@@ -26,14 +26,14 @@ public class AdminClassService {
 	}
 	
 	@Transactional
-	public int modifyStatus(String idx, int status) {
+	public int modifyStatus(String userIdx, String idx, int status) {
 		int update = adminClassMapper.updateClassStatus(idx, status);
-		
 		if (update > 0) {
-			notificationService.send(idx, 3, "등록 요청하신 강좌가 승인되었습니다.");
+		  notificationService.send(userIdx, 3, "등록 요청하신 강좌가 승인되었습니다.");
+		  return 1;
 		} 
 		
-		return update;
+		return 0;
 	}
 	
 	// 강좌 정보 수정
