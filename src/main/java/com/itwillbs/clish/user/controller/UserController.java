@@ -50,8 +50,8 @@ public class UserController {
 	
 	// 회원가입 완료
 	@PostMapping("/register")
-	public String processJoin(
-	        @ModelAttribute UserDTO userDTO,
+	public String processJoin( 
+			@ModelAttribute UserDTO userDTO,
 	        @RequestParam(value = "biz_file", required = false) MultipartFile bizFile,
 	        @RequestParam(value = "biz_reg_no", required = false) String bizRegNo,
 	        RedirectAttributes redirect) {
@@ -72,7 +72,7 @@ public class UserController {
 	            companyDTO.setBizFile(bizFile.getBytes());
 	        } catch (IOException e) {
 	            redirect.addFlashAttribute("errorMsg", "기업 회원가입 실패");
-	            return "redirect:/member/join/form";
+	            return "redirect:/user/join/form";
 	        }
 	    }
 
@@ -108,20 +108,20 @@ public class UserController {
 	    
 	    if (dbUser == null || !dbUser.getUserPassword().equals(userDTO.getUserPassword())) {
 	        redirect.addFlashAttribute("errorMsg", "비밀번호 불일치");
-	        return "redirect:/member/login";
+	        return "redirect:/user/login";
 	    }
 
 	    if (Objects.equals(dbUser.getUserStatus(), 3)) {
 	        redirect.addFlashAttribute("errorMsg", "탈퇴한 회원입니다.");
-	        return "redirect:/member/login";
+	        return "redirect:/user/login";
 	    }
 
 	    if (Objects.equals(dbUser.getUserEmailAuthYn(), "N")) {
 	        redirect.addFlashAttribute("errorMsg", "이메일 인증 후 로그인 가능합니다.");
-	        return "redirect:/member/login";
+	        return "redirect:/user/login";
 	    }
 
-	    session.setAttribute("sId", dbUser.getUserId());
+	    session.setAttribute("sUT", dbUser.getUserType());
 	    session.setAttribute("loginUser", dbUser);
 	    session.setMaxInactiveInterval(600);
 
@@ -139,8 +139,7 @@ public class UserController {
 	
 	@PostMapping("/saveEmailSession")
 	public String saveEmailSession(@RequestParam("user_email") String userEmail,
-	                               HttpSession session,
-	                               RedirectAttributes redirect) {
+	                               HttpSession session, RedirectAttributes redirect) {
 	    session.setAttribute("user_email", userEmail);
 	    redirect.addFlashAttribute("authMsg", "======");
 	    return "redirect:/member/general_join";
