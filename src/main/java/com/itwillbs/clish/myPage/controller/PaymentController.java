@@ -141,14 +141,17 @@ public class PaymentController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
 		HttpEntity<Map<String, Object>> request = new HttpEntity<>(cancelRequest, headers);
+		
+//--------------------------------------------------------------------------------------------------
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<Map> cancelResponse = restTemplate.postForEntity(cancelUrl, request, Map.class);
-
+		
 		Map<String, Object> responseBody = cancelResponse.getBody();
 	    int code = (int) responseBody.get("code");
 	    
 	    Map<String, Object> responseMap = (Map<String, Object>) responseBody.get("response");
-
+	    
+	   	    
 	    if (responseMap != null) {
 	        ObjectMapper mapper = new ObjectMapper();
 	        paymentCancelDTO = mapper.convertValue(responseMap, PaymentCancelDTO.class);

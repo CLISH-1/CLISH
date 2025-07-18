@@ -43,10 +43,12 @@
 					
 				</table>
 					
-				<!-- 아직 안함.. -->
-		        <div style="text-align: center; padding-top: 30px;">
-		            <button class="orange-button">클래스 목록</button>
-		        </div>
+				<div style="display: flex; justify-content: center; margin-top: 40px;">
+				    <button class="orange-button"
+				            onclick="location.href='${pageContext.request.contextPath}/company/myPage/classManage'">
+				        클래스 관리
+				    </button>
+				</div>
 		</section>
 	</main>
 	<footer>
