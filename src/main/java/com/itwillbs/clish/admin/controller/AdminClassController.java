@@ -18,6 +18,7 @@ import com.itwillbs.clish.admin.service.AdminClassService;
 import com.itwillbs.clish.admin.service.CategoryService;
 import com.itwillbs.clish.admin.service.NotificationService;
 import com.itwillbs.clish.course.dto.ClassDTO;
+import com.itwillbs.clish.course.service.CompanyClassService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -27,6 +28,7 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("admin")
 @RequiredArgsConstructor
 public class AdminClassController {
+	private final CompanyClassService classService;
 	private final AdminClassService adminClassService;
 	private final CategoryService categoryService;
 	private final NotificationService notificationService;
@@ -127,7 +129,7 @@ public class AdminClassController {
 	@GetMapping("/class/{idx}")
 	public String classInfo(@PathVariable("idx") String idx, Model model) {
 		// 클래스 정보 가져오기
-		ClassDTO classInfo = adminClassService.getClassInfo(idx);
+		ClassDTO classInfo = classService.getClassInfo(idx);
 		
 		List<CategoryDTO> parentCategories = categoryService.getCategoriesByDepth(1);
 		List<CategoryDTO> childCategories = categoryService.getCategoriesByDepth(2);
@@ -145,6 +147,7 @@ public class AdminClassController {
 		model.addAttribute("selectedParentCategory", parentCategory);
 		model.addAttribute("selectedChildCategory", childCategory);
 		
+		System.out.println("어드민 상세 : " + classInfo);
 		return "/admin/class/class_info";
 	}
 	
@@ -185,7 +188,7 @@ public class AdminClassController {
 	// 강좌 반려
 	@PostMapping("/class/{idx}/reject")
 	public String rejectClass (@PathVariable("idx") String idx, @RequestParam("content") String content, Model model) {
-		ClassDTO classInfo = adminClassService.getClassInfo(idx);
+		ClassDTO classInfo = classService.getClassInfo(idx);
 		
 		notificationService.send(classInfo.getUserIdx(), 3, content);
 		

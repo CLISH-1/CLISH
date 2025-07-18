@@ -42,8 +42,8 @@
 						<c:forEach var="classItem" items="${classList}">
 						    <c:if test="${classItem.class_status != 1}">
 						        <c:set var="hasRegisteredClass" value="true" />
-						        <tr onclick="location.href='/course/user/classDetail?classIdx=${classItem.class_idx}'">
-						            <td>${classItem.class_title}</td>
+						        <tr>
+						            <td onclick="location.href='/course/user/classDetail?classIdx=${classItem.class_idx}'">${classItem.class_title}</td>
 						            <td>${classItem.parent_category_name}</td>
 						            <td>${classItem.child_category_name}</td>
 						            <td>
@@ -53,6 +53,7 @@
 						                </c:choose>
 						            </td>
 						            <td><button>수정</button></td>
+						            <td><button onclick="location.href='예약페이지 매핑''">예약</button></td>
 						        </tr>
 						    </c:if>
 						</c:forEach>

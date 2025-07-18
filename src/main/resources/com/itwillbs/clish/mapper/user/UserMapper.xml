@@ -6,22 +6,29 @@
 	
 	 <insert id="insertUser" parameterType="com.itwillbs.clish.user.dto.UserDTO">
         INSERT INTO USER SET
-            user_idx               = #{userIdx}
-          , user_name              = #{userName}
-          , user_rep_name          = #{userRepName}
-          , user_birth             = #{userBirth}
-          , user_gender            = #{userGender}
-          , user_id                = #{userId}
-          , user_password          = #{userPassword}
-          , user_email             = #{userEmail}
-          , user_email_token       = ""
-          , user_email_auth_yn     = "Y"
-          , user_phone_number      = #{userPhoneNumber}
-          , user_phone_number_sub  = #{userPhoneNumberSub}
-          , user_postcode          = #{userPostcode}
-          , user_address1          = #{userAddress1}
-          , user_address2          = #{userAddress2}
-          , user_status            = 1
+	          user_idx               = #{userIdx}
+	        , user_name              = #{userName}
+	        , user_rep_name          = #{userRepName}
+	        , user_birth             = #{userBirth}
+	        , user_gender            = #{userGender}
+	        , user_id                = #{userId}
+	        , user_password          = #{userPassword}
+	        , user_email             = #{userEmail}
+	        , user_email_token       = ""
+          	, user_email_auth_yn     = "Y"
+	        , user_phone_number      = #{userPhoneNumber}
+	        , user_phone_number_sub  = #{userPhoneNumberSub}
+	        , user_postcode          = #{userPostcode}
+	        , user_address1          = #{userAddress1}
+	        , user_address2          = #{userAddress2}
+			<choose>
+    	  		<when test="userType == 1">
+      	 	, user_status            = 1
+    			</when>
+    			<otherwise>
+      		, user_status            = 5
+    			</otherwise>
+			</choose>
           , user_reg_date          = NOW()
           , user_withdraw_date     = #{userWithdrawDate}
           , user_type              = #{userType}
@@ -32,7 +39,7 @@
             user_idx         = #{userIdx}
           , biz_reg_no       = #{bizRegNo}
           , biz_file_name    = #{bizFileName}
-          , biz_file         = #{bizFile}
+          , biz_file_path    = #{bizFilePath}
     </insert>
     
 	<select id="selectUserId" parameterType="String" resultType="com.itwillbs.clish.user.dto.UserDTO">

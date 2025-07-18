@@ -171,7 +171,7 @@
 
     <!-- 공통 푸터 -->
     <footer>
-        <jsp:include page="/WEB-INF/views/admin/bottom.jsp" />
+        <jsp:include page="/WEB-INF/views/inc/bottom.jsp" />
     </footer>
 
 </body>

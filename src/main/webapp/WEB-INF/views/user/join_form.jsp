@@ -11,18 +11,7 @@
 	
 	<form name="joinForm" action="${pageContext.request.contextPath}/user/register" method="post" enctype="multipart/form-data">
 		<table border="1" style="width: 100%; text-align: left;">
-			<!-- 인증영역 -->
-			<c:if test="${sessionScope.userType == 1}">
-				<tr>
-					<th>이메일</th>
-					<td>
-						<input type="email" name="userEmail" required>
-						<button type="button" onclick="confirmEmailAuth()">[이메일 인증]</button>
-						<span id="email-auth-result" style="margin-left: 10px; color: green;"></span>
-					</td>
-				</tr>
-			</c:if>
-	
+			<!-- 기업인증영역 -->
 			<c:if test="${sessionScope.userType == 2}">
 				<tr>
 					<th>사업자등록번호</th>
@@ -41,6 +30,14 @@
 			</c:if>
 	
 			<!-- 공통 입력 영역 -->
+			<tr>
+				<th>이메일</th>
+				<td>
+					<input type="email" name="userEmail" required>
+					<button type="button" onclick="confirmEmailAuth()">[이메일 인증]</button>
+					<span id="email-auth-result" style="margin-left: 10px; color: green;"></span>
+				</td>
+			</tr>
 			<tr>
 				<th><label for="userName"><c:if test="${sessionScope.userType == 1}">회원이름</c:if><c:if test="${sessionScope.userType == 2}">회사명</c:if></label></th>
 				<td><input type="text" name="userName" id="userName" required></td>
