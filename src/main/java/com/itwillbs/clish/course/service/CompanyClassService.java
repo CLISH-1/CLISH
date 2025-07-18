@@ -2,6 +2,7 @@ package com.itwillbs.clish.course.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,16 @@ public class CompanyClassService {
 	        }
 	    }
 	    return result;
+	}
+	
+	// 전체 강의 조회
+	public List<Map<String, Object>> getAllClassList() {
+		return companyClassMapper.selectAllClassList();
+	}
+
+	// 단기 & 정기 강의 조회
+	public List<Map<String, Object>> getClassListByType(String type) {
+		return companyClassMapper.selectClassListByType(type);
 	}
 	
 }	
