@@ -31,5 +31,38 @@
 		FROM CLASS
 		WHERE class_idx = #{classIdx}
 	</select>
+	
+	<!-- 전체강의 조회 -->
+	<select id="selectAllClassList" resultType="map">
+	    SELECT 
+	        C.*, 
+	        PC.CATEGORY_NAME AS parent_category_name, 
+	        CC.CATEGORY_NAME AS child_category_name
+	    FROM CLASS C
+	    JOIN CATEGORY CC ON C.CATEGORY_IDX = CC.CATEGORY_IDX
+	    LEFT JOIN CATEGORY PC ON CC.PARENT_IDX = PC.CATEGORY_IDX
+	</select>
+	
+	<!-- 단기 & 정기강의 조회 -->
+	<select id="selectClassListByType" parameterType="String" resultType="map">
+	    SELECT 
+	        C.*, 
+	        PC.CATEGORY_NAME AS parent_category_name, 
+	        CC.CATEGORY_NAME AS child_category_name
+	    FROM CLASS C
+	    JOIN CATEGORY CC ON C.CATEGORY_IDX = CC.CATEGORY_IDX
+	    LEFT JOIN CATEGORY PC ON CC.PARENT_IDX = PC.CATEGORY_IDX
+	    <where>
+	        <if test="type == 'short'">
+	            <![CDATA[Datediff(C.END_DATE, C.START_DATE) <= 2]]>
+	            <!-- 단기 강의: 시작일~종료일이 2일 이하 -->
+	        </if>
+	        <if test="type == 'regular'">
+	            <![CDATA[Datediff(C.END_DATE, C.START_DATE) >= 3]]>
+	            <!-- 정기 강의: 시작일~종료일이 3일 이상 -->
+	        </if>
+	    </where>
+	</select>
+	
 
 </mapper>

@@ -46,15 +46,27 @@ public class CompanyClassController {
 	
 	// 클래스 관리 페이지
 	@GetMapping("/myPage/classManage")
-    public String classManageForm(Model model) {
+    public String classManageForm(@RequestParam(required = false) String type, Model model) {
 		List<Map<String , Object>> classList = adminClassService.getClassList();
+		
+		if (type == null || type.isBlank()) {
+			// 전체
+		    classList = companyClassService.getAllClassList();
+		} else if (type.equals("short") || type.equals("regular")) {
+			// 단기 & 정기
+		    classList = companyClassService.getClassListByType(type);
+		} else {
+		    // 혹시나 잘못된 type 들어온 경우 대비
+		    classList = companyClassService.getAllClassList();
+		}
+		
 		model.addAttribute("classList", classList);
 		
         return "/company/companyClass/classManage"; 
     }
 	
 	
-	// 클래스 등록 페이지
+	// 클래스 개설 페이지
 	@GetMapping("/myPage/registerClass")
     public String registerClassForm() {
         return "/company/companyClass/registerClass"; 

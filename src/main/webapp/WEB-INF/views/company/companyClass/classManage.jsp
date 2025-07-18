@@ -98,6 +98,26 @@
             <!-- 필터 & 검색창 -->
             <div class="class-filter-box">
                 <h5>강좌 목록</h5>
+                
+                <!-- 단기 & 정기강의 구분 -->
+				<div style="margin-bottom: 10px;">
+				    <a href="${pageContext.request.contextPath}/company/myPage/classManage?type=short"
+				       style="<c:if test='${param.type == "short"}'>font-weight: bold; color: red;</c:if>">
+				        단기 강의
+				    </a> |
+				    
+				    <a href="${pageContext.request.contextPath}/company/myPage/classManage?type=regular"
+				       style="<c:if test='${param.type == "regular"}'>font-weight: bold; color: red;</c:if>">
+				        정기 강의
+				    </a> |
+				    
+				    <a href="${pageContext.request.contextPath}/company/myPage/classManage"
+				       style="<c:if test='${empty param.type}'>font-weight: bold; color: red;</c:if>">
+				        전체 보기
+				    </a>
+				</div>
+                
+                
                 <div style="margin-bottom: 10px;">
                     <select>
                         <option>전체</option>
@@ -151,7 +171,7 @@
 
     <!-- 공통 푸터 -->
     <footer>
-        <jsp:include page="/WEB-INF/views/admin/bottom.jsp" />
+        <jsp:include page="/WEB-INF/views/inc/bottom.jsp" />
     </footer>
 
 </body>

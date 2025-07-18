@@ -5,12 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>클래스 개설 페이지</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/the_best_styles.css">
 </head>
 <body>
 <section style="max-width: 700px; margin: 50px auto; padding: 30px;">
-    <h2 style="text-align: center; margin-bottom: 20px;">클래스 등록 페이지</h2>
+    <h2 style="text-align: center; margin-bottom: 20px;">클래스 개설 페이지</h2>
 
     <form action="${pageContext.request.contextPath}/company/myPage/registerClass" method="post">
         

@@ -10,10 +10,11 @@
 <link href="${pageContext.request.contextPath}/resources/css/the_best_styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<div class="sidebar">
+	<nav class="navbar">
+	   <a  href="/"><img id="logo" alt="logo" src="${pageContext.request.contextPath}/resources/images/logo4-2.png"></a>
 	   <ul>
-	   	   <li class="sub-nav"> <a href="/admin/">main</a></li>
-	       <li class="list">
+	   	   <li> <a href="/admin/">main</a></li>
+	       <li>
 	       		<span>강좌 관리</span>
 	       		<ul>
 	       			<li>
@@ -25,13 +26,13 @@
 	     	<li>
 	           <span>회원 관리</span>
 	           <ul>
-	             <li class="list_sub">
+	             <li>
 	               <a href="/admin/user">일반 회원 목록</a>
 	               <a href="/admin/company">기업 회원 목록</a>
 	             </li>
 	           </ul>
 			</li>
 	   </ul>
-	</div>
+	</nav>
 </body>
 </html>

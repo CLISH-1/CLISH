@@ -13,8 +13,6 @@ public interface AdminClassMapper {
 
 	List<Map<String, Object>> selectClassList();
 
-	ClassDTO selectClassInfo(String idx);
-
 	int updateClassStatus(@Param("idx") String idx, @Param("status") int status);
 
 	int updateClassInfo(@Param("idx") String idx, @Param("classInfo") ClassDTO classInfo);
