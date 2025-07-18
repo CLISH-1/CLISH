@@ -41,6 +41,8 @@
 					</tr>
 					
 				</table>
+				
+				<input type="text" id="classIdx" name="classIdx" value="${param.classIdx}"><br>
 					
 				<!-- 아직 안함.. -->
 		        <div style="text-align: center; padding-top: 30px;">

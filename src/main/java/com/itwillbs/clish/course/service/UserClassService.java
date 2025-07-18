@@ -21,8 +21,8 @@ public class UserClassService {
 		return userClassMapper.selectUser(userIdx);
 	}
 
-	public void registReservation(ReservationDTO reservationDTO, ClassDTO classInfo, UserDTO userInfo) {
-		userClassMapper.insertReservation(userInfo, reservationDTO, classInfo);
+	public void registReservation(ReservationDTO reservationDTO) {
+		userClassMapper.insertReservation(reservationDTO);
 	}
 
 

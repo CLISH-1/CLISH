@@ -33,15 +33,12 @@ public class UserClassController {
 	private final CompanyClassService companyClassService;
 	private final UserClassService userClassService;
 	
-	// /course/user/classList --> top.jsp에 location.href 필요
 	// 클래스 리스트
 	@GetMapping("user/classList")
 	public String classListForm(Model model, HttpSession session) {
 		
-		List<Map<String , Object>> classList = adminClassService.getClassList();
-		
 		String userId = (String)session.getAttribute("sId");
-		System.out.println("userId : " + userId);
+		List<Map<String , Object>> classList = adminClassService.getClassList();
 		
 		model.addAttribute("classList", classList);
 		
@@ -52,12 +49,8 @@ public class UserClassController {
 	@GetMapping("user/classDetail")
 	public String classDetailForm(@RequestParam String classIdx, Model model, HttpSession session) {
 		
-		ClassDTO classInfo = companyClassService.getClassInfo(classIdx);
-		
 		String userId = (String)session.getAttribute("sId");
-		System.out.println("userId : " + userId);
-		
-		session.setAttribute("classIdx", classIdx);
+		ClassDTO classInfo = companyClassService.getClassInfo(classIdx);
 		
 		model.addAttribute("classInfo", classInfo);
 		
@@ -66,20 +59,13 @@ public class UserClassController {
 	
 	// 예약정보 입력 페이지
 	@GetMapping("user/courseReservation")
-	public String classReservation(Model model, HttpSession session, ClassDTO classDTO, ReservationDTO reservationDTO, UserDTO userDTO) {
+	public String classReservation(Model model, HttpSession session, ClassDTO classDTO, UserDTO userDTO) {
 		
 		String classIdx = (String)session.getAttribute("classIdx");
 		String userId = (String)session.getAttribute("sId");
 		
-		System.out.println("classIdx : " + classIdx);
-		System.out.println("userId : " + userId);
-		
 		ClassDTO classInfo = companyClassService.getClassInfo(classIdx); // classIdx
-		UserDTO userInfo = userClassService.getUserIdx(userId); // userIdx
-		
-		String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-		String reservationIdx = "RE" + now;
-		System.out.println("reserv : " + reservationIdx);
+		UserDTO userIdx = userClassService.getUserIdx(userId); // userIdx
 		
 		model.addAttribute("classInfo", classInfo);
 		
@@ -89,23 +75,20 @@ public class UserClassController {
 	@GetMapping("user/success")
 	public String classReservationSuccess(Model model, HttpSession session, ReservationDTO reservationDTO) {
 		
-		String classIdx = (String)session.getAttribute("classIdx");
 		String userId = (String)session.getAttribute("sId");
 		
-		System.out.println("classIdx : " + classIdx);
-		System.out.println("userId : " + userId);
-		
-		ClassDTO classInfo = companyClassService.getClassInfo(classIdx); // classIdx
 		UserDTO userInfo = userClassService.getUserIdx(userId); // userIdx
 		String userIdx = userInfo.getUserIdx();
 		
 		String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
 		String reservationIdx = "RE" + now;
-		System.out.println("reserv : " + reservationIdx);
 		
-		userClassService.registReservation(reservationDTO, classInfo, userInfo);
+		reservationDTO.setReservationIdx(reservationIdx);
+		reservationDTO.setUserIdx(userIdx);
+		reservationDTO.setClassIdx("classIdx");
 		
-		model.addAttribute("classInfo", classInfo);
+		userClassService.registReservation(reservationDTO);
+		
 		
 		return "/course/user/course_list";
 	}

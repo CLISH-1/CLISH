@@ -19,7 +19,7 @@
 		)
 	</insert>
 	
-	<select id="selectUser">
+	<select id="selectUser" resultType="com.itwillbs.clish.user.dto.UserDTO">
 		SELECT
 			user_idx
 		FROM

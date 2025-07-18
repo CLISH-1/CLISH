@@ -28,7 +28,7 @@
 						<th>수강료</th> <td>${classInfo.classPrice}</td>
 					</tr>
 					<tr>
-						<th>정원</th> <td> ${classInfo.classMember}</td>
+						<th>정원</th> <td>${classInfo.classMember}</td>
 					</tr>
 					<tr>
 						<th>강의 기간</th> <td>${classInfo.startDate} ~ ${classInfo.endDate}</td>
@@ -43,11 +43,11 @@
 						<th>예약 일자</th> <td><input type="date" name="reservationDate" id="reservationDate" required></td>
 					</tr>
 					<tr>
-						<th>신청 인원</th> <td><input type="text" name="memCount" id="memCount" placeholder="인원을 입력해주세요."></td>
+						<th>신청 인원</th> <td><input type="text" name="reservationMembers" id="reservationMembers" placeholder="인원을 입력해주세요."></td>
 					</tr>
-					
-					
 				</table>
+				
+				<input type="text" id="classIdx" name="classIdx" value="${classInfo.classIdx}"><br>
 					
 				<!-- 아직 안함.. -->
 	            <button class="orange-button" onclick="location.href='classList'">클래스 목록</button>
