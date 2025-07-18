@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ReservationDTO {
 	String reservationIdx;
-	String userId;
+	String userIdx;
 	int reservationMembers;
 	Timestamp reservationClassDate;
 	Timestamp reservationCom;

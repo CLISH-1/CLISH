@@ -53,7 +53,7 @@
 						                </c:choose>
 						            </td>
 						            <td><button>수정</button></td>
-						            <td><button onclick="location.href='예약페이지 매핑''">예약</button></td>
+						            <td><button onclick="location.href='/myPage/payment_info/payReservation''">예약</button></td>
 						        </tr>
 						    </c:if>
 						</c:forEach>

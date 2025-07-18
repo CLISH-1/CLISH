@@ -4,5 +4,28 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itwillbs.clish.course.mapper.UserClassMapper">
 
+	<insert id="insertReservation">
+		INSERT
+		INTO
+			RESERVATION 
+		VALUES (
+			#{reservationIdx}
+			, #{userId}
+			, #{reservationMembers}
+			, #{reservationClassDate}
+			, #{reservationCom}
+			, #{classIdx}
+			, #{reservationStatus}
+		)
+	</insert>
+	
+	<select id="selectUser">
+		SELECT
+			user_idx
+		FROM
+			USER
+		WHERE
+			user_id = #{userId}
+	</select>
 
 </mapper>
